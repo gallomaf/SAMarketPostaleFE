@@ -1,0 +1,128 @@
+.label-head {
+  color: #636362;
+
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.label-subhead {
+  color: rgba(99, 99, 98, 0.8);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  padding-top: 8px;
+}
+
+.form-check6 {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+}
+.st6-check {
+  margin-top: 12px;
+}
+.label-head-bold {
+  color: #3c3c3b;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.col-rhs6-inner {
+  display: flex;
+  align-items: flex-start;
+  /* justify-content: space-between; */
+  flex-direction: column;
+  /* gap: 20px; */
+  padding-left: 50px;
+  padding-right: 50px;
+  height: calc(100vh - 370px) !important;
+  overflow: auto !important;
+}
+
+.textarea-label {
+  color: #3c3c3b;
+  text-align: center;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  padding-bottom: 12px;
+}
+.form-textarea {
+  font-size: 20px !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  line-height: normal !important;
+  padding: 12px 20px !important;
+  border-radius: 4px !important;
+  border: 1px solid #d6d6d6 !important;
+}
+.form-textarea::placeholder {
+  color: #8a8a89 !important;
+  font-size: 20px !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  line-height: normal !important;
+}
+.rhs6-card-btn-body {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  gap: 42px;
+}
+.Textarea-radio-whole {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 20px;
+}
+@media (max-width: 990px) {
+  .col-rhs6-inner {
+    height: calc(100vh - 280px) !important;
+    overflow: auto !important;
+  }
+  .col-lhs {
+    height: calc(100vh - 78px) !important;
+    overflow: auto !important;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .col-rhs6-inner {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    /* gap: 24px; */
+    height: 100% !important;
+  }
+  .st6-check {
+    margin-top: 0px;
+  }
+  .Textarea-radio-whole {
+    gap: 30px;
+  }
+  .label-subhead br {
+    display: none;
+  }
+  .label-head {
+    font-size: 16px;
+  }
+  .label-subhead {
+    font-size: 12px;
+  }
+  .textarea-label {
+    font-size: 14px;
+  }
+  .form-textarea,
+  .form-textarea::placeholder {
+    font-size: 12px !important;
+  }
+}

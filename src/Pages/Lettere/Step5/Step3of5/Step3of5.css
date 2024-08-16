@@ -1,0 +1,8 @@
+.check-row2{
+    padding-top: 50px;
+}
+.Printing-contain-r1,.Printing-contain-r2{
+    align-items: flex-start;
+    display: flex;
+    gap: 12px;
+}

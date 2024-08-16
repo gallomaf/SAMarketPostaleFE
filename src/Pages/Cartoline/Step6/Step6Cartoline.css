@@ -1,0 +1,115 @@
+.form-custom-control {
+  padding: 12px 20px !important;
+  border-radius: 4px !important;
+  border: 1px solid #d6d6d6 !important;
+  min-width: 555px;
+}
+.form-custom-control::placeholder {
+  color: #8a8a89 !important;
+
+  font-size: 20px !important;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.form-custom-control:focus {
+  box-shadow: none !important;
+}
+.inputs-all {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.col-rhs7-inner {
+  display: flex;
+  align-items: flex-start;
+  /* justify-content: space-between; */
+  flex-direction: column;
+  gap: 40px;
+  padding-left: 50px;
+  padding-right: 50px;
+  height:calc(100vh - 380px)  !important;
+  overflow: auto !important;
+}
+.form-check-contain {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 121px;
+}
+.form-check7 {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 0px;
+}
+.form-check7 .form-check-input[type="checkbox"] {
+  border-radius: 0.25rem !important;
+}
+.rhs7-card-btn-body {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  /* width: 100%; */
+  gap: 12px;
+}
+.form-check-label7 {
+  color: #636362 !important;
+  font-size: 20px !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  line-height: normal !important;
+}
+.outer1,
+.outer2,
+.outer3,
+.outer4 {
+  border-radius: 4px !important;
+  border: 1px solid #afca0b !important;
+}
+
+@media (max-width: 1400px) {
+  .form-check-label7 br {
+    display: none;
+  }
+}
+@media (max-width: 990px) {
+  .col-rhs7-inner {
+    height: calc(100vh - 310px) !important;
+    overflow: auto !important;
+  }
+  .form-custom-control {
+    min-width: 100%;
+  }
+  .forms-main {
+    width: 100%;
+  }
+  .col-lhs {
+    height: calc(100vh - 78px) !important;
+    overflow: auto !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .col-rhs7-inner {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    gap: 24px;
+    height: 100% !important;
+  }
+  .form-custom-control::placeholder,
+  .form-custom-control {
+    font-size: 16px !important;
+  }
+  .form-check-contain {
+    gap: 26px;
+  }
+  .form-check-label7 {
+    font-size: 12px !important;
+  }
+}
