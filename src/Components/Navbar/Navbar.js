@@ -15,9 +15,9 @@ function CollapsibleExample() {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="#features">Spedire in Italia</Nav.Link>
-              <Nav.Link href="#pricing">Spedire in Europa</Nav.Link>
-              <Nav.Link href="#pricing">Spedire all'estero</Nav.Link>
+              <Nav.Link href="https://www.spedireadesso.com/spedizioni-nazionali/spedire-in-italia.html">Spedire in Italia</Nav.Link>
+              <Nav.Link href="https://www.spedireadesso.com/spedizioni-internazionali/spedire-in-europa.html">Spedire in Europa</Nav.Link>
+              <Nav.Link href="https://www.spedireadesso.com/spedire-all-estero.html">Spedire all'estero</Nav.Link>
 
               {/* <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -34,17 +34,17 @@ function CollapsibleExample() {
             <Nav className="topbar-nav-rhs">
               <Nav.Link
                 eventKey={1}
-                href="#FormPurchaseStamp"
-                title="Form Purchase Stamp"
+                href="https://www.spedireadesso.com/modulo-spedisci-busta.html"
+                title="acquista francobollo"
               >
                 <img
                   src="/Images/Navbar/icon-1.svg"
-                  alt="Form Purchase Stamp"
+                  alt="acquista francobollo"
                 />
               </Nav.Link>
               <Nav.Link
                 eventKey={2}
-                href="#Advertising mail quote form"
+                href="https://www.spedireadesso.com/modulo-richiesta-preventivo-postale.html"
                 title="Advertising mail quote form"
               >
                 <img
@@ -54,61 +54,61 @@ function CollapsibleExample() {
               </Nav.Link>
               <Nav.Link
                 eventKey={3}
-                href="#Envelope Shipping Order Form"
-                title="Envelope Shipping Order Form"
+                href="https://www.spedireadesso.com/modulo-ordine-spedizione.html"
+                title="spedizione busta"
               >
                 <img
                   src="/Images/Navbar/icon-3.svg"
-                  alt="Envelope Shipping Order Form"
+                  alt="spedizione busta"
                 />
               </Nav.Link>
               <Nav.Link
                 eventKey={4}
-                href="#Parcel Shipping Order Form"
-                title="Parcel Shipping Order Form"
+                href="#https://www.spedireadesso.com/modulo-ordine-spedizione.html"
+                title="spedizione pacco"
               >
                 <img
                   src="/Images/Navbar/icon-4.svg"
-                  alt="Parcel Shipping Order Form"
+                  alt="spedizione pacco"
                 />
               </Nav.Link>
 
               <Nav.Link
                 eventKey={5}
-                href="#Suitcase Shipping Order Form"
-                title="Suitcase Shipping Order Form"
+                href="https://www.spedireadesso.com/modulo-ordine-spedizione.html"
+                title="Spedizione valigia"
               >
                 <img
                   src="/Images/Navbar/icon-5.svg"
-                  alt="Suitcase Shipping Order Form"
+                  alt="Spedizione valigia"
                 />
               </Nav.Link>
               <Nav.Link
                 eventKey={6}
-                href="#Bicycle Shipping Order Form"
-                title="Bicycle Shipping Order Form"
+                href="https://www.spedireadesso.com/modulo-richiesta-preventivo.html"
+                title="spedizione bicicletta"
               >
                 <img
                   src="/Images/Navbar/icon-6.svg"
-                  alt="Bicycle Shipping Order Form"
+                  alt="spedizione bicicletta"
                 />
               </Nav.Link>
               <Nav.Link
                 eventKey={7}
-                href="#Pallet Shipping Order Form"
-                title="Pallet Shipping Order Form"
+                href="https://www.spedireadesso.com/modulo-ordine-spedizione.html"
+                title="spedizione pallet"
               >
                 <img
                   src="/Images/Navbar/icon-7.svg"
-                  alt="Pallet Shipping Order Form"
+                  alt="Spedizione pallet"
                 />
               </Nav.Link>
               <Nav.Link
                 eventKey={8}
-                href="#Quote Request Form"
-                title="Quote Request Form"
+                href="https://www.spedireadesso.com/modulo-richiesta-preventivo.html"
+                title="modulo richiesta preventivo"
               >
-                <img src="/Images/Navbar/icon-8.svg" alt="Quote Request Form" />
+                <img src="/Images/Navbar/icon-8.svg" alt="modulo richiesta preventivo" />
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
@@ -121,7 +121,7 @@ function CollapsibleExample() {
           </div>
           <Navbar.Brand href="#home">
             <div>
-              <img src="/Images/Logo.svg" alt="Logo"  className="logo-img"/>
+              <img src="/Images/Logo.svg" alt="SpedireAdesso"  className="logo-img"/>
             </div>
           </Navbar.Brand>
 
@@ -131,20 +131,20 @@ function CollapsibleExample() {
             
             </Nav>
             <Nav className="bottombar">
-              <Nav.Link eventKey={1} href="#Spedizioni Nazionali">
+              <Nav.Link eventKey={1} href="https://www.spedireadesso.com/spedizioni-nazionali.html" alt="spedizioni nazionali pacchi">
                 Spedizioni Nazionali
               </Nav.Link>
-              <Nav.Link eventKey={2} href="#memes">
+              <Nav.Link eventKey={2} href="https://www.spedireadesso.com/spedizioni-internazionali.html" alt="spedizione internazionale">
                 Spedizioni Internazionali
               </Nav.Link>
-              <Nav.Link eventKey={3} href="#Come spedire">
+              <Nav.Link eventKey={3} href="https://www.spedireadesso.com/assistenza-spedizioni/come-spedire.html" alt="come spedire un pacco">
                 Come spedire
               </Nav.Link>
-              <Nav.Link eventKey={4} href="#Blog">
+              <Nav.Link eventKey={4} href="https://www.spedireadesso.com/blog.html" alt="spedireadesso blog">
                 Blog
               </Nav.Link>
 
-              <Nav.Link eventKey={5} href="#Contatti">
+              <Nav.Link eventKey={5} href="https://www.spedireadesso.com/contatti.html" alt="spedireadesso contatti">
                 Contatti
               </Nav.Link>
               

@@ -11,6 +11,7 @@ import { useSearchParams, useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../../services/client";
 import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
+import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
 
 export default function Step4Cataloghi() {
   const navigate = useNavigate();
@@ -90,45 +91,7 @@ export default function Step4Cataloghi() {
       <Navbar />
       <div>
         <Row className="step1-row">
-          <Col md={4} className="col-lhs">
-            <div className="col-lhs-inner">
-              <div className="lhs-img">
-                <img src="/Images/Step1/send-img.svg" alt="send" />
-              </div>
-              <div>
-                <p className="heading-lhs">
-                  Richiesta preventivo{" "}
-                  <span>
-                    {" "}
-                    posta<br></br> massiva e pubblicitaria
-                  </span>{" "}
-                </p>
-                <p className="des-lhs">
-                  Attraverso questo modulo è possibile<br></br>
-                  <span>richiedere un preventivo </span> per l'
-                  <span>
-                    invio di posta<br></br> massiva e posta pubblicitaria,
-                  </span>{" "}
-                  e se richiesto
-                  <br></br> anche la
-                  <span> stampa ed imbustamento.</span> <br></br>
-                  <br></br> Il servizio include il recapito in pochi giorni
-                  <br></br> della corrispondenza nelle cassette postali dei
-                  <br></br>
-                  destinatari indicati.
-                </p>
-              </div>
-            </div>
-            <div>
-              <p className="des-sub-lhs">
-                Per maggiori informazioni su questo
-                <span>
-                  {" "}
-                  nuovo<br></br> servizio postale clicca qui .
-                </span>
-              </p>
-            </div>
-          </Col>
+          <ColonnaSx />
           <Col md={8} className="col-rhs">
             <div className="top-rhs">
               <ProgressBar now={now} />

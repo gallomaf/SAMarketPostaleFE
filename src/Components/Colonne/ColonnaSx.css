@@ -139,7 +139,6 @@ p {
   display: flex;
   align-items: center;
   flex-direction: column;
-
 }
 
 .card1 {
@@ -151,7 +150,6 @@ p {
   padding: 45.472px 53.051px 45.953px 53.051px !important;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
 }
 
 .card1-active {
@@ -242,7 +240,6 @@ p {
   font-weight: 600;
   line-height: normal;
   padding-top: 11.37px !important;
-  cursor: pointer;
 }
 .rhs-card-btn-body {
   display: flex;

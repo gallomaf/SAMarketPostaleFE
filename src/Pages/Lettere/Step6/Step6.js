@@ -1,28 +1,54 @@
 import React from "react";
 import "./Step6.css";
-import Button from "react-bootstrap/Button";
+//import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useState, useEffect } from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-import { useSearchParams, useLocation, useParams } from "react-router-dom";
+//import { useSearchParams, useLocation, useParams } from "react-router-dom";
+//import {  useLocation } from "react-router-dom";
 import { API_URL } from "../../../services/client";
 import axios from "axios";
-import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
+//import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
+import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
+import BreadcrumbBt from "../../../Components/Footer/BreadcrumbBt";
 export default function Step6() {
   const now = 90;
+
+  //variabili da passare tra i vari steps
+  const sendoption    = localStorage.getItem("sendoption");
+
+  const nazione       = localStorage.getItem("nazione");
+  const step2Quantity = localStorage.getItem("step2Quantity");
+  const busta         = localStorage.getItem("busta");
+
+  const step5Pagine          = localStorage.getItem("step5Pagine");
+  const step5InternoColore   = localStorage.getItem("step5InternoColore");
+  const step5InternoStampa   = localStorage.getItem("step5InternoStampa");
+  //
+  const step52Stampa  = localStorage.getItem("step52Stampa");
+
+  const step6Dest     = localStorage.getItem("step6Dest");
+  const step6Note     = localStorage.getItem("step6Note");
+  //fine variabili da passare tra i vari steps
+
+  //const location = useLocation();
   const navigate = useNavigate();
   const [sendItem, setItem] = useState();
   useEffect(() => {
-    setItem(localStorage.getItem("sendoption"));
-  });
-  const [isChecked1, setIsChecked1] = useState(false);
-  const [isChecked2, setIsChecked2] = useState(false);
-  const [inputenote, setInputNote] = useState("");
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const sendoption = queryParams.get("sendoption");
+    //setItem(localStorage.getItem("sendoption"));
+    //console.log("step5Pagine is " + step5Pagine);
+    //console.log("step52Stampa is " + step52Stampa);
+
+  },[]);
+
+  const [isChecked1, setIsChecked1] = useState(step6Dest === "csv" ? true: false);
+  const [isChecked2, setIsChecked2] = useState(step6Dest === "partner" ? true: false);
+  const [inputenote, setInputNote]    = useState(step6Note);
+
+  //const queryParams = new URLSearchParams(location.search);
+  //const sendoption = queryParams.get("sendoption");
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -30,13 +56,39 @@ export default function Step6() {
     console.log("Note is", value);
   };
   const handleRoutes = () => {
-    if (isChecked1 || isChecked2) {
-      navigate(`/Lettere/Step-7?sendoption=${sendoption}`);
+
+
+    if (isChecked1){
+      localStorage.setItem("step6Dest",   "csv");
     }
+    if (isChecked2){
+      localStorage.setItem("step6Dest",   "partner");
+    }
+
+    localStorage.setItem("step6Note",   inputenote);
+
+    if (isChecked1 || isChecked2) {
+      navigate(`/Lettere/Step-7`);
+    }
+  };
+
+  const goBack = () => {
+
+    let opzione = sendoption;
+
+    //dallo step 6 posso tornare allo step 5-3, oppure 5-2 oppure 5
+    let step = step5Pagine == 2  ? "Step-5" : step52Stampa == 'sa' ? "Step-5-3" : "Step-5-2";
+
+    if(opzione !== null){
+      opzione = opzione.charAt(0).toUpperCase() + opzione.slice(1);
+      navigate("/"+opzione+"/"+step);
+    }
+
   };
 
   async function nextstep() {
     try {
+      /*
       const userId = localStorage.getItem("_id");
       const RecipientList = isChecked1
         ? "Provided By Customer"
@@ -50,10 +102,11 @@ export default function Step6() {
           file_customer: RecipientList,
           note: inputenote,
         }
-      );
+      ); */
+        let res = {status:200};
       if (res.status === 200) {
-        console.log("Recipient  ", RecipientList);
-        console.log("Note is ", inputenote)
+        //console.log("Recipient  ", RecipientList);
+        //console.log("Note is ", inputenote)
         handleRoutes();
         // SuccessToast("updated");
       }
@@ -61,51 +114,25 @@ export default function Step6() {
       console.log(error);
     }
   }
+
+  const breadcrumbArray = [
+    { value: sendoption,    url: "/Step-1" },
+    { value: step2Quantity, url: "/Step-2" },
+    { value: nazione,       url: "/Step-3" },
+    { value: busta,         url: "/Lettere/Step-4" },
+    { value: "Interno",     url: "/Lettere/Step-5-2" },
+    { value: "Destinatari",     url: "/Lettere/Step-6" },
+  ];
+
+
+
   return (
     <>
       <div className="over-flow-setting">
         <Navbar />
         <div>
           <Row className="step1-row">
-            <Col md={4} className="col-lhs">
-              <div className="col-lhs-inner">
-                <div className="lhs-img">
-                  <img src="/Images/Step1/send-img.svg" alt="send" />
-                </div>
-                <div>
-                  <p className="heading-lhs">
-                    Richiesta preventivo{" "}
-                    <span>
-                      {" "}
-                      posta<br></br> massiva e pubblicitaria
-                    </span>{" "}
-                  </p>
-                  <p className="des-lhs">
-                    Attraverso questo modulo è possibile<br></br>
-                    <span>richiedere un preventivo </span> per l'
-                    <span>
-                      invio di posta<br></br> massiva e posta pubblicitaria,
-                    </span>{" "}
-                    e se richiesto
-                    <br></br> anche la
-                    <span> stampa ed imbustamento.</span> <br></br>
-                    <br></br> Il servizio include il recapito in pochi giorni
-                    <br></br> della corrispondenza nelle cassette postali dei
-                    <br></br>
-                    destinatari indicati.
-                  </p>
-                </div>
-              </div>
-              <div>
-                <p className="des-sub-lhs">
-                  Per maggiori informazioni su questo
-                  <span>
-                    {" "}
-                    nuovo<br></br> servizio postale clicca qui .
-                  </span>
-                </p>
-              </div>
-            </Col>
+            <ColonnaSx />
             <Col md={8} className="col-rhs">
               <div className="top-rhs">
                 <ProgressBar now={now} />
@@ -126,16 +153,10 @@ export default function Step6() {
                   <div className="Textarea-radio-whole">
                     <div>
                       <form className="form-envelope-main">
-                        <div
-                          className={
-                            !isChecked1
-                              ? "Printing-check1"
-                              : "Printing-check-border"
-                          }
-                        >
-                          <div class="form-check6">
+                        <div className={!isChecked1 ? "Printing-check1" : "Printing-check-border"}>
+                          <div className="form-check6">
                             <input
-                              class="form-check-input "
+                                className="form-check-input "
                               type="checkbox"
                               value=""
                               checked={isChecked1}
@@ -145,15 +166,8 @@ export default function Step6() {
                               }}
                               id="flexCheckDefault1"
                             />
-                            <label
-                              class="form-check-label "
-                              for="flexCheckDefault1"
-                            >
-                              <div
-                                className={
-                                  isChecked1 ? "label-head-bold" : "label-head"
-                                }
-                              >
+                            <label className="form-check-label " htmlFor="flexCheckDefault1">
+                              <div className={isChecked1 ? "label-head-bold" : "label-head"}>
                                 Forniti dal Cliente (file CSV, Excel)
                               </div>
                               <div className="label-subhead">
@@ -166,16 +180,10 @@ export default function Step6() {
                             </label>
                           </div>
                         </div>
-                        <div
-                          className={
-                            !isChecked2
-                              ? "Printing-check1 st6-check"
-                              : "Printing-check-border st6-check"
-                          }
-                        >
-                          <div class="form-check6">
+                        <div className={!isChecked2 ? "Printing-check1 st6-check" : "Printing-check-border st6-check" }>
+                          <div className="form-check6">
                             <input
-                              class="form-check-input "
+                                className="form-check-input "
                               type="checkbox"
                               value=""
                               checked={isChecked2}
@@ -185,15 +193,8 @@ export default function Step6() {
                               }}
                               id="flexCheckDefault2"
                             />
-                            <label
-                              class="form-check-label "
-                              for="flexCheckDefault2"
-                            >
-                              <div
-                                className={
-                                  isChecked2 ? "label-head-bold" : "label-head"
-                                }
-                              >
+                            <label className="form-check-label " htmlFor="flexCheckDefault2" >
+                              <div className={isChecked2 ? "label-head-bold" : "label-head"}>
                                 Forniti da un nostro partner
                               </div>
                               <div className="label-subhead">
@@ -210,16 +211,18 @@ export default function Step6() {
                       </form>
                     </div>
                     <div className="pb-4">
-                      <form class="form-group">
+                      <form className="form-group">
                         <label className="textarea-label">Note</label>
                         <textarea
-                          class="form-control form-textarea"
-                          id="exampleFormControlTextarea1"
-                          rows="3"
-                          cols="85"
-                          placeholder="Lascia una nota con le specifiche dei destinatari"
-                          onChange={handleChange}
-                        ></textarea>
+                            className="form-control form-textarea"
+                            id="exampleFormControlTextarea1"
+                            rows="3"
+                            cols="85"
+                            placeholder="Lascia una nota con le specifiche dei destinatari"
+                            onChange={handleChange}
+                            value={inputenote}
+                        >
+                        </textarea>
                       </form>
                     </div>
                   </div>
@@ -227,95 +230,25 @@ export default function Step6() {
               </div>
               <div className="btn-rhs-row-mb">
                 <div>
-                  <button className="btn-r1" onClick={() => navigate(-1)}>
-                    Indietro
-                  </button>
+                  <button className="btn-r1" onClick={goBack}>Indietro</button>
                 </div>
                 <div className="btn2-div">
-                  <button
-                    className={
-                      isChecked1 || isChecked2 ? "btn-r2-active" : "btn-r2"
-                    }
-                    onClick={nextstep}
-                  >
+                <button className={isChecked1 || isChecked2 ? "btn-r2-active" : "btn-r2"} onClick={nextstep}>
                     Avanti
                   </button>
                 </div>
               </div>
               <div className="btn-rhs-row w-100">
                 <div>
-                  <button className="btn-r1" onClick={() => navigate(-1)}>
-                    Indietro
-                  </button>
+                  <button className="btn-r1" onClick={goBack}>Indietro</button>
                 </div>
                 <div className="btn2-div w-100">
-                  <button
-                    className={
-                      isChecked1 || isChecked2 ? "btn-r2-active" : "btn-r2"
-                    }
-                    onClick={nextstep}
-                  >
+                <button className={isChecked1 || isChecked2 ? "btn-r2-active" : "btn-r2"} onClick={nextstep}>
                     Avanti
                   </button>
                 </div>
               </div>
-              <div className="btm-rhs">
-                <div>
-                  <p className="quotation-req">
-                    Richiesta Preventivo &gt;{" "}
-                    <span
-                      onClick={() => {
-                        navigate(`/?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Cosa devi spedire?{" "}
-                    </span>{" "}
-                    &gt;
-                    <span
-                      onClick={() => {
-                        navigate(`/Step-2?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Q.tà
-                    </span>{" "}
-                    &gt;
-                    <span
-                      onClick={() => {
-                        navigate(`/Step-3?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Nazione Destinatari
-                    </span>{" "}
-                    &gt;
-                    <span
-                      onClick={() => {
-                        navigate(`/Lettere/Step-4?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Dettaglio Buste{" "}
-                    </span>{" "}
-                    &gt;{" "}
-                    <span
-                      onClick={() => {
-                        navigate(`/Lettere/Step-5?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Interno{" "}
-                    </span>
-                    &gt;
-                    <span className="selected-span"> Destinatari </span>
-                  </p>
-                </div>
-                <div className="step1-progress">
-                  <ProgressBar now={now} />
-                  <p className="percentage-txt">{now}%</p>
-                </div>
-              </div>
+              <BreadcrumbBt breadcrumbArray={breadcrumbArray}  now={now} />
             </Col>
           </Row>
         </div>

@@ -222,10 +222,14 @@ p {
     display: flex;
     align-items: flex-start;
     flex-direction: column;
-    justify-content: space-between;
+   /* justify-content: space-between; *//* FMG rimosso 31/08/2024 */
     width: 100%;
-    gap: 197.18px;
+    gap: 30px; /* FMG rimosso 20/08/2024 */
     height: 100%;
+  }
+  .form-group pg-quantity{
+    padding-bottom: 10px;
+    gap: 10px;
   }
   .btn-rhs-row {
     display: flex;

@@ -11,21 +11,27 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../../services/client";
 import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
+import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
 
 export default function Step4Cartoline() {
-  useEffect(() => {
-    setItem(localStorage.getItem("sendoption"));
-  });
-  const [sendItem, setItem] = useState();
 
-  const navigate = useNavigate();
   const now = 60;
+
+  const step2Quantity = localStorage.getItem("step2Quantity");
+  const nazione       = localStorage.getItem("nazione");
+
+  const sendoption    = localStorage.getItem("sendoption");
+
 
   const [selectedValue, setSelectedValue] = useState("");
   const [dropselectedValue, setDropSelectedValue] = useState("");
   const [measurement, setmeasurementValue] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [isChecked2, setIsChecked2] = useState(false);
+
+  const [sendItem, setItem] = useState();
+  const navigate = useNavigate();
+
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -43,17 +49,18 @@ export default function Step4Cartoline() {
     setDropSelectedValue(eventKey);
     console.log("Dropdown Selected Value is ", eventKey);
   };
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const sendoption = queryParams.get("sendoption");
+  //const location = useLocation();
+  //const queryParams = new URLSearchParams(location.search);
+  //const sendoption = queryParams.get("sendoption");
   
   const handleRoutes = () => {
     if (isChecked) {
-      navigate(`/Cartoline/Step-5?sendoption=${sendoption}`);
+      navigate(`/Cartoline/Step-5`);
     } else if (isChecked2) {
-      navigate(`/Cartoline/Step-4-2?sendoption=${sendoption}`);
+      navigate(`/Cartoline/Step-4-2`);
     }
   };
+
   async function nextstep() {
     try {
       const userId = localStorage.getItem("_id");
@@ -83,6 +90,14 @@ export default function Step4Cartoline() {
       console.log(error);
     }
   }
+
+  const breadcrumbArray = [
+    { value: sendoption,          url: "/Step-1" },
+    { value: step2Quantity,       url: "/Step-2" },
+    { value: nazione,             url: "/Step-3" },
+    { value: "Dettaglio Buste",   url: "/Cartoline/Step-4" },
+  ];
+
   return (
     <>
     <ToastContainer/>
@@ -90,45 +105,7 @@ export default function Step4Cartoline() {
         <Navbar />
         <div>
           <Row className="step1-row">
-            <Col md={4} className="col-lhs">
-              <div className="col-lhs-inner">
-                <div className="lhs-img">
-                  <img src="/Images/Step1/send-img.svg" alt="send" />
-                </div>
-                <div>
-                  <p className="heading-lhs">
-                    Richiesta preventivo{" "}
-                    <span>
-                      {" "}
-                      posta<br></br> massiva e pubblicitaria
-                    </span>{" "}
-                  </p>
-                  <p className="des-lhs">
-                    Attraverso questo modulo è possibile<br></br>
-                    <span>richiedere un preventivo </span> per l'
-                    <span>
-                      invio di posta<br></br> massiva e posta pubblicitaria,
-                    </span>{" "}
-                    e se richiesto
-                    <br></br> anche la
-                    <span> stampa ed imbustamento.</span> <br></br>
-                    <br></br> Il servizio include il recapito in pochi giorni
-                    <br></br> della corrispondenza nelle cassette postali dei
-                    <br></br>
-                    destinatari indicati.
-                  </p>
-                </div>
-              </div>
-              <div>
-                <p className="des-sub-lhs">
-                  Per maggiori informazioni su questo
-                  <span>
-                    {" "}
-                    nuovo<br></br> servizio postale clicca qui .
-                  </span>
-                </p>
-              </div>
-            </Col>
+            <ColonnaSx />
             <Col md={8} className="col-rhs">
               <div className="top-rhs">
                 <ProgressBar now={now} />
@@ -192,7 +169,7 @@ export default function Step4Cartoline() {
                           </Dropdown>
                         </div>
                         <div
-                          class={
+                          className={
                             dropselectedValue === "Personalizzato"
                               ? "form-group pg-quantity"
                               : "d-none"
@@ -203,7 +180,7 @@ export default function Step4Cartoline() {
                           </label>
                           <input
                             type="text"
-                            class="form-control personalizzato-form"
+                            className="form-control personalizzato-form"
                             id="exampleInputQuantity"
                             onChange={handlePersonalizzatoInput}
                             placeholder="es. 21cm x 21cm"
@@ -224,9 +201,9 @@ export default function Step4Cartoline() {
                                 : "Printing-check-border"
                             }
                           >
-                            <div class="form-check">
+                            <div className="form-check">
                               <input
-                                class="form-check-input "
+                                  className="form-check-input "
                                 type="checkbox"
                                 value=""
                                 checked={isChecked}
@@ -237,12 +214,12 @@ export default function Step4Cartoline() {
                                 id="flexCheckDefault1"
                               />
                               <label
-                                class={
+                                  className={
                                   !isChecked
                                     ? "form-check-label"
                                     : "selected-ans-label"
                                 }
-                                for="flexCheckDefault1"
+                                  htmlFor="flexCheckDefault1"
                               >
                                 Stampate dal Cliente
                               </label>
@@ -255,9 +232,9 @@ export default function Step4Cartoline() {
                                 : "Printing-check-border"
                             }
                           >
-                            <div class="form-check">
+                            <div className="form-check">
                               <input
-                                class="form-check-input printing-checkbox"
+                                  className="form-check-input printing-checkbox"
                                 type="checkbox"
                                 value=""
                                 id="flexCheckDefault2"
@@ -268,12 +245,12 @@ export default function Step4Cartoline() {
                                 }}
                               />
                               <label
-                                class={
+                                  className={
                                   !isChecked2
                                     ? "form-check-label"
                                     : "selected-ans-label"
                                 }
-                                for="flexCheckDefault2"
+                                htmlFor="flexCheckDefault2"
                               >
                                 Stampate da Spedire Adesso
                               </label>

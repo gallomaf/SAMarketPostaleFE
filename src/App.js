@@ -32,8 +32,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Step1 />} />
+          <Route path="/Step-1" element={<Step1 />} />
           <Route path="/Step-2" element={<Step2 />} />
           <Route path="/Step-3" element={<Step3 />} />
+
           <Route path="/Lettere/Step-4" element={<Step4 />} />
           <Route path="/Lettere/Step-4-2" element={<Step4Continue />} />
           <Route path="/Lettere/Step-5" element={<Step5 />} />

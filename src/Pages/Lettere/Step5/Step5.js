@@ -7,40 +7,76 @@ import { useState, useEffect } from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 //import { useSearchParams, useLocation, useParams } from "react-router-dom";
-import {  useLocation } from "react-router-dom";
+//import {  useLocation } from "react-router-dom";
 import { API_URL } from "../../../services/client";
 import axios from "axios";
+import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
 //import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
 
 export default function Step5() {
   const navigate = useNavigate();
   const now = 75;
+
+  //variabili da passare tra i vari steps
+  const sendoption    = localStorage.getItem("sendoption");
+  const step1Click    = localStorage.getItem("step1Click");
+  const step2Quantity = localStorage.getItem("step2Quantity");
+  const step3Nazione  = localStorage.getItem("step3Nazione");
+  const step4Busta    = localStorage.getItem("step4Busta");
+  const step4Stampa   = localStorage.getItem("step4Stampa");
+  const step4Colore   = localStorage.getItem("step4Colore");
+  const step5Pagine   = localStorage.getItem("step5Pagine");
+  //fine variabili da passare tra i vari steps
+
   const [sendItem, setItem] = useState();
   useEffect(() => {
     setItem(localStorage.getItem("sendoption"));
-  });
-  const [step5Click, setStep5Click] = useState(0);
-  const InternalPgActive = "/Images/Step1/circle-tick-active.svg";
-  const InternalPgInactive = "/Images/Step1/circle-tick.svg";
-  const NoInactive = "/Images/Step1/cross-icon.svg";
-  const NoActive = "/Images/Step1/cross-active.svg";
+    //console.log("Step5Pagine is " + step5Pagine);
+    //console.log("step5Click is " + step5Click);
+
+  },[]);
+  const [step5Click, setStep5Click] = useState(step5Pagine);
+  const InternalPgActive    = "/Images/Step1/circle-tick-active.svg";
+  const InternalPgInactive  = "/Images/Step1/circle-tick.svg";
+  const NoInactive          = "/Images/Step1/cross-icon.svg";
+  const NoActive            = "/Images/Step1/cross-active.svg";
+
   const handleClick5 = (cardno) => {
     setStep5Click((prevState) => (prevState === cardno ? null : cardno));
   };
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const sendoption = queryParams.get("sendoption");
-  console.log("this is ", sendoption);
-  const handleRoutes = () => {
-    if (step5Click === 1) {
-      navigate(`/Lettere/Step-5-2?sendoption=${sendoption}`);
-    } else if (step5Click === 2) {
-      navigate(`/Lettere/Step-6?sendoption=${sendoption}`);
+  const goBack = () => {
+
+    let opzione = sendoption;
+
+    let step = step4Stampa === 'sa' ? "Step-4-2"  : "Step-4";
+
+    if(opzione !== null){
+      opzione = opzione.charAt(0).toUpperCase() + opzione.slice(1);
+      navigate("/"+opzione+"/"+step);
     }
+
+  };
+
+  //const location = useLocation();
+  //const queryParams = new URLSearchParams(location.search);
+  //const sendoption = queryParams.get("sendoption");
+  //console.log("this is ", sendoption);
+  const handleRoutes = () => {
+
+    localStorage.setItem("step5Pagine",   step5Click);
+
+    if (step5Click == 1) {
+      navigate(`/Lettere/Step-5-2`);
+    }
+    else if (step5Click == 2) {
+      navigate(`/Lettere/Step-6`);
+    }
+
   };
   async function nextstep() {
     try {
+      /*
       const userId = localStorage.getItem("_id");
       const RecipientOption =
         step5Click === 1 ? "Yes" : step5Click === 2 ? "No" : "";
@@ -48,8 +84,11 @@ export default function Step5() {
         id: userId,
         rec: step5Click,
       });
+
+      */
+      let res = {status:200};
       if (res.status === 200) {
-        console.log("Do you want to insert pages inside?", RecipientOption);
+        //console.log("Do you want to insert pages inside?", RecipientOption);
         handleRoutes();
         // SuccessToast("updated");
       }
@@ -63,45 +102,7 @@ export default function Step5() {
         <Navbar />
         <div>
           <Row className="step1-row">
-            <Col md={4} className="col-lhs">
-              <div className="col-lhs-inner">
-                <div className="lhs-img">
-                  <img src="/Images/Step1/send-img.svg" alt="send" />
-                </div>
-                <div>
-                  <p className="heading-lhs">
-                    Richiesta preventivo{" "}
-                    <span>
-                      {" "}
-                      posta<br></br> massiva e pubblicitaria
-                    </span>{" "}
-                  </p>
-                  <p className="des-lhs">
-                    Attraverso questo modulo è possibile<br></br>
-                    <span>richiedere un preventivo </span> per l'
-                    <span>
-                      invio di posta<br></br> massiva e posta pubblicitaria,
-                    </span>{" "}
-                    e se richiesto
-                    <br></br> anche la
-                    <span> stampa ed imbustamento.</span> <br></br>
-                    <br></br> Il servizio include il recapito in pochi giorni
-                    <br></br> della corrispondenza nelle cassette postali dei
-                    <br></br>
-                    destinatari indicati.
-                  </p>
-                </div>
-              </div>
-              <div>
-                <p className="des-sub-lhs">
-                  Per maggiori informazioni su questo
-                  <span>
-                    {" "}
-                    nuovo<br></br> servizio postale clicca qui .
-                  </span>
-                </p>
-              </div>
-            </Col>
+            <ColonnaSx />
             <Col md={8} className="col-rhs">
               <div className="top-rhs">
                 <ProgressBar now={now} />
@@ -111,7 +112,7 @@ export default function Step5() {
                 <div>
                   <p className="step1-txt">
                     Step 5:
-                    <span> Do you want to insert pages inside?</span>
+                    <span>Vuoi inserire pagine all'interno?</span>
                   </p>
                   <p className="rhs-des">
                     In questo passaggio hai l'opportunità di arricchire la tua
@@ -130,14 +131,10 @@ export default function Step5() {
                       onClick={() => handleClick5(1)}
                       className="c5-card-col"
                     >
-                      <div
-                        className={
-                          step5Click === 1 ? "c5-card1-active" : "c5-card1"
-                        }
-                      >
+                      <div className={step5Click === 1 || step5Click === "1" ? "c5-card1-active" : "c5-card1"}>
                         <img
                           src={
-                            step5Click === 1
+                            step5Click === 1 || step5Click === "1"
                               ? InternalPgActive
                               : InternalPgInactive
                           }
@@ -147,7 +144,7 @@ export default function Step5() {
                         />
                       </div>
                       <p className="option-txt">
-                        Si, inserisci<br></br> pagine interne
+                        Si, inserisci  pagine interne
                       </p>
                     </Col>
                     <Col
@@ -157,11 +154,11 @@ export default function Step5() {
                     >
                       <div
                         className={
-                          step5Click === 2 ? "c5-card2-active" : "c5-card2"
+                          step5Click === 2 || step5Click === "2" ? "c5-card2-active" : "c5-card2"
                         }
                       >
                         <img
-                          src={step5Click === 2 ? NoActive : NoInactive}
+                          src={step5Click === 2 || step5Click === "2" ? NoActive : NoInactive}
                           alt="No, Continue on Recipients"
                           className="c5-card2-img"
                         />
@@ -175,11 +172,9 @@ export default function Step5() {
               </div>
               <div className="btn-rhs-row-mb">
                 <div>
-                  <button className="btn-r1" onClick={() => navigate(-1)}>
-                    Indietro
-                  </button>
+                  <button className="btn-r1" onClick={goBack}>Indietro</button>
                 </div>
-                <div className="btn2-div">
+              <div className="btn2-div">
                   <button
                     className={step5Click ? "btn-r2-active" : "btn-r2"}
                     onClick={nextstep}
@@ -190,12 +185,10 @@ export default function Step5() {
               </div>
               <div className="btn-rhs-row w-100 ">
                 <div>
-                  <button className="btn-r1" onClick={() => navigate(-1)}>
-                    Indietro
-                  </button>
+                  <button className="btn-r1" onClick={goBack}>Indietro</button>
                 </div>
                 <div className="btn2-div w-100">
-                  <button
+                <button
                     className={step5Click ? "btn-r2-active" : "btn-r2"}
                     onClick={nextstep}
                   >

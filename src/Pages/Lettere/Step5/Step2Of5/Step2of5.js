@@ -12,19 +12,54 @@ import { useSearchParams, useLocation, useParams } from "react-router-dom";
 import { API_URL } from "../../../../services/client";
 import axios from "axios";
 import { SuccessToast } from "../../../../Components/Navbar/Toast/Toast";
+import ColonnaSx from "../../../../Components/Colonne/ColonnaSx"
+import BreadcrumbBt from "../../../../Components/Footer/BreadcrumbBt";
 export default function Step2of5() {
   const now = 75;
+
+  //variabili da passare tra i vari steps
+  const sendoption    = localStorage.getItem("sendoption");
+
+  const nazione       = localStorage.getItem("nazione");
+  const step2Quantity = localStorage.getItem("step2Quantity");
+  const busta         = localStorage.getItem("busta");
+  const step4Busta    = localStorage.getItem("step4Busta");
+
+  const storedBuste          = JSON.parse(localStorage.getItem('buste'));//recupero con JSON perchè è un array
+  const step4Stampa   = localStorage.getItem("step4Stampa");
+  const step5Pagine   = localStorage.getItem("step5Pagine");
+
+  //
+  const step52Formato = localStorage.getItem("step52Formato");
+  const step52Misure  = localStorage.getItem("step52Misure");
+  const step52Quantita= localStorage.getItem("step52Quantita");
+  const step52Stampa  = localStorage.getItem("step52Stampa");
+  //fine variabili da passare tra i vari steps
+
+  const [formatoFogli, setFormatoFogli] = useState(step52Formato);
+
+  const bustaSelezionata = storedBuste.find(item => item.id == step4Busta);
+  //console.log(bustaSelezionata.fogli); // Stampa ["Foglio A6", "Foglio A5", "Foglio A4"]
+  const fogli = bustaSelezionata.fogli;
+
+  const handleFormatoFogli = (cardno, name) => {
+    console.log("handleFormatoFogli1 >> " + name  );
+    setFormatoFogli((prevState) => (prevState === name ? null : name));
+    console.log("handleFormatoFogli2 >>  " +formatoFogli);
+  };
+
+
   const [sendItem, setItem] = useState();
   useEffect(() => {
-    setItem(localStorage.getItem("sendoption"));
+    //setItem(localStorage.getItem("sendoption"));
   });
   const navigate = useNavigate();
-  const [selectedValue, setSelectedValue] = useState("");
-  const [measurement, setmeasurementValue] = useState("");
+  const [selectedValue, setSelectedValue] = useState(step52Quantita > 0 ? step52Quantita: "1");
+  const [measurement, setmeasurementValue] = useState(step52Misure ? step52Misure : "");
   const [dropselectedValue, setDropSelectedValue] = useState("");
 
-  const [isChecked, setIsChecked] = useState(false);
-  const [isChecked2, setIsChecked2] = useState(false);
+  const [isChecked, setIsChecked] = useState(   step52Stampa == 'cliente' ? true: false);
+  const [isChecked2, setIsChecked2] = useState( step52Stampa == 'sa'      ? true: false);
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -34,26 +69,49 @@ export default function Step2of5() {
   const handlePersonalizzatoInput = (e) => {
     const value = e.target.value;
     setmeasurementValue(value);
-    console.log("Measurement Value is", value);
+   // console.log("Measurement Value is", value);
   };
   const DropdownhandleChange = (eventKey) => {
     setDropSelectedValue(eventKey);
-    console.log("Dropdown Selected Value is ", eventKey);
+    //console.log("Dropdown Selected Value is ", eventKey);
   };
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const sendoption = queryParams.get("sendoption");
-  console.log("this is ", sendoption);
+  //const location = useLocation();
+  //const queryParams = new URLSearchParams(location.search);
+  //const sendoption = queryParams.get("sendoption");
+  //console.log("this is ", sendoption);
   const handleRoutes = () => {
-    if (isChecked && dropselectedValue) {
-      navigate(`/Lettere/Step-6?sendoption=${sendoption}`);
-    } else if (isChecked2 && dropselectedValue) {
-      navigate(`/Lettere/Step-5-3?sendoption=${sendoption}`);
+
+    localStorage.setItem("step52Formato",   formatoFogli);
+    localStorage.setItem("step52Misure",    measurement);
+    localStorage.setItem("step52Quantita",  selectedValue);
+
+    if (isChecked && formatoFogli) {
+      localStorage.setItem("step52Stampa",   "cliente");
+      navigate(`/Lettere/Step-6`);
+    }
+    else if (isChecked2 && formatoFogli) {
+      localStorage.setItem("step52Stampa",   "sa");
+      navigate(`/Lettere/Step-5-3`);
     }
   };
+
+  const goBack = () => {
+
+    let opzione = sendoption;
+
+    let step = step4Stampa === 'sa' ? "Step-4-2"  : "Step-4";
+
+    if(opzione !== null){
+      opzione = opzione.charAt(0).toUpperCase() + opzione.slice(1);
+      navigate("/"+opzione+"/"+step);
+    }
+
+  };
+
   async function nextstep() {
     try {
+      /*
       const userId = localStorage.getItem("_id");
       const InternalLetterPrinting = isChecked
         ? "Stampate dal Cliente"
@@ -69,15 +127,14 @@ export default function Step2of5() {
           number_of_pages: selectedValue,
           printing_of_internal_letter: InternalLetterPrinting,
         }
-      );
+      ); */
+
+        let res = {status:200};
       if (res.status === 200) {
-        console.log("Page Format is ", dropselectedValue);
-        console.log("Measurement Value is", measurement);
-        console.log("Number of pages :", selectedValue);
-        console.log(
-          "Internal Letter Printing Option is",
-          InternalLetterPrinting
-        );
+        //console.log("Page Format is ", dropselectedValue);
+        //console.log("Measurement Value is", measurement);
+        //console.log("Number of pages :", selectedValue);
+        //console.log("Internal Letter Printing Option is", InternalLetterPrinting);
 
         handleRoutes();
         // SuccessToast("updated");
@@ -86,51 +143,22 @@ export default function Step2of5() {
       console.log(error);
     }
   }
+
+  const breadcrumbArray = [
+    { value: sendoption,    url: "/Step-1" },
+    { value: step2Quantity, url: "/Step-2" },
+    { value: nazione,       url: "/Step-3" },
+    { value: busta,         url: "/Lettere/Step-4" },
+    { value: "Interno",     url: "/Lettere/Step-5-2" },
+  ];
+
   return (
     <>
       <div className="over-flow-setting">
         <Navbar />
         <div>
           <Row className="step1-row">
-            <Col md={4} className="col-lhs">
-              <div className="col-lhs-inner">
-                <div className="lhs-img">
-                  <img src="/Images/Step1/send-img.svg" alt="send" />
-                </div>
-                <div>
-                  <p className="heading-lhs">
-                    Richiesta preventivo{" "}
-                    <span>
-                      {" "}
-                      posta<br></br> massiva e pubblicitaria
-                    </span>{" "}
-                  </p>
-                  <p className="des-lhs">
-                    Attraverso questo modulo è possibile<br></br>
-                    <span>richiedere un preventivo </span> per l'
-                    <span>
-                      invio di posta<br></br> massiva e posta pubblicitaria,
-                    </span>{" "}
-                    e se richiesto
-                    <br></br> anche la
-                    <span> stampa ed imbustamento.</span> <br></br>
-                    <br></br> Il servizio include il recapito in pochi giorni
-                    <br></br> della corrispondenza nelle cassette postali dei
-                    <br></br>
-                    destinatari indicati.
-                  </p>
-                </div>
-              </div>
-              <div>
-                <p className="des-sub-lhs">
-                  Per maggiori informazioni su questo
-                  <span>
-                    {" "}
-                    nuovo<br></br> servizio postale clicca qui .
-                  </span>
-                </p>
-              </div>
-            </Col>
+            <ColonnaSx />
             <Col md={8} className="col-rhs">
               <div className="top-rhs">
                 <ProgressBar now={now} />
@@ -157,10 +185,25 @@ export default function Step2of5() {
                         }
                       >
                         <div className="form-group form-width ">
-                          <label className="envelope-label">
-                            Formato Pagina
-                          </label>
+                          <label className="envelope-label">Formato Pagina (in base al tipo di busta selezionata)</label>
 
+                          <div className="rhs-card-btn-body">
+                            <div className="cards-rhs-row pb-4">
+                              {fogli.map((item) => (
+                                  <Col key={item.id} onClick={() => handleFormatoFogli(item.id, item.name)}
+                                       className="cards-col">
+                                    <div className={formatoFogli == item.name ? "card-active" : "card"}>
+                                      <img src={formatoFogli == item.name ? item.image : item.imageInattiva}
+                                           alt={busta.name} className="card-img"/>
+                                    </div>
+                                    <p className="option-txt">{item.name}</p>
+                                  </Col>
+                              ))}
+                            </div>
+                          </div>
+
+
+                          {/*
                           <Dropdown onSelect={DropdownhandleChange}>
                             <Dropdown.Toggle
                               id="dropdown-basic"
@@ -178,7 +221,7 @@ export default function Step2of5() {
                             <Dropdown.Menu>
                               {/* <Dropdown.Item eventKey="Seleziona">
                               Seleziona
-                            </Dropdown.Item> */}
+                            </Dropdown.Item> * /}
                               <Dropdown.Item eventKey="Personalizzato">
                                 Personalizzato
                               </Dropdown.Item>
@@ -186,23 +229,20 @@ export default function Step2of5() {
                               <Dropdown.Item eventKey="A6">A6</Dropdown.Item>
                             </Dropdown.Menu>
                           </Dropdown>
+                          */}
+
                         </div>
-                        <div
-                          class={
-                            dropselectedValue === "Personalizzato"
-                              ? "form-group pg-quantity"
-                              : "d-none"
-                          }
-                        >
+                        <div className={formatoFogli === "Personalizzato" ? "form-group pg-quantity" : "d-none"}>
                           <label className="envelope-label">
-                            Inserisci misure
+                            Misure Personalizzate
                           </label>
                           <input
-                            type="text"
-                            class="form-control personalizzato-form"
-                            id="exampleInputQuantity"
-                            onChange={handlePersonalizzatoInput}
-                            placeholder="es. 21cm x 21cm"
+                              type="text"
+                              className="form-control personalizzato-form"
+                              id="exampleInputQuantity"
+                              onChange={handlePersonalizzatoInput}
+                              placeholder="es. 21cm x 21cm"
+                              value={measurement}
                           />
                         </div>
                       </div>
@@ -210,7 +250,7 @@ export default function Step2of5() {
                       {/* <div className="page-format-contain">
                         <label className="envelope-label">Formato Pagina</label>
                         <select
-                          class={
+                          className={
                             selectedValue
                               ? "form-select form-envelope-border"
                               : "form-select form-envelope"
@@ -225,7 +265,7 @@ export default function Step2of5() {
                         </select>
                       </div>
                       <div
-                        class={
+                        className={
                           selectedValue === "2"
                             ? "form-group pg-quantity"
                             : "d-none"
@@ -236,23 +276,24 @@ export default function Step2of5() {
                         </label>
                         <input
                           type="text"
-                          class="form-control pg-quantity-form"
+                          className="form-control pg-quantity-form"
                           id="exampleInputQuantity"
                           onChange={handleChange}
                           placeholder="es. 21cm x 21cm"
                         />
                       </div> */}
 
-                      <div class="form-group pg-quantity printing-checks input-width">
+                      <div className="form-group pg-quantity printing-checks input-width">
                         <label className="envelope-label">
-                          Quantità pagine
+                          Quantità pagine (max 6)
                         </label>
                         <input
                           type="number"
-                          class="form-control pg-quantity-form"
+                          className="form-control pg-quantity-form"
                           id="exampleInputQuantity"
                           onChange={handleChange}
-                          placeholder="es. 100 pagine"
+                          placeholder="max 6 fogli"
+                            value={selectedValue}
                         />
                       </div>
                       <div className="printing-checks pb-4">
@@ -261,34 +302,16 @@ export default function Step2of5() {
                         </label>
 
                         <div className="Printing-contain">
-                          <div
-                            className={
-                              !isChecked
-                                ? "Printing-check1"
-                                : "Printing-check-border"
-                            }
-                          >
-                            <div class="form-check">
-                              <input
-                                class="form-check-input "
-                                type="checkbox"
-                                value=""
-                                checked={isChecked}
-                                onChange={() => {
+                          <div className={!isChecked ? "Printing-check1" : "Printing-check-border"}>
+                            <div className="form-check">
+                              <input className="form-check-input " type="checkbox" value=""
+                                checked={isChecked} onChange={() => {
                                   setIsChecked(true);
                                   setIsChecked2(false);
                                 }}
                                 id="flexCheckDefault1"
                               />
-                              <label
-                                className={
-                                  !isChecked
-                                    ? "form-check-label"
-                                    : "selected-check-bold"
-                                }
-                                class="form-check-label "
-                                for="flexCheckDefault1"
-                              >
+                              <label className={!isChecked ? "form-check-label" : "selected-check-bold" } htmlFor="flexCheckDefault1">
                                 Stampate dal Cliente
                               </label>
                             </div>
@@ -300,11 +323,10 @@ export default function Step2of5() {
                                 : "Printing-check-border"
                             }
                           >
-                            <div class="form-check">
+                            <div className="form-check">
                               <input
-                                class="form-check-input printing-checkbox"
+                                className="form-check-input printing-checkbox"
                                 type="checkbox"
-                                value=""
                                 id="flexCheckDefault2"
                                 checked={isChecked2}
                                 onChange={() => {
@@ -312,15 +334,7 @@ export default function Step2of5() {
                                   setIsChecked(false);
                                 }}
                               />
-                              <label
-                                className={
-                                  !isChecked2
-                                    ? "form-check-label"
-                                    : "selected-check-bold"
-                                }
-                                class="form-check-label"
-                                for="flexCheckDefault2"
-                              >
+                              <label  className={!isChecked2 ? "form-check-label" : "selected-check-bold" } htmlFor="flexCheckDefault2">
                                 Stampate da Spedire Adesso
                               </label>
                             </div>
@@ -333,15 +347,14 @@ export default function Step2of5() {
               </div>
               <div className="btn-rhs-row-mb">
                 <div>
-                  <button className="btn-r1" onClick={() => navigate(-1)}>
-                    Indietro
-                  </button>
+                  <button className="btn-r1" onClick={goBack}>Indietro</button>
                 </div>
                 <div className="btn2-div">
-                  <button
+                <button
                     className={
                       selectedValue &&
-                      dropselectedValue &&
+                        selectedValue <=6 &&
+                      formatoFogli &&
                       (isChecked || isChecked2)
                         ? "btn-r2-active"
                         : "btn-r2"
@@ -354,15 +367,14 @@ export default function Step2of5() {
               </div>
               <div className="btn-rhs-row w-100">
                 <div>
-                  <button className="btn-r1" onClick={() => navigate(-1)}>
-                    Indietro
-                  </button>
+                  <button className="btn-r1" onClick={goBack}>Indietro</button>
                 </div>
                 <div className="btn2-div w-100">
-                  <button
+                <button
                     className={
                       selectedValue &&
-                      dropselectedValue &&
+                      selectedValue <=6 &&
+                      formatoFogli &&
                       (isChecked || isChecked2)
                         ? "btn-r2-active"
                         : "btn-r2"
@@ -373,54 +385,7 @@ export default function Step2of5() {
                   </button>
                 </div>
               </div>
-              <div className="btm-rhs">
-                <div>
-                  <p className="quotation-req">
-                    Richiesta Preventivo &gt;{" "}
-                    <span
-                      onClick={() => {
-                        navigate(`/?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Cosa devi spedire?{" "}
-                    </span>{" "}
-                    &gt;
-                    <span
-                      onClick={() => {
-                        navigate(`/Step-2?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Q.tà
-                    </span>{" "}
-                    &gt;
-                    <span
-                      onClick={() => {
-                        navigate(`/Step-3?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Nazione Destinatari
-                    </span>{" "}
-                    &gt;
-                    <span
-                      onClick={() => {
-                        navigate(`/Lettere/Step-4?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Dettaglio Buste{" "}
-                    </span>{" "}
-                    &gt;
-                    <span className="selected-span"> Interno </span>
-                  </p>
-                </div>
-                <div className="step1-progress">
-                  <ProgressBar now={now} />
-                  <p className="percentage-txt">{now}%</p>
-                </div>
-              </div>
+              <BreadcrumbBt breadcrumbArray={breadcrumbArray}  now={now} />
             </Col>
           </Row>
         </div>

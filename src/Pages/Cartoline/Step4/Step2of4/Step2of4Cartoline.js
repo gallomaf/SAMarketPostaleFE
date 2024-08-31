@@ -11,6 +11,7 @@ import { useSearchParams, useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../../../services/client";
 import { SuccessToast } from "../../../../Components/Navbar/Toast/Toast";
+import ColonnaSx from "../../../../Components/Colonne/ColonnaSx";
 
 export default function Step2of4Cartoline() {
   const [sendItem, setItem] = useState();
@@ -113,16 +114,30 @@ export default function Step2of4Cartoline() {
         : isCheckedT2
         ? "Patinata opaca"
         : "";
+
+      const formData = new FormData();
+      formData.append("id", userId);
+      formData.append("print_quality", print_quality);
+      formData.append("type_of_printing", type_of_printing);
+      formData.append("paper_weight", paper_weight);
+      formData.append("type_of_paper", type_of_paper);
+      if (selectedFile) {
+        //formData.append("file", selectedFile);
+      }
+
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      };
+
+
       const res = await axios.post(
         `${API_URL}/auth/addQA_cartoline_step4ab`,
-        {
-          id: userId,
-          print_quality: print_quality,
-          type_of_printing: type_of_printing,
-          paper_weight: paper_weight,
-          type_of_paper: type_of_paper,
-          // print_quality: PrintQuality,
-        }
+          formData
+          //,
+         // config
+
       );
       if (res.status === 200) {
         console.log("print_quality ", print_quality);
@@ -144,45 +159,7 @@ export default function Step2of4Cartoline() {
         <Navbar />
         <div>
           <Row className="step1-row">
-            <Col md={4} className="col-lhs">
-              <div className="col-lhs-inner">
-                <div className="lhs-img">
-                  <img src="/Images/Step1/send-img.svg" alt="send" />
-                </div>
-                <div>
-                  <p className="heading-lhs">
-                    Richiesta preventivo{" "}
-                    <span>
-                      {" "}
-                      posta<br></br> massiva e pubblicitaria
-                    </span>{" "}
-                  </p>
-                  <p className="des-lhs">
-                    Attraverso questo modulo è possibile<br></br>
-                    <span>richiedere un preventivo </span> per l'
-                    <span>
-                      invio di posta<br></br> massiva e posta pubblicitaria,
-                    </span>{" "}
-                    e se richiesto
-                    <br></br> anche la
-                    <span> stampa ed imbustamento.</span> <br></br>
-                    <br></br> Il servizio include il recapito in pochi giorni
-                    <br></br> della corrispondenza nelle cassette postali dei
-                    <br></br>
-                    destinatari indicati.
-                  </p>
-                </div>
-              </div>
-              <div>
-                <p className="des-sub-lhs">
-                  Per maggiori informazioni su questo
-                  <span>
-                    {" "}
-                    nuovo<br></br> servizio postale clicca qui .
-                  </span>
-                </p>
-              </div>
-            </Col>
+            <ColonnaSx />
             <Col md={8} className="col-rhs">
               <div className="top-rhs">
                 <ProgressBar now={now} />
@@ -402,7 +379,7 @@ export default function Step2of4Cartoline() {
                                     }
                                     for="flexRadioDefaultG1"
                                   >
-                                    200g
+                                    250g
                                   </label>
                                 </div>
                               </div>
@@ -437,7 +414,7 @@ export default function Step2of4Cartoline() {
                                     }
                                     for="flexRadioDefaultG2"
                                   >
-                                    250gr
+                                    300gr
                                   </label>
                                 </div>
                               </div>
@@ -471,7 +448,7 @@ export default function Step2of4Cartoline() {
                                     }
                                     for="flexRadioDefaultG3"
                                   >
-                                    300gr
+                                    350gr
                                   </label>
                                 </div>
                               </div>
