@@ -10,30 +10,55 @@ import axios from "axios";
 import { API_URL } from "../../../services/client";
 import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
+import BreadcrumbBt from "../../../Components/Footer/BreadcrumbBt";
 export default function Step4Gadget() {
   const navigate = useNavigate();
   const now = 60;
+
+  //variabili da passare tra i vari steps
+  const sendoption    = localStorage.getItem("sendoption");
+
+  const step2Quantity = localStorage.getItem("step2Quantity");
+  const nazione       = localStorage.getItem("nazione");
+
+  const step4Busta    = localStorage.getItem("step4Busta");
+  const step4Misure   = localStorage.getItem("step4Misure");
+  const step4Stampa   = localStorage.getItem("step4Stampa");
+  const step4peso     = localStorage.getItem("step4peso");
+  //fine variabili da passare tra i vari steps
+
   const [sendItem, setItem] = useState();
 
-  useEffect(() => {
-    setItem(localStorage.getItem("sendoption"));
-  });
-  const [isChecked, setIsChecked] = useState(false);
-  const [isChecked2, setIsChecked2] = useState(false);
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const sendoption = queryParams.get("sendoption");
-  console.log("this is ", sendoption);
+  //useEffect(() => {
+  //  setItem(localStorage.getItem("sendoption"));
+  //});
+
+  //const [isChecked, setIsChecked] = useState(false);
+  //const [isChecked2, setIsChecked2] = useState(false);
+
+  const [isChecked, setIsChecked]         = useState(step4Stampa == 'cliente' ? true: false);
+  const [isChecked2, setIsChecked2]       = useState(step4Stampa == 'sa' ? true : false);
+
+  //const location = useLocation();
+  //const queryParams = new URLSearchParams(location.search);
+  //const sendoption = queryParams.get("sendoption");
+  //console.log("this is ", sendoption);
+
   const handleRoutes = () => {
+
+    localStorage.setItem("step4Stampa", isChecked ? 'cliente' : isChecked2 ? 'sa' : '');
+
     if (isChecked) {
-      navigate(`/Cartoline/Step-5?sendoption=${sendoption}`);
-    } else if (isChecked2) {
-      navigate(`/Gadget/Step-4-2?sendoption=${sendoption}`);
+      navigate(`/Lettere/Step-6`);
+    }
+    else if (isChecked2) {
+      navigate(`/Gadget/Step-4-2`);
     }
   };
 
   async function nextstep() {
     try {
+      /*
       const userId = localStorage.getItem("_id");
       const PostcardPrintingOption = isChecked
         ? "Stampate dal Cliente"
@@ -47,9 +72,13 @@ export default function Step4Gadget() {
           printing_of_postcards: PostcardPrintingOption,
         }
       );
+
+       */
+
+      let res =  {status : 200};
       if (res.status === 200) {
-        console.log("Sending Option ", sendoption)
-        console.log("Postcards Printing Option is", PostcardPrintingOption);
+        //console.log("Sending Option ", sendoption)
+        //console.log("Postcards Printing Option is", PostcardPrintingOption);
         
         handleRoutes();
         // SuccessToast("updated");
@@ -58,6 +87,19 @@ export default function Step4Gadget() {
       console.log(error);
     }
   }
+
+  const breadcrumbArray = [
+    { value: sendoption,          url: "/Step-1" },
+    { value: step2Quantity,       url: "/Step-2" },
+    { value: nazione,             url: "/Step-3" },
+    { value: "Dettaglio",         url: "/Cataloghi/Step-4" },
+  ];
+
+  const goBack = () => {
+    navigate('/Step-3');
+  };
+
+
   return (
     <>
       <div className="over-flow-setting">
@@ -101,9 +143,9 @@ export default function Step4Gadget() {
                                 : "Printing-check-border"
                             }
                           >
-                            <div class="form-check">
+                            <div className="form-check">
                               <input
-                                class="form-check-input "
+                                className="form-check-input "
                                 type="checkbox"
                                 value=""
                                 checked={isChecked}
@@ -114,12 +156,12 @@ export default function Step4Gadget() {
                                 id="flexCheckDefault1"
                               />
                               <label
-                                class={
+                                className={
                                   !isChecked
                                     ? "form-check-label"
                                     : "selected-ans-label"
                                 }
-                                for="flexCheckDefault1"
+                                htmlFor="flexCheckDefault1"
                               >
                                 Stampate dal Cliente
                               </label>
@@ -132,9 +174,9 @@ export default function Step4Gadget() {
                                 : "Printing-check-border"
                             }
                           >
-                            <div class="form-check">
+                            <div className="form-check">
                               <input
-                                class="form-check-input printing-checkbox"
+                                className="form-check-input printing-checkbox"
                                 type="checkbox"
                                 value=""
                                 id="flexCheckDefault2"
@@ -145,12 +187,12 @@ export default function Step4Gadget() {
                                 }}
                               />
                               <label
-                                class={
+                                className={
                                   !isChecked2
                                     ? "form-check-label"
                                     : "selected-ans-label"
                                 }
-                                for="flexCheckDefault2"
+                                htmlFor="flexCheckDefault2"
                               >
                                 Stampate da SpedireAdesso
                               </label>
@@ -164,12 +206,10 @@ export default function Step4Gadget() {
               </div>
               <div className="btn-rhs-row-mb">
                 <div>
-                  <button className="btn-r1" onClick={() => navigate(-1)}>
-                    Indietro
-                  </button>
+                  <button className="btn-r1" onClick={goBack}>Indietro</button>
                 </div>
                 <div className="btn2-div">
-                  <button
+                <button
                     className={
                       isChecked || isChecked2 ? "btn-r2-active" : "btn-r2"
                     }
@@ -181,12 +221,10 @@ export default function Step4Gadget() {
               </div>
               <div className="btn-rhs-row w-100">
                 <div>
-                  <button className="btn-r1" onClick={() => navigate(-1)}>
-                    Indietro
-                  </button>
+                  <button className="btn-r1" onClick={goBack}>Indietro</button>
                 </div>
                 <div className="btn2-div w-100">
-                  <button
+                <button
                     className={
                       isChecked || isChecked2 ? "btn-r2-active" : "btn-r2"
                     }
@@ -196,45 +234,8 @@ export default function Step4Gadget() {
                   </button>
                 </div>
               </div>
-              <div className="btm-rhs">
-                <div>
-                  <p className="quotation-req">
-                    Richiesta Preventivo &gt;{" "}
-                    <span
-                      onClick={() => {
-                        navigate(`/?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Cosa devi spedire?{" "}
-                    </span>{" "}
-                    &gt;
-                    <span
-                      onClick={() => {
-                        navigate(`/Step-2?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Q.tà
-                    </span>{" "}
-                    &gt;
-                    <span
-                     onClick={() => {
-                      navigate(`/Step-3?sendoption=${sendItem}`);
-                    }}
-                    >
-                      {" "}
-                      Nazione Destinatari
-                    </span>{" "}
-                    &gt;
-                    <span className="selected-span"> Dettaglio </span>
-                  </p>
-                </div>
-                <div className="step1-progress">
-                  <ProgressBar now={now} />
-                  <p className="percentage-txt">{now}%</p>
-                </div>
-              </div>
+
+              <BreadcrumbBt breadcrumbArray={breadcrumbArray}  now={now} />
             </Col>
           </Row>
         </div>

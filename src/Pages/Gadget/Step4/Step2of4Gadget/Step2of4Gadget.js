@@ -11,57 +11,94 @@ import axios from "axios";
 import { API_URL } from "../../../../services/client";
 import { SuccessToast } from "../../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../../Components/Colonne/ColonnaSx";
+import BreadcrumbBt from "../../../../Components/Footer/BreadcrumbBt";
 export default function Step2of4Gadget() {
   const navigate = useNavigate();
   const now = 60;
-  const [sendItem, setItem] = useState();
 
-  useEffect(() => {
-    setItem(localStorage.getItem("sendoption"));
-  });
+  //variabili da passare tra i vari steps
+  const sendoption    = localStorage.getItem("sendoption");
+
+  const step2Quantity = localStorage.getItem("step2Quantity");
+  const nazione       = localStorage.getItem("nazione");
+
+  const step4Gadget   = localStorage.getItem("step4Gadget");
+  const step4Peso     = localStorage.getItem("step4Peso");
+  const step4Misure   = localStorage.getItem("step4Misure");
+
+
+  const step4Colore     = localStorage.getItem("step4Colore");
+  //fine variabili da passare tra i vari steps
+
+  //const [sendItem, setItem] = useState();
+
+  //useEffect(() => {
+    //setItem(localStorage.getItem("sendoption"));
+  //});
 
   const [selectedValue, setSelectedValue] = useState("");
-  const [gadgetweight, setGadgetWeight] = useState("");
-  const [dropselectedValue, setDropSelectedValue] = useState("");
-  const [measurement, setmeasurementValue] = useState("");
-  const [isChecked1, setIsChecked1] = useState(false);
-  const [isChecked2, setIsChecked2] = useState(false);
+  const [gadgetweight, setGadgetWeight] = useState(step4Peso ? step4Peso : "");
+  const [dropselectedValue, setDropSelectedValue] = useState(step4Gadget ? step4Gadget : "");
+  const [measurement, setmeasurementValue] = useState(step4Misure ? step4Misure : "");
+
+
+  const [isChecked1, setIsChecked1]   = useState(step4Colore === "Bianco/Nero" );
+  const [isChecked2, setIsChecked2]   = useState(step4Colore === "Colore" );
 
   const handleChange = (e) => {
     const value = e.target.value;
     setSelectedValue(value);
-    console.log("Measurement is", value);
+    //console.log("Measurement is", value);
   };
 
 
   const handlePersonalizzatoInput = (e) => {
     const value = e.target.value;
     setmeasurementValue(value);
-    console.log("Measurement Value is", value);
+    //console.log("Measurement Value is", value);
   };
 
   const handleChangeGadget = (e) => {
     const value = e.target.value;
     setGadgetWeight(value);
-    console.log("Gadget Weight is", value);
+   // console.log("Gadget Weight is", value);
   };
 
   const DropdownhandleChange = (eventKey) => {
     setDropSelectedValue(eventKey);
-    console.log("Dropdown Selected Value is ", eventKey);
+   // console.log("Dropdown Selected Value is ", eventKey);
   };
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const sendoption = queryParams.get("sendoption");
-  console.log("this is ", sendoption);
+ // const location = useLocation();
+ // const queryParams = new URLSearchParams(location.search);
+  //const sendoption = queryParams.get("sendoption");
+  //console.log("this is ", sendoption);
   const handleRoutes = () => {
+
+    if (isChecked1){
+      localStorage.setItem("step4Colore",   "Bianco/Nero");
+    }
+    if (isChecked2){
+      localStorage.setItem("step4Colore",   "Colore");
+    }
+
+    localStorage.setItem("step4Gadget", dropselectedValue);
+    localStorage.setItem("step4Peso", gadgetweight);
+    localStorage.setItem("step4Misure", measurement);
+
+
+    //console.log("Types Of Gadgets", dropselectedValue);
+    //console.log("Weight of Gadget", gadgetweight);
+    //console.log("Measurements", measurement);
+
+
     if ((isChecked1 || isChecked2) && dropselectedValue) {
-      navigate(`/Cartoline/Step-5?sendoption=${sendoption}`);
+      navigate(`/Lettere/Step-6`);
     }
   };
 
   async function nextstep() {
     try {
+      /*
       const userId = localStorage.getItem("_id");
       const SenderLogoPrintQuality = isChecked1
         ? "Bianco/Nero"
@@ -78,12 +115,15 @@ export default function Step2of4Gadget() {
           measurements: measurement,
         }
       );
+       */
+
+      let res = { status: 200 };
       if (res.status === 200) {
-        console.log("Sending Option ", sendoption);
-        console.log("Print Quality Sender Logo", SenderLogoPrintQuality);
-        console.log("Types Of Gadgets", dropselectedValue);
-        console.log("Weight of Gadget", gadgetweight);
-        console.log("Measurements", measurement);
+        //console.log("Sending Option ", sendoption);
+        //console.log("Print Quality Sender Logo", SenderLogoPrintQuality);
+        //console.log("Types Of Gadgets", dropselectedValue);
+        //console.log("Weight of Gadget", gadgetweight);
+        //console.log("Measurements", measurement);
 
         handleRoutes();
         // SuccessToast("updated");
@@ -92,6 +132,18 @@ export default function Step2of4Gadget() {
       console.log(error);
     }
   }
+
+  const breadcrumbArray = [
+    { value: sendoption,          url: "/Step-1" },
+    { value: step2Quantity,       url: "/Step-2" },
+    { value: nazione,             url: "/Step-3" },
+    { value: "Dettaglio",         url: "/Cataloghi/Step-4" },
+  ];
+
+  const goBack = () => {
+    navigate('/Gadget/Step-4');
+  };
+
   return (
     <>
       <div className="over-flow-setting">
@@ -131,9 +183,9 @@ export default function Step2of4Gadget() {
                                 : "Printing-check-border"
                             }
                           >
-                            <div class="form-check">
+                            <div className="form-check">
                               <input
-                                class="form-check-input"
+                                className="form-check-input"
                                 type="radio"
                                 name="flexRadioDefault"
                                 id="flexRadioDefault1"
@@ -145,8 +197,8 @@ export default function Step2of4Gadget() {
                               />
                               <div className="label-img ">
                                 <label
-                                  class="form-check-label "
-                                  for="flexRadioDefault1"
+                                  className="form-check-label "
+                                  htmlFor="flexRadioDefault1"
                                 >
                                   Bianco/Nero
                                 </label>
@@ -165,9 +217,9 @@ export default function Step2of4Gadget() {
                                 : "Printing-check-border2"
                             }
                           >
-                            <div class="form-check">
+                            <div className="form-check">
                               <input
-                                class="form-check-input"
+                                className="form-check-input"
                                 type="radio"
                                 name="flexRadioDefault"
                                 id="flexRadioDefault2"
@@ -179,8 +231,8 @@ export default function Step2of4Gadget() {
                               />
                               <div className="label-img">
                                 <label
-                                  class="form-check-label"
-                                  for="flexRadioDefault2"
+                                  className="form-check-label"
+                                  htmlFor="flexRadioDefault2"
                                 >
                                   Colore
                                 </label>
@@ -229,26 +281,27 @@ export default function Step2of4Gadget() {
                               <Dropdown.Item eventKey="Gadget Tecnologici ">
                                 Gadget Tecnologici{" "}
                               </Dropdown.Item>
-                              <Dropdown.Item eventKey="A6">A6</Dropdown.Item>
+                              <Dropdown.Item eventKey="A6">Penna </Dropdown.Item>
                             </Dropdown.Menu>
                           </Dropdown>
                         </div>
                         <div
-                          class={
+                          className={
                             dropselectedValue === "Personalizzato"
                               ? "form-group pg-quantity-gadget"
                               : "d-none"
                           }
                         >
                           <label className="envelope-label">
-                            Inserisci misure
+                            Specifica Gadget
                           </label>
                           <input
                             type="text"
-                            class="form-control personalizzato-form"
+                            className="form-control personalizzato-form"
                             id="exampleInputQuantity"
                             onChange={handlePersonalizzatoInput}
-                            placeholder="es. 21cm x 21cm"
+                            placeholder="es. Calendario"
+                            value={measurement}
                           />
                         </div>
                       </div>
@@ -259,10 +312,11 @@ export default function Step2of4Gadget() {
                         </label>
                         <input
                           type="text"
-                          class="form-control peso-form"
+                          className="form-control peso-form"
                           id="exampleInputQuantity"
                           onChange={handleChangeGadget}
                           placeholder="es. 90g"
+                          value={gadgetweight}
                         />
                         <div className="border-btm"></div>
                       </div>
@@ -296,9 +350,7 @@ export default function Step2of4Gadget() {
                 </div> */}
                 <div className="btn-rhs-row-mb">
                   <div>
-                    <button className="btn-r1" onClick={() => navigate(-1)}>
-                      Indietro
-                    </button>
+                    <button className="btn-r1" onClick={goBack}>Indietro</button>
                   </div>
                   <div className="btn2-div">
                     <button
@@ -317,9 +369,7 @@ export default function Step2of4Gadget() {
 
               <div className="btn-rhs-row w-100">
                 <div>
-                  <button className="btn-r1" onClick={() => navigate(-1)}>
-                    Indietro
-                  </button>
+                  <button className="btn-r1" onClick={goBack}>Indietro</button>
                 </div>
                 <div className="btn2-div w-100">
                   <button
@@ -334,45 +384,7 @@ export default function Step2of4Gadget() {
                   </button>
                 </div>
               </div>
-              <div className="btm-rhs">
-                <div>
-                  <p className="quotation-req">
-                    Richiesta Preventivo &gt;{" "}
-                    <span
-                      onClick={() => {
-                        navigate(`/?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Cosa devi spedire?{" "}
-                    </span>{" "}
-                    &gt;
-                    <span
-                      onClick={() => {
-                        navigate(`/Step-2?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Q.tà
-                    </span>{" "}
-                    &gt;
-                    <span
-                      onClick={() => {
-                        navigate(`/Step-3?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Nazione Destinatari
-                    </span>{" "}
-                    &gt;
-                    <span className="selected-span"> Dettaglio </span>
-                  </p>
-                </div>
-                <div className="step1-progress">
-                  <ProgressBar now={now} />
-                  <p className="percentage-txt">{now}%</p>
-                </div>
-              </div>
+                <BreadcrumbBt breadcrumbArray={breadcrumbArray}  now={now} />
             </Col>
           </Row>
         </div>

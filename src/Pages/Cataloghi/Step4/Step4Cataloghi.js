@@ -12,52 +12,93 @@ import axios from "axios";
 import { API_URL } from "../../../services/client";
 import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
+import BreadcrumbBt from "../../../Components/Footer/BreadcrumbBt";
 
 export default function Step4Cataloghi() {
   const navigate = useNavigate();
   const now = 60;
-  const [sendItem, setItem] = useState();
-  
-  useEffect(() => {
-    setItem(localStorage.getItem("sendoption"));
-  });
 
-  const [selectedValue, setSelectedValue] = useState("");
-  const [dropselectedValue, setDropSelectedValue] = useState("");
-  const [measurement, setmeasurementValue] = useState("");
-  const [isChecked, setIsChecked] = useState(false);
-  const [isChecked2, setIsChecked2] = useState(false);
+  //variabili da passare tra i vari steps
+  const sendoption    = localStorage.getItem("sendoption");
+
+  const step2Quantity = localStorage.getItem("step2Quantity");
+  const nazione       = localStorage.getItem("nazione");
+
+  const step4Busta    = localStorage.getItem("step4Busta");
+  const step4Misure   = localStorage.getItem("step4Misure");
+  const step4Stampa   = localStorage.getItem("step4Stampa");
+  const step4peso     = localStorage.getItem("step4peso");
+  //fine variabili da passare tra i vari steps
+
+  //nuova versione buste
+  const [formatoBuste, setFormatoBuste] = useState(step4Busta);
+
+  //array composto da: elenco buste e per ogni busta la tipologia di fogli associata
+  const busteCataloghi  = JSON.parse(localStorage.getItem('busteCataloghi'));//recupero con JSON perchè è un array
+
+  const handleFormatoBuste = (cardno) => {
+    setFormatoBuste((prevState) => (prevState === cardno ? null : cardno));
+  };
+
+  //fine nuova versione buste
+
+  //const [sendItem, setItem] = useState();
+  
+  //useEffect(() => {
+  //  setItem(localStorage.getItem("sendoption"));
+  //});
+
+  const [selectedValue, setSelectedValue] = useState(step4peso);//peso Catalogo
+  //const [dropselectedValue, setDropSelectedValue] = useState("");
+  const [measurement, setmeasurementValue]  = useState(step4Misure  ? step4Misure : "");
+  const [isChecked, setIsChecked]         = useState(step4Stampa == 'cliente' ? true: false);
+  const [isChecked2, setIsChecked2]       = useState(step4Stampa == 'sa' ? true : false);
 
   const handleChange = (e) => {
     const value = e.target.value;
     setSelectedValue(value);
-    console.log("Measurement is", value);
+    //console.log("Measurement is", value);
   };
 
   const handlePersonalizzatoInput = (e) => {
     const value = e.target.value;
     setmeasurementValue(value);
-    console.log("Measurement Value is", value);
+    //console.log("Measurement Value is", value);
   };
 
-  const DropdownhandleChange = (eventKey) => {
-    setDropSelectedValue(eventKey);
-    console.log("Dropdown Selected Value is ", eventKey);
-  };
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const sendoption = queryParams.get("sendoption");
-  console.log("this is ", sendoption);
+  //const DropdownhandleChange = (eventKey) => {
+  //  setDropSelectedValue(eventKey);
+  //  console.log("Dropdown Selected Value is ", eventKey);
+  //};
+  //const location = useLocation();
+  //const queryParams = new URLSearchParams(location.search);
+  //const sendoption = queryParams.get("sendoption");
+  //console.log("this is ", sendoption);
   const handleRoutes = () => {
+
+    /*
+    const [selectedValue, setSelectedValue] = useState(step4peso);//peso Catalogo
+    const [measurement, setmeasurementValue]  = useState(step4Misure  ? step4Misure : "");
+    const [isChecked, setIsChecked]         = useState(step4Stampa == 'cliente' ? true: false);
+    const [isChecked2, setIsChecked2]       = useState(step4Stampa == 'sa' ? true : false);
+     */
+
+    localStorage.setItem("step4peso", selectedValue);
+    localStorage.setItem("step4Misure", measurement);
+    localStorage.setItem("step4Stampa", isChecked ? 'cliente' : isChecked2 ? 'sa' : '');
+
     if (isChecked ) {
-      navigate(`/Cartoline/Step-5?sendoption=${sendoption}`);
+      navigate(`/Lettere/Step-6`);
     } 
     else if (isChecked2 ) {
-      navigate(`/Cataloghi/Step-4-2?sendoption=${sendoption}`);
-    } 
+
+      navigate(`/Cataloghi/Step-4-2`);
+    }
+
   };
   async function nextstep() {
     try {
+      /*
       const userId = localStorage.getItem("_id");
       const EnvelopePrintingOption = isChecked
         ? "Stampate dal Cliente"
@@ -73,18 +114,34 @@ export default function Step4Cataloghi() {
           envelope_printing: EnvelopePrintingOption,
         }
       );
+      */
+
+      let res = {status : 200};
+
       if (res.status === 200) {
-        console.log("Sending Option ", sendoption)
-        console.log("Envelope Printing Option is", EnvelopePrintingOption);
-        console.log("Page Format is ", dropselectedValue);
-        console.log("measurements is ", measurement);
+        //console.log("Sending Option ", sendoption)
+        //console.log("Envelope Printing Option is", EnvelopePrintingOption);
+        //console.log("Page Format is ", dropselectedValue);
+        //console.log("measurements is ", measurement);
         handleRoutes();
-        SuccessToast("updated");
+        //SuccessToast("updated");
       }
     } catch (error) {
       console.log(error);
     }
   }
+
+  const breadcrumbArray = [
+    { value: sendoption,          url: "/Step-1" },
+    { value: step2Quantity,       url: "/Step-2" },
+    { value: nazione,             url: "/Step-3" },
+    { value: "Dettaglio",         url: "/Cataloghi/Step-4" },
+  ];
+
+  const goBack = () => {
+    navigate('/Step-3');
+  };
+
   return (
     <>
      <div className="over-flow-setting" >
@@ -117,7 +174,7 @@ export default function Step4Cataloghi() {
                   <form className="form-envelope-main">
                     <div
                       className={
-                        dropselectedValue === "Personalizzato"
+                        selectedValue === "Personalizzato"
                           ? "page-format-contain"
                           : ""
                       }
@@ -125,56 +182,47 @@ export default function Step4Cataloghi() {
                       <div className="form-group cartoline-form-drop-width">
                         <label className="envelope-label">Formato Busta</label>
 
-                        <Dropdown onSelect={DropdownhandleChange}>
-                          <Dropdown.Toggle
-                            id="dropdown-basic"
-                            className={
-                              dropselectedValue === ""
-                                ? "custom-drop "
-                                : "custom-drop custom-drop-border"
-                            }
-                          >
-                          {dropselectedValue === ""
-                                ? "Seleziona"
-                                : dropselectedValue}
-                          </Dropdown.Toggle>
+                        <div className="rhs-card-btn-body">
+                          <div className="cards-rhs-row pb-4">
+                            {busteCataloghi.map((busta) => (
+                                <Col key={busta.id} onClick={() => handleFormatoBuste(busta.id)}
+                                     className="cards-col">
+                                  <div className={formatoBuste == busta.id ? "card-active" : "card"}>
+                                    <img src={formatoBuste == busta.id ? busta.image : busta.imageInattiva}
+                                         alt={busta.name} className="card-img"/>
+                                  </div>
+                                  <p className="option-txt">{busta.name}</p>
+                                </Col>
+                            ))}
+                          </div>
+                        </div>
 
-                          <Dropdown.Menu>
-                            {/* <Dropdown.Item eventKey="Seleziona">
-                              Seleziona
-                            </Dropdown.Item> */}
-                            <Dropdown.Item eventKey="Personalizzato">
-                              Personalizzato
-                            </Dropdown.Item>
-                            <Dropdown.Item eventKey="A4">A4</Dropdown.Item>
-                            <Dropdown.Item eventKey="A6">A6</Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
                       </div>
                       <div
-                        class={
-                          dropselectedValue === "Personalizzato"
-                            ? "form-group pg-quantity-personalizzato"
-                            : "d-none"
-                        }
+                          className={
+                            formatoBuste == 6
+                                ? "form-group pg-quantity-personalizzato"
+                                : "d-none"
+                          }
                       >
                         <label className="envelope-label">
                           Inserisci misure
                         </label>
                         <input
-                          type="text"
-                          class="form-control personalizzato-form"
-                          id="exampleInputQuantity"
-                          onChange={handlePersonalizzatoInput}
-                          placeholder="es. 21cm x 21cm"
+                            type="text"
+                            className="form-control personalizzato-form"
+                            id="exampleInputQuantity"
+                            onChange={handlePersonalizzatoInput}
+                            placeholder="es. 21cm x 21cm"
+                            value={measurement}
                         />
                       </div>
                     </div>
 
-                 
+
                     <div className="printing-checks pb-4">
                       <label className="envelope-label ">
-                        Stampa delle cartoline
+                        Stampa del catalogo
                       </label>
 
                       <div className="Printing-contain">
@@ -185,9 +233,9 @@ export default function Step4Cataloghi() {
                               : "Printing-check-border"
                           }
                         >
-                          <div class="form-check">
+                          <div className="form-check">
                             <input
-                              class="form-check-input "
+                              className="form-check-input "
                               type="checkbox"
                               value=""
                               checked={isChecked}
@@ -198,14 +246,14 @@ export default function Step4Cataloghi() {
                               id="flexCheckDefault1"
                             />
                             <label
-                              class={
+                              className={
                                 !isChecked
                                   ? "form-check-label"
                                   : "selected-ans-label"
                               }
-                              for="flexCheckDefault1"
+                              htmlFor="flexCheckDefault1"
                             >
-                              Stampate dal Cliente
+                              Stampato dal Cliente
                             </label>
                           </div>
                         </div>
@@ -216,9 +264,9 @@ export default function Step4Cataloghi() {
                               : "Printing-check-border"
                           }
                         >
-                          <div class="form-check">
+                          <div className="form-check">
                             <input
-                              class="form-check-input printing-checkbox"
+                              className="form-check-input printing-checkbox"
                               type="checkbox"
                               value=""
                               id="flexCheckDefault2"
@@ -229,31 +277,32 @@ export default function Step4Cataloghi() {
                               }}
                             />
                             <label
-                              class={
+                              className={
                                 !isChecked2
                                   ? "form-check-label"
                                   : "selected-ans-label"
                               }
-                              for="flexCheckDefault2"
+                              htmlFor="flexCheckDefault2"
                             >
-                              Stampate da SpedireAdesso
+                              Stampato da SpedireAdesso
                             </label>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div
-                      class={isChecked ? "form-group pg-quantity-cataloghi" : "d-none"}
+                      className={isChecked ? "form-group pg-quantity-cataloghi" : "d-none"}
                     >
                       <label className="envelope-label">
                         Peso singolo catalogo
                       </label>
                       <input
-                        type="text"
-                        class="form-control peso-form"
-                        id="exampleInputQuantity"
-                        onChange={handleChange}
-                        placeholder="es. 90g"
+                        type        ="text"
+                        className       ="form-control peso-form"
+                        id          ="exampleInputQuantity"
+                        onChange    ={handleChange}
+                        placeholder ="es. 90g"
+                        value       ={selectedValue}
                       />
                       <div className="border-btm">
 
@@ -266,12 +315,12 @@ export default function Step4Cataloghi() {
             </div>
             <div className="btn-rhs-row-mb">
               <div>
-                <button className="btn-r1"  onClick={()=>(navigate(-1))}>Indietro</button>
+                <button className="btn-r1" onClick={goBack}>Indietro</button>
               </div>
               <div className="btn2-div">
                 <button
                   className={
-                  dropselectedValue && (isChecked || isChecked2)
+                    selectedValue && (isChecked || isChecked2)
                       ? "btn-r2-active"
                       : "btn-r2"
                   }
@@ -284,12 +333,12 @@ export default function Step4Cataloghi() {
             </div>
             <div className="btn-rhs-row w-100">
                   <div>
-                    <button className="btn-r1"  onClick={()=>(navigate(-1))}>Indietro</button>
+                    <button className="btn-r1" onClick={goBack}>Indietro</button>
                   </div>
-                  <div className="btn2-div w-100">
+              <div className="btn2-div w-100">
                     <button
                       className={
-                       dropselectedValue && (isChecked || isChecked2)
+                       selectedValue && (isChecked || isChecked2)
                           ? "btn-r2-active"
                           : "btn-r2"
                       }
@@ -299,45 +348,7 @@ export default function Step4Cataloghi() {
                     </button>
                   </div>
                 </div>
-            <div className="btm-rhs">
-              <div>
-              <p className="quotation-req">
-                    Richiesta Preventivo &gt;{" "}
-                    <span
-                      onClick={() => {
-                        navigate(`/?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Cosa devi spedire?{" "}
-                    </span>{" "}
-                    &gt;
-                    <span
-                      onClick={() => {
-                        navigate(`/Step-2?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Q.tà
-                    </span>{" "}
-                    &gt;
-                    <span
-                     onClick={() => {
-                      navigate(`/Step-3?sendoption=${sendItem}`);
-                    }}
-                    >
-                      {" "}
-                      Nazione Destinatari
-                    </span>{" "}
-                    &gt;
-                    <span className="selected-span"> Dettaglio </span>
-                  </p>
-              </div>
-              <div className="step1-progress">
-                <ProgressBar now={now} />
-                <p className="percentage-txt">{now}%</p>
-              </div>
-            </div>
+            <BreadcrumbBt breadcrumbArray={breadcrumbArray}  now={now} />
           </Col>
         </Row>
       </div>

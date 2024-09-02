@@ -374,6 +374,13 @@ p {
   /* width: 100%; */
 }
 
+.cards-col {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
+}
+
 .c-card {
   height: 189.469px;
   width: 189.469px;

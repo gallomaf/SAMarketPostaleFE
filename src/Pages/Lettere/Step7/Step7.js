@@ -81,8 +81,11 @@ export default function Step7() {
     //dallo step 6 posso tornare allo step 5-3, oppure 5-2 oppure 5
     let step = "Step-6";
 
+    //il punto Step-6 è comune a tutti i prodotti, quindi sempre su Lettere
+    opzione =  "Lettere";
+
     if(opzione !== null){
-      opzione = opzione.charAt(0).toUpperCase() + opzione.slice(1);
+      //opzione = opzione.charAt(0).toUpperCase() + opzione.slice(1);
       navigate("/"+opzione+"/"+step);
     }
 

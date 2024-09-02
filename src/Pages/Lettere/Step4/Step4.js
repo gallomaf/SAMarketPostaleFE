@@ -181,7 +181,7 @@ export default function Step4() {
                                 className="form-control personalizzato-form"
                                 id="exampleInputQuantity"
                                 onChange={handlePersonalizzatoInput}
-                                placeholder="es. 210x210"
+                                placeholder="es. 21x21 cm"
                                 value={measurement}
                             />
                           </Col>

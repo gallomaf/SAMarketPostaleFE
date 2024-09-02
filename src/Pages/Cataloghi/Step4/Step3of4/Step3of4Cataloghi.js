@@ -13,29 +13,48 @@ import axios from "axios";
 import { API_URL } from "../../../../services/client";
 import { SuccessToast } from "../../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../../Components/Colonne/ColonnaSx";
+import BreadcrumbBt from "../../../../Components/Footer/BreadcrumbBt";
 export default function Step3of4Cataloghi() {
   const now = 60;
-  const [sendItem, setItem] = useState();
 
-  useEffect(() => {
-    setItem(localStorage.getItem("sendoption"));
-  });
+  //variabili da passare tra i vari steps
+  const sendoption    = localStorage.getItem("sendoption");
+
+  const step2Quantity = localStorage.getItem("step2Quantity");
+  const nazione       = localStorage.getItem("nazione");
+
+  const step4Colore     = localStorage.getItem("step4Colore");
+  const step4Tipo     = localStorage.getItem("step4Tipo");
+  const step4Grammatura = localStorage.getItem("step4Grammatura");
+  //fine variabili da passare tra i vari steps
+
+
+  //const [sendItem, setItem] = useState();
+
+  //useEffect(() => {
+  //  setItem(localStorage.getItem("sendoption"));
+  //});
   const navigate = useNavigate();
   const [selectedValue, setSelectedValue] = useState("");
   const [dropselectedValue, setDropSelectedValue] = useState("");
 
-  const [isChecked1, setIsChecked1] = useState(false);
-  const [isChecked2, setIsChecked2] = useState(false);
-  const [isCheckedR1, setIsCheckedR1] = useState(false);
-  const [isCheckedR2, setIsCheckedR2] = useState(false);
-  const [isCheckedG1, setIsCheckedG1] = useState(false);
-  const [isCheckedG2, setIsCheckedG2] = useState(false);
-  const [isCheckedG3, setIsCheckedG3] = useState(false);
+
+  const [isChecked1, setIsChecked1]   = useState(step4Colore === "Bianco/Nero" );
+  const [isChecked2, setIsChecked2]   = useState(step4Colore === "Colore" );
+
+  const [isCheckedR1, setIsCheckedR1] = useState(step4Tipo === "Patina Lucida" );
+  const [isCheckedR2, setIsCheckedR2] = useState(step4Tipo === "Patina Opaca");
+
+  const [isCheckedG1, setIsCheckedG1] = useState(step4Grammatura === "200gr");
+  const [isCheckedG2, setIsCheckedG2] = useState(step4Grammatura === "250gr");
+  const [isCheckedG3, setIsCheckedG3] = useState(step4Grammatura === "300gr");
+
+
 
   const handleChange = (e) => {
     const value = e.target.value;
     setSelectedValue(value);
-    console.log("Value is", value);
+    //console.log("Value is", value);
   };
 
   const [selectedFile, setSelectedFile] = useState(null);
@@ -70,24 +89,51 @@ export default function Step3of4Cataloghi() {
   };
   const DropdownhandleChange = (eventKey) => {
     setDropSelectedValue(eventKey);
-    console.log("Dropdown Selected Value is ", eventKey);
+    //console.log("Dropdown Selected Value is ", eventKey);
   };
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const sendoption = queryParams.get("sendoption");
-  console.log("this is ", sendoption);
+  //const location = useLocation();
+  //const queryParams = new URLSearchParams(location.search);
+  //const sendoption = queryParams.get("sendoption");
+  //console.log("this is ", sendoption);
+
   const handleRoutes = () => {
+
+    const print_quality = isChecked1
+        ? "Bianco/Nero"
+        : isChecked2
+            ? "Colore"
+            : "";
+    const type_of_printing = isCheckedR1
+        ? "Patina Lucida"
+        : isCheckedR2
+            ? "Patina Opaca"
+            : "";
+    const paper_weight = isCheckedG1
+        ? "200gr"
+        : isCheckedG2
+            ? "250gr"
+            : isCheckedG3
+                ? "300gr"
+                : "";
+
+
+    localStorage.setItem("step4Colore",     print_quality);
+    localStorage.setItem("step4Tipo",       type_of_printing);
+    localStorage.setItem("step4Grammatura", paper_weight);
+
+
     if (
-      (isChecked1 || isChecked2) &&
-      (isCheckedR1 || isCheckedR2) &&
-      (isCheckedG1 || isCheckedG2 || isCheckedG3)
-    ) {
-      navigate(`/Cartoline/Step-5?sendoption=${sendoption}`);
+        (isChecked1 || isChecked2) &&
+        (isCheckedR1 || isCheckedR2) &&
+        (isCheckedG1 || isCheckedG2 || isCheckedG3))
+    {
+      navigate(`/Lettere/Step-6`);
     }
   };
   async function nextstep() {
     try {
+      /*
       const userId = localStorage.getItem("_id");
       const PrintQuality = isChecked1
         ? "Bianco/Nero"
@@ -116,12 +162,14 @@ export default function Step3of4Cataloghi() {
         print_quality: PrintQuality,
         envelope_format: dropselectedValue,
       });
+      */
+      let res = {status : 200};
       if (res.status === 200) {
-        console.log("Printing Catalogue ", dropselectedValue);
-        console.log("Measurements", selectedValue);
-        console.log("Printing Quality", PrintQuality);
-        console.log("Printing Type", PrintType);
-        console.log("Paper Weight", PaperWeight);
+        //console.log("Printing Catalogue ", dropselectedValue);
+        //console.log("Measurements", selectedValue);
+        //console.log("Printing Quality", PrintQuality);
+        //console.log("Printing Type", PrintType);
+        //console.log("Paper Weight", PaperWeight);
 
         handleRoutes();
         // SuccessToast("updated");
@@ -130,6 +178,19 @@ export default function Step3of4Cataloghi() {
       console.log(error);
     }
   }
+
+  const breadcrumbArray = [
+    { value: sendoption,          url: "/Step-1" },
+    { value: step2Quantity,       url: "/Step-2" },
+    { value: nazione,             url: "/Step-3" },
+    { value: "Dettaglio",         url: "/Cataloghi/Step-4-2" },
+  ];
+
+  const goBack = () => {
+    navigate('/Cataloghi/Step-4-2');
+  };
+
+
   return (
     <>
       <div className="over-flow-setting">
@@ -195,7 +256,7 @@ export default function Step3of4Cataloghi() {
                       </div>
                       <div
                         // className="form-group pg-quantity"
-                        class={
+                        className={
                           dropselectedValue === "Personalizzato"
                             ? "form-group pg-quantity-personalizzato"
                             : "d-none"
@@ -206,7 +267,7 @@ export default function Step3of4Cataloghi() {
                         </label>
                         <input
                           type="text"
-                          class="form-control personalizzato-form"
+                          className="form-control personalizzato-form"
                           id="exampleInputQuantity"
                           onChange={handleChange}
                           placeholder="es. 21cm x 21cm"
@@ -228,9 +289,9 @@ export default function Step3of4Cataloghi() {
                                   : "Printing-check-border"
                               }
                             >
-                              <div class="form-check">
+                              <div className="form-check">
                                 <input
-                                  class="form-check-input"
+                                  className="form-check-input"
                                   type="radio"
                                   name="flexRadioDefault1"
                                   id="flexRadioDefault1"
@@ -242,12 +303,12 @@ export default function Step3of4Cataloghi() {
                                 />
                                 <div className="label-img ">
                                   <label
-                                    class={
+                                    className={
                                       !isChecked1
                                         ? "form-check-label"
                                         : "form-check-label-selected"
                                     }
-                                    for="flexRadioDefault1"
+                                    htmlFor="flexRadioDefault1"
                                   >
                                     Bianco/Nero
                                   </label>
@@ -266,9 +327,9 @@ export default function Step3of4Cataloghi() {
                                   : "Printing-check-border2"
                               }
                             >
-                              <div class="form-check">
+                              <div className="form-check">
                                 <input
-                                  class="form-check-input"
+                                  className="form-check-input"
                                   type="radio"
                                   name="flexRadioDefault2"
                                   id="flexRadioDefault2"
@@ -280,12 +341,12 @@ export default function Step3of4Cataloghi() {
                                 />
                                 <div className="label-img">
                                   <label
-                                    class={
+                                    className={
                                       !isChecked2
                                         ? "form-check-label"
                                         : "form-check-label-selected"
                                     }
-                                    for="flexRadioDefault2"
+                                    htmlFor="flexRadioDefault2"
                                   >
                                     Colore
                                   </label>
@@ -313,9 +374,9 @@ export default function Step3of4Cataloghi() {
                                   : "Printing-check-border"
                               }
                             >
-                              <div class="form-check">
+                              <div className="form-check">
                                 <input
-                                  class="form-check-input"
+                                  className="form-check-input"
                                   type="radio"
                                   name="flexRadioDefaultR1"
                                   id="flexRadioDefaultR1"
@@ -327,12 +388,12 @@ export default function Step3of4Cataloghi() {
                                 />
                                 <div className="label-img ">
                                   <label
-                                    class={
+                                    className={
                                       !isCheckedR1
                                         ? "form-check-label"
                                         : "form-check-label-selected"
                                     }
-                                    for="flexRadioDefaultR1"
+                                    htmlFor="flexRadioDefaultR1"
                                   >
                                     Patina lucida
                                   </label>
@@ -347,9 +408,9 @@ export default function Step3of4Cataloghi() {
                                   : "Printing-check-border2"
                               }
                             >
-                              <div class="form-check">
+                              <div className="form-check">
                                 <input
-                                  class="form-check-input"
+                                  className="form-check-input"
                                   type="radio"
                                   name="flexRadioDefaultR2"
                                   id="flexRadioDefaultR2"
@@ -361,12 +422,12 @@ export default function Step3of4Cataloghi() {
                                 />
                                 <div className="label-img">
                                   <label
-                                    class={
+                                    className={
                                       !isCheckedR2
                                         ? "form-check-label"
                                         : "form-check-label-selected"
                                     }
-                                    for="flexRadioDefaultR2"
+                                    htmlFor="flexRadioDefaultR2"
                                   >
                                     Patinata opaca
                                   </label>
@@ -393,9 +454,9 @@ export default function Step3of4Cataloghi() {
                                   : "Printing-check-border"
                               }
                             >
-                              <div class="form-check">
+                              <div className="form-check">
                                 <input
-                                  class="form-check-input"
+                                  className="form-check-input"
                                   type="radio"
                                   name="flexRadioDefaultG1"
                                   id="flexRadioDefaultG1"
@@ -408,12 +469,12 @@ export default function Step3of4Cataloghi() {
                                 />
                                 <div className="label-img ">
                                   <label
-                                    class={
+                                    className={
                                       !isCheckedG1
                                         ? "form-check-label"
                                         : "form-check-label-selected"
                                     }
-                                    for="flexRadioDefaultG1"
+                                    htmlFor="flexRadioDefaultG1"
                                   >
                                     200g
                                   </label>
@@ -428,9 +489,9 @@ export default function Step3of4Cataloghi() {
                                   : "Printing-check-border2"
                               }
                             >
-                              <div class="form-check">
+                              <div className="form-check">
                                 <input
-                                  class="form-check-input"
+                                  className="form-check-input"
                                   type="radio"
                                   name="flexRadioDefaultG2"
                                   id="flexRadioDefaultG2"
@@ -443,12 +504,12 @@ export default function Step3of4Cataloghi() {
                                 />
                                 <div className="label-img">
                                   <label
-                                    class={
+                                    className={
                                       !isCheckedG2
                                         ? "form-check-label"
                                         : "form-check-label-selected"
                                     }
-                                    for="flexRadioDefaultG2"
+                                    htmlFor="flexRadioDefaultG2"
                                   >
                                     250gr
                                   </label>
@@ -462,9 +523,9 @@ export default function Step3of4Cataloghi() {
                                   : "Printing-check-border2"
                               }
                             >
-                              <div class="form-check">
+                              <div className="form-check">
                                 <input
-                                  class="form-check-input"
+                                  className="form-check-input"
                                   type="radio"
                                   name="flexRadioDefaultG3"
                                   id="flexRadioDefaultG3"
@@ -477,12 +538,12 @@ export default function Step3of4Cataloghi() {
                                 />
                                 <div className="label-img">
                                   <label
-                                    class={
+                                    className={
                                       !isCheckedG3
                                         ? "form-check-label"
                                         : "form-check-label-selected"
                                     }
-                                    for="flexRadioDefaultG3"
+                                    htmlFor="flexRadioDefaultG3"
                                   >
                                     300gr
                                   </label>
@@ -609,9 +670,9 @@ export default function Step3of4Cataloghi() {
                                 : "Printing-check-border"
                             }
                           >
-                            <div class="form-check">
+                            <div className="form-check">
                               <input
-                                class="form-check-input"
+                                className="form-check-input"
                                 type="radio"
                                 name="flexRadioDefaultT1"
                                 id="flexRadioDefaultT1"
@@ -623,12 +684,12 @@ export default function Step3of4Cataloghi() {
                               />
                               <div className="label-img ">
                                 <label
-                                  class={
+                                  className={
                                     !isCheckedT1
                                       ? "form-check-label"
                                       : "form-check-label-selected"
                                   }
-                                  for="flexRadioDefaultT1"
+                                  htmlFor="flexRadioDefaultT1"
                                 >
                                   Patina lucida
                                 </label>
@@ -643,9 +704,9 @@ export default function Step3of4Cataloghi() {
                                 : "Printing-check-border2"
                             }
                           >
-                            <div class="form-check">
+                            <div className="form-check">
                               <input
-                                class="form-check-input"
+                                className="form-check-input"
                                 type="radio"
                                 name="flexRadioDefaultT2"
                                 id="flexRadioDefaultT2"
@@ -657,12 +718,12 @@ export default function Step3of4Cataloghi() {
                               />
                               <div className="label-img">
                                 <label
-                                  class={
+                                  className={
                                     !isCheckedT2
                                       ? "form-check-label"
                                       : "form-check-label-selected"
                                   }
-                                  for="flexRadioDefaultT2"
+                                  htmlFor="flexRadioDefaultT2"
                                 >
                                   Patinata opaca
                                 </label>
@@ -743,10 +804,10 @@ export default function Step3of4Cataloghi() {
                             <input
                               type="file"
                               id="file-input"
-                              class="hidden"
+                              className="hidden"
                               onChange={handleFileChange}
                             />
-                            <label id="fileinputlabel" for="file-input">
+                            <label id="fileinputlabel" htmlFor="file-input">
                               Seleziona file
                             </label>
                           </div>
@@ -795,12 +856,10 @@ export default function Step3of4Cataloghi() {
                 </div>
                 <div className="btn-rhs-row-mb">
                   <div>
-                    <button className="btn-r1" onClick={() => navigate(-1)}>
-                      Indietro
-                    </button>
+                    <button className="btn-r1" onClick={goBack}>Indietro</button>
                   </div>
                   <div className="btn2-div">
-                    <button
+                  <button
                       className={
                         (isChecked1 || isChecked2) &&
                         (isCheckedR1 || isCheckedR2) &&
@@ -817,12 +876,10 @@ export default function Step3of4Cataloghi() {
               </div>
               <div className="btn-rhs-row w-100">
                 <div>
-                  <button className="btn-r1" onClick={() => navigate(-1)}>
-                    Indietro
-                  </button>
+                  <button className="btn-r1" onClick={goBack}>Indietro</button>
                 </div>
                 <div className="btn2-div w-100">
-                  <button
+                <button
                     className={
                       (isChecked1 || isChecked2) &&
                       (isCheckedR1 || isCheckedR2) &&
@@ -836,45 +893,7 @@ export default function Step3of4Cataloghi() {
                   </button>
                 </div>
               </div>
-              <div className="btm-rhs">
-                <div>
-                  <p className="quotation-req">
-                    Richiesta Preventivo &gt;{" "}
-                    <span
-                      onClick={() => {
-                        navigate(`/?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Cosa devi spedire?{" "}
-                    </span>{" "}
-                    &gt;
-                    <span
-                      onClick={() => {
-                        navigate(`/Step-2?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Q.tà
-                    </span>{" "}
-                    &gt;
-                    <span
-                      onClick={() => {
-                        navigate(`/Step-3?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Nazione Destinatari
-                    </span>{" "}
-                    &gt;
-                    <span className="selected-span"> Dettaglio </span>
-                  </p>
-                </div>
-                <div className="step1-progress">
-                  <ProgressBar now={now} />
-                  <p className="percentage-txt">{now}%</p>
-                </div>
-              </div>
+              <BreadcrumbBt breadcrumbArray={breadcrumbArray}  now={now} />
             </Col>
           </Row>
         </div>

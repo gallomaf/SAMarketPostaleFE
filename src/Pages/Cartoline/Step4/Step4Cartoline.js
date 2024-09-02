@@ -12,26 +12,46 @@ import axios from "axios";
 import { API_URL } from "../../../services/client";
 import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
+import BreadcrumbBt from "../../../Components/Footer/BreadcrumbBt";
 
 export default function Step4Cartoline() {
 
   const now = 60;
 
+  //variabili da passare tra i vari steps
+  const sendoption    = localStorage.getItem("sendoption");
+
   const step2Quantity = localStorage.getItem("step2Quantity");
   const nazione       = localStorage.getItem("nazione");
 
-  const sendoption    = localStorage.getItem("sendoption");
+  const step4Busta    = localStorage.getItem("step4Busta");
+  const step4Misure   = localStorage.getItem("step4Misure");
+  const step4Stampa   = localStorage.getItem("step4Stampa");
+  //fine variabili da passare tra i vari steps
 
 
-  const [selectedValue, setSelectedValue] = useState("");
-  const [dropselectedValue, setDropSelectedValue] = useState("");
-  const [measurement, setmeasurementValue] = useState("");
-  const [isChecked, setIsChecked] = useState(false);
-  const [isChecked2, setIsChecked2] = useState(false);
+  const [selectedValue, setSelectedValue] = useState(step4Busta);
+  //const [dropselectedValue, setDropSelectedValue] = useState("");
 
-  const [sendItem, setItem] = useState();
+  const [measurement, setmeasurementValue]  = useState(step4Misure  ? step4Misure : "");
+  const [isChecked, setIsChecked]         = useState(step4Stampa == 'cliente' ? true: false);
+  const [isChecked2, setIsChecked2]       = useState(step4Stampa == 'sa' ? true : false);
+
+
+ // const [sendItem, setItem] = useState();
   const navigate = useNavigate();
 
+  //nuova versione buste
+  const [formatoBuste, setFormatoBuste] = useState(step4Busta);
+
+  //array composto da: elenco buste e per ogni busta la tipologia di fogli associata
+  const cartoline        = JSON.parse(localStorage.getItem('cartoline'));//recupero con JSON perchè è un array
+
+  const handleFormatoBuste = (cardno) => {
+    setFormatoBuste((prevState) => (prevState === cardno ? null : cardno));
+  };
+
+  //fine nuova versione buste
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -45,24 +65,38 @@ export default function Step4Cartoline() {
     console.log("Measurement Value is", value);
   };
 
-  const DropdownhandleChange = (eventKey) => {
-    setDropSelectedValue(eventKey);
-    console.log("Dropdown Selected Value is ", eventKey);
-  };
+  //const DropdownhandleChange = (eventKey) => {
+  //  setDropSelectedValue(eventKey);
+  //  console.log("Dropdown Selected Value is ", eventKey);
+  //};
   //const location = useLocation();
   //const queryParams = new URLSearchParams(location.search);
   //const sendoption = queryParams.get("sendoption");
   
   const handleRoutes = () => {
+
+    localStorage.setItem("step4Busta",  formatoBuste);
+    localStorage.setItem("step4Misure", measurement);
+    let cartolinax = cartoline[formatoBuste-1].name;
+    localStorage.setItem("cartolina", cartolinax);
+
     if (isChecked) {
-      navigate(`/Cartoline/Step-5`);
+      navigate(`/Lettere/Step-6`);
+      localStorage.setItem("step4Stampa",   "cliente");
     } else if (isChecked2) {
+      localStorage.setItem("step4Stampa",   "sa");
       navigate(`/Cartoline/Step-4-2`);
     }
+
+  };
+
+  const goBack = () => {
+    navigate('/Step-3');
   };
 
   async function nextstep() {
     try {
+      /*
       const userId = localStorage.getItem("_id");
       const EnvelopePrintingOption = isChecked
         ? "Stampate dal Cliente"
@@ -78,11 +112,15 @@ export default function Step4Cartoline() {
           envelope_printing: EnvelopePrintingOption,
         }
       );
+
+       */
+
+      let res = {'status' : 200};
       if (res.status === 200) {
-        console.log("Sending Option ", sendoption)
-        console.log("Envelope Printing Option is", EnvelopePrintingOption);
-        console.log("Page Format is ", dropselectedValue);
-        console.log("Measurement Value is", measurement);
+        //console.log("Sending Option ", sendoption)
+        //console.log("Envelope Printing Option is", EnvelopePrintingOption);
+        //console.log("Page Format is ", dropselectedValue);
+        //console.log("Measurement Value is", measurement);
         handleRoutes();
         // SuccessToast("updated");
       }
@@ -91,11 +129,13 @@ export default function Step4Cartoline() {
     }
   }
 
+
+
   const breadcrumbArray = [
     { value: sendoption,          url: "/Step-1" },
     { value: step2Quantity,       url: "/Step-2" },
     { value: nazione,             url: "/Step-3" },
-    { value: "Dettaglio Buste",   url: "/Cartoline/Step-4" },
+    { value: "Dettaglio",         url: "/Cartoline/Step-4" },
   ];
 
   return (
@@ -132,7 +172,7 @@ export default function Step4Cartoline() {
                     <form className="form-envelope-main">
                       <div
                         className={
-                          dropselectedValue === "Personalizzato"
+                          selectedValue === "Personalizzato"
                             ? "page-format-contain"
                             : ""
                         }
@@ -142,48 +182,39 @@ export default function Step4Cartoline() {
                             Formato Cartolina
                           </label>
 
-                          <Dropdown onSelect={DropdownhandleChange}>
-                            <Dropdown.Toggle
-                              id="dropdown-basic"
-                              className={
-                                dropselectedValue === ""
-                                  ? "custom-drop "
-                                  : "custom-drop custom-drop-border"
-                              }
-                            >
-                               {dropselectedValue === ""
-                                ? "Seleziona"
-                                : dropselectedValue}
-                            </Dropdown.Toggle>
+                          <div className="rhs-card-btn-body">
+                            <div className="cards-rhs-row pb-4">
+                              {cartoline.map((busta) => (
+                                  <Col key={busta.id} onClick={() => handleFormatoBuste(busta.id)}
+                                       className="cards-col">
+                                    <div className={formatoBuste == busta.id ? "card-active" : "card"}>
+                                      <img src={formatoBuste == busta.id ? busta.image : busta.imageInattiva}
+                                           alt={busta.name} className="card-img"/>
+                                    </div>
+                                    <p className="option-txt">{busta.name}</p>
+                                  </Col>
+                              ))}
+                            </div>
+                          </div>
 
-                            <Dropdown.Menu>
-                              {/* <Dropdown.Item eventKey="Seleziona">
-                              Seleziona
-                            </Dropdown.Item> */}
-                              <Dropdown.Item eventKey="Personalizzato">
-                                Personalizzato
-                              </Dropdown.Item>
-                              <Dropdown.Item eventKey="A4">A4</Dropdown.Item>
-                              <Dropdown.Item eventKey="A6">A6</Dropdown.Item>
-                            </Dropdown.Menu>
-                          </Dropdown>
                         </div>
                         <div
-                          className={
-                            dropselectedValue === "Personalizzato"
-                              ? "form-group pg-quantity"
-                              : "d-none"
-                          }
+                            className={
+                              formatoBuste == 6
+                                  ? "form-group pg-quantity"
+                                  : "d-none"
+                            }
                         >
                           <label className="envelope-label">
                             Inserisci misure
                           </label>
                           <input
-                            type="text"
-                            className="form-control personalizzato-form"
-                            id="exampleInputQuantity"
-                            onChange={handlePersonalizzatoInput}
-                            placeholder="es. 21cm x 21cm"
+                              type="text"
+                              className="form-control personalizzato-form"
+                              id="exampleInputQuantity"
+                              onChange={handlePersonalizzatoInput}
+                              placeholder="es. 21cm x 21cm"
+                              value={measurement}
                           />
                         </div>
                       </div>
@@ -264,19 +295,17 @@ export default function Step4Cartoline() {
               </div>
               <div className="btn-rhs-row-mb">
                 <div>
-                  <button className="btn-r1" onClick={() => navigate(-1)}>
-                    Indietro
-                  </button>
+                  <button className="btn-r1" onClick={goBack}>Indietro</button>
                 </div>
                 <div className="btn2-div">
-                  <button
+                <button
                     className={
-                   dropselectedValue && (isChecked || isChecked2)
+                      formatoBuste && (isChecked || isChecked2)
                         ? "btn-r2-active"
                         : "btn-r2"
                     }
                     onClick={nextstep}
-                    disabled={dropselectedValue && (isChecked || isChecked2) ? false : true}
+                    disabled={formatoBuste && (isChecked || isChecked2) ? false : true}
                   >
                     Avanti
                   </button>
@@ -284,63 +313,25 @@ export default function Step4Cartoline() {
               </div>
               <div className="btn-rhs-row w-100">
                 <div>
-                  <button className="btn-r1" onClick={() => navigate(-1)}>
-                    Indietro
-                  </button>
+                  <button className="btn-r1" onClick={goBack}>Indietro</button>
                 </div>
                 <div className="btn2-div w-100">
-                  <button
+                <button
                     className={
-                    dropselectedValue && (isChecked || isChecked2)
+                      formatoBuste && (isChecked || isChecked2)
                         ? "btn-r2-active"
                         : "btn-r2"
                     }
                     onClick={nextstep}
-                    disabled={dropselectedValue && (isChecked || isChecked2) ? false : true}
+                    disabled={formatoBuste && (isChecked || isChecked2) ? false : true}
                   >
                     Avanti
                   </button>
                 </div>
               </div>
-              <div className="btm-rhs">
-                <div>
-                  <p className="quotation-req">
-                    Richiesta Preventivo &gt;{" "}
-                    <span
-                      onClick={() => {
-                        navigate(`/?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Cosa devi spedire?{" "}
-                    </span>{" "}
-                    &gt;
-                    <span
-                      onClick={() => {
-                        navigate(`/Step-2?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Q.tà
-                    </span>{" "}
-                    &gt;
-                    <span
-                      onClick={() => {
-                        navigate(`/Step-3?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Nazione Destinatari
-                    </span>{" "}
-                    &gt;
-                    <span className="selected-span"> Dettaglio </span>
-                  </p>
-                </div>
-                <div className="step1-progress">
-                  <ProgressBar now={now} />
-                  <p className="percentage-txt">{now}%</p>
-                </div>
-              </div>
+
+              <BreadcrumbBt breadcrumbArray={breadcrumbArray}  now={now} />
+
             </Col>
           </Row>
         </div>

@@ -74,6 +74,37 @@ p {
   text-decoration-line: underline;
 }
 
+.cards-col {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.c-card {
+  height: 189.469px;
+  width: 189.469px;
+  border-radius: 22.736px;
+  padding: 50px 49.469px 49.469px 50px ;
+  background: #f5f5f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.c-card-active {
+  height: 189.469px;
+  width: 189.469px;
+  border-radius: 22.736px;
+  background: #f5f5f7;
+  display: flex;
+  padding: 50px 49.469px 49.469px 50px ;
+  justify-content: center;
+  align-items: center;
+  border: 1.895px solid #afca0b;
+  cursor: pointer;
+}
+
 .col-rhs {
   background: #fff;
   padding-left: 0px;

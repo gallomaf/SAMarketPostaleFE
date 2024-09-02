@@ -25,20 +25,18 @@ export default function Step4Continue() {
   const nazione       = localStorage.getItem("nazione");
   const busta         = localStorage.getItem("busta");
 
-  const step4Busta    = localStorage.getItem("step4Busta");
-  const step4Stampa   = localStorage.getItem("step4Stampa");
-  const step4Misure   = localStorage.getItem("step4Misure");
-
-  const step4Colore   = localStorage.getItem("step4Colore");
+  const step4Colore     = localStorage.getItem("step4Colore");
+  const step4Tipo       = localStorage.getItem("step4Tipo");
+  const step4Grammatura = localStorage.getItem("step4Grammatura");
   //fine variabili da passare tra i vari steps
 
   const navigate    = useNavigate();
-  const [sendItem,setItem]=useState();
+  //const [sendItem,setItem]=useState();
 
-  useEffect(() => {
+  //useEffect(() => {
     //setItem(localStorage.getItem("sendoption"));
     //console.log("step4Colore is " + step4Colore);
-   },[]);
+   //},[]);
 
   const [selectedValue, setSelectedValue] = useState("");
   const [isChecked1, setIsChecked1]     = useState(step4Colore == "Bianco/Nero" ? true: false);

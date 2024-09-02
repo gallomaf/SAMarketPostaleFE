@@ -23,6 +23,8 @@ export default function Step6() {
   const step2Quantity = localStorage.getItem("step2Quantity");
   const busta         = localStorage.getItem("busta");
 
+  const step4Stampa          = localStorage.getItem("step4Stampa");
+
   const step5Pagine          = localStorage.getItem("step5Pagine");
   const step5InternoColore   = localStorage.getItem("step5InternoColore");
   const step5InternoStampa   = localStorage.getItem("step5InternoStampa");
@@ -77,7 +79,18 @@ export default function Step6() {
     let opzione = sendoption;
 
     //dallo step 6 posso tornare allo step 5-3, oppure 5-2 oppure 5
+    //if(opzione === 'Lettere'){
     let step = step5Pagine == 2  ? "Step-5" : step52Stampa == 'sa' ? "Step-5-3" : "Step-5-2";
+    if(opzione ==='Cartoline'){
+      step = step4Stampa == "cliente"  ? "Step-4" :  "Step-4-2";
+    }
+    else if(opzione ==='Cataloghi'){
+      step = step4Stampa == "cliente"  ? "Step-4" :  "Step-4-3";
+    }
+    else if(opzione ==='Gadget'){
+      step = step4Stampa == "cliente"  ? "Step-4" :  "Step-4-2";
+    }
+
 
     if(opzione !== null){
       opzione = opzione.charAt(0).toUpperCase() + opzione.slice(1);

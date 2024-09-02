@@ -12,28 +12,58 @@ import axios from "axios";
 import { API_URL } from "../../../../services/client";
 import { SuccessToast } from "../../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../../Components/Colonne/ColonnaSx";
+import BreadcrumbBt from "../../../../Components/Footer/BreadcrumbBt";
 export default function Step2of4Cataloghi() {
   const navigate = useNavigate();
   const now = 60;
 
-  const [sendItem, setItem] = useState();
+    //variabili da passare tra i vari steps
+    const sendoption    = localStorage.getItem("sendoption");
+
+    const step2Quantity = localStorage.getItem("step2Quantity");
+    const nazione       = localStorage.getItem("nazione");
+
+    const step4Colore   = localStorage.getItem("step4Colore");
+
+    const step4Busta    = localStorage.getItem("step4Busta");
+    const step4Misure   = localStorage.getItem("step4Misure");
+    const step4Stampa   = localStorage.getItem("step4Stampa");
+    const step4peso     = localStorage.getItem("step4peso");
+    //fine variabili da passare tra i vari steps
+
+  //const [sendItem, setItem] = useState();
   
-  useEffect(() => {
-    setItem(localStorage.getItem("sendoption"));
-  });
-  const [isChecked1, setIsChecked1] = useState(false);
-  const [isChecked2, setIsChecked2] = useState(false);
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const sendoption = queryParams.get("sendoption");
-  console.log("this is ", sendoption);
-  const handleRoutes = () => {
-    if (isChecked1 || isChecked2) {
-      navigate(`/Cataloghi/Step-4-3?sendoption=${sendoption}`);
-    } 
-  };
+  //useEffect(() => {
+  //  setItem(localStorage.getItem("sendoption"));
+ // });
+
+  //const [isChecked1, setIsChecked1] = useState(false);
+  //const [isChecked2, setIsChecked2] = useState(false);
+
+    const [isChecked1, setIsChecked1]     = useState(step4Colore == "Bianco/Nero" ? true: false);
+    const [isChecked2, setIsChecked2]     = useState(step4Colore == "Colore" ? true: false);
+
+  //const location = useLocation();
+  //const queryParams = new URLSearchParams(location.search);
+  //const sendoption = queryParams.get("sendoption");
+  //console.log("this is ", sendoption);
+    const handleRoutes = () => {
+
+        if (isChecked1){
+            localStorage.setItem("step4Colore",   "Bianco/Nero");
+        }
+        if (isChecked2){
+            localStorage.setItem("step4Colore",   "Colore");
+        }
+
+
+        if (isChecked1 || isChecked2) {
+            navigate(`/Cataloghi/Step-4-3`);
+        }
+    };
   async function nextstep() {
     try {
+        /*
       const userId = localStorage.getItem("_id");
       const LogoPrintQuality= isChecked1
         ? "Bianco/Nero"
@@ -47,17 +77,30 @@ export default function Step2of4Cataloghi() {
           Print_quality_sender_logo:LogoPrintQuality,
         }
       );
-      if (res.status === 200) {
-        console.log("Sending Option ", sendoption)
-        console.log("Sender Logo Print Quality is", LogoPrintQuality);
-       
-        handleRoutes();
-        // SuccessToast("updated");
-      }
+      */
+
+        let res = {status:200};
+        if (res.status === 200) {
+            //console.log("Sending Option ", sendoption)
+            //console.log("Sender Logo Print Quality is", LogoPrintQuality);
+            handleRoutes();
+            // SuccessToast("updated");
+        }
     } catch (error) {
       console.log(error);
     }
   }
+
+    const breadcrumbArray = [
+        { value: sendoption,          url: "/Step-1" },
+        { value: step2Quantity,       url: "/Step-2" },
+        { value: nazione,             url: "/Step-3" },
+        { value: "Dettaglio",         url: "/Cataloghi/Step-4" },
+    ];
+
+    const goBack = () => {
+        navigate('/Cataloghi/Step-4');
+    };
 
   return (
     <>
@@ -97,9 +140,9 @@ export default function Step2of4Cataloghi() {
                               : "Printing-check-border"
                           }
                         >
-                          <div class="form-check">
+                          <div className="form-check">
                             <input
-                              class="form-check-input"
+                              className="form-check-input"
                               type="radio"
                               name="flexRadioDefault"
                               id="flexRadioDefault1"
@@ -111,8 +154,8 @@ export default function Step2of4Cataloghi() {
                             />
                             <div className="label-img ">
                               <label
-                                class="form-check-label "
-                                for="flexRadioDefault1"
+                                className="form-check-label "
+                                htmlFor="flexRadioDefault1"
                               >
                                 Bianco/Nero
                               </label>
@@ -131,9 +174,9 @@ export default function Step2of4Cataloghi() {
                               : "Printing-check-border2"
                           }
                         >
-                          <div class="form-check">
+                          <div className="form-check">
                             <input
-                              class="form-check-input"
+                              className="form-check-input"
                               type="radio"
                               name="flexRadioDefault"
                               id="flexRadioDefault2"
@@ -145,8 +188,8 @@ export default function Step2of4Cataloghi() {
                             />
                             <div className="label-img">
                               <label
-                                class="form-check-label"
-                                for="flexRadioDefault2"
+                                className="form-check-label"
+                                htmlFor="flexRadioDefault2"
                               >
                                 Colore
                               </label>
@@ -182,10 +225,10 @@ export default function Step2of4Cataloghi() {
                 <img src="/Images/Step1/envelope-mb.svg" alt="Envelope" />
               </div> */}
               <div className="btn-rhs-row-mb">
-                <div>
-                  <button className="btn-r1"  onClick={()=>(navigate(-1))}>Indietro</button>
-                </div>
-                <div className="btn2-div">
+                  <div>
+                      <button className="btn-r1" onClick={goBack}>Indietro</button>
+                  </div>
+                  <div className="btn2-div">
                   <button
                     className={
                       isChecked1 || isChecked2 ? "btn-r2-active" : "btn-r2"
@@ -199,11 +242,11 @@ export default function Step2of4Cataloghi() {
               </div>
             </div>
             <div className="btn-rhs-row w-100">
-                    <div>
-                      <button className="btn-r1"  onClick={()=>(navigate(-1))}>Indietro</button>
-                    </div>
-                    <div className="btn2-div w-100">
-                      <button
+                <div>
+                    <button className="btn-r1" onClick={goBack}>Indietro</button>
+                </div>
+                <div className="btn2-div w-100">
+                <button
                         className={
                           isChecked1 || isChecked2 ? "btn-r2-active" : "btn-r2"
                         }
@@ -213,46 +256,7 @@ export default function Step2of4Cataloghi() {
                       </button>
                     </div>
                   </div>
-
-            <div className="btm-rhs">
-              <div>
-              <p className="quotation-req">
-                    Richiesta Preventivo &gt;{" "}
-                    <span
-                      onClick={() => {
-                        navigate(`/?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Cosa devi spedire?{" "}
-                    </span>{" "}
-                    &gt;
-                    <span
-                      onClick={() => {
-                        navigate(`/Step-2?sendoption=${sendItem}`);
-                      }}
-                    >
-                      {" "}
-                      Q.tà
-                    </span>{" "}
-                    &gt;
-                    <span
-                     onClick={() => {
-                      navigate(`/Step-3?sendoption=${sendItem}`);
-                    }}
-                    >
-                      {" "}
-                      Nazione Destinatari
-                    </span>{" "}
-                    &gt;
-                    <span className="selected-span"> Dettaglio </span>
-                  </p>
-              </div>
-              <div className="step1-progress">
-                <ProgressBar now={now} />
-                <p className="percentage-txt">{now}%</p>
-              </div>
-            </div>
+              <BreadcrumbBt breadcrumbArray={breadcrumbArray}  now={now} />
           </Col>
         </Row>
       </div>

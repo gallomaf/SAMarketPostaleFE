@@ -29,6 +29,7 @@ p {
 #file-input {
   display: none;
 }
+
 #fileinputlabel {
   color: #afca0b;
   text-align: center;
@@ -44,6 +45,7 @@ p {
   align-items: center;
   cursor: pointer;
 }
+
 .dot-preview {
   display: flex;
   align-items: center;
@@ -326,6 +328,7 @@ p {
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  cursor: pointer;
 }
 .form-check-input:checked[type="radio"]:focus {
   box-shadow: none !important;
@@ -337,6 +340,7 @@ p {
 .Printing-check1,
 .Printing-check2 {
   padding: 20px;
+  cursor: pointer;
 }
 
 .form-select:focus {
