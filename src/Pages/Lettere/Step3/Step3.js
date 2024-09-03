@@ -56,20 +56,20 @@ export default function Step3() {
     { id: 1,
       name: "Busta C6 (220X110mm)",
       description: "Busta C6 (220X110mm)",
-      image: "/Images/Buste/spunta.svg",
-      imageInattiva: "/Images/Buste/BUSTA_C6.svg",
+      image: "/Images/Buste/busta-c6-bk.jpg",
+      imageInattiva: "/Images/Buste/busta-c6-bk.jpg",
       fogli: [
         { id: 0, name: "Foglio A6", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
         { id: 1, name: "Foglio A5", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
         { id: 2, name: "Foglio A4", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
-        { id: 99, name: "Personalizzato", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" }
+        //{ id: 99, name: "Personalizzato", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" }
       ]
     },
     { id: 2,
       name: "Busta C5 (230X162mm)",
       description: "Busta C5 (230X162mm)",
-      image: "/Images/Buste/spunta.svg",
-      imageInattiva: "/Images/Buste/BUSTA_C6.svg",
+      image: "/Images/Buste/busta-c5-bk.jpg",
+      imageInattiva: "/Images/Buste/busta-c5-bk.jpg",
       fogli: [
         { id: 0, name: "Foglio A5", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
         { id: 1, name: "Foglio A4", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
@@ -79,8 +79,8 @@ export default function Step3() {
     { id: 3,
       name: "Busta DL (220X110mm)",
       description: "Busta DL (220X110mm)",
-      image: "/Images/Buste/spunta.svg",
-      imageInattiva: "/Images/Buste/BUSTA_C6.svg",
+      image: "/Images/Buste/busta-DL-bk.jpg",
+      imageInattiva: "/Images/Buste/busta-DL-bk.jpg",
       fogli: [
         { id: 0, name: "Invito/Flyer", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
         { id: 1, name: "Flyer Doppio", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
@@ -91,8 +91,8 @@ export default function Step3() {
     { id: 4,
       name: "Busta C4 (324X229mm)",
       description: "Busta C4 (324X229mm)",
-      image: "/Images/Buste/spunta.svg",
-      imageInattiva: "/Images/Buste/BUSTA_C6.svg",
+      image: "/Images/Buste/busta-c4-bk.jpg",
+      imageInattiva: "/Images/Buste/busta-c4-bk.jpg",
       fogli: [
         { id: 0, name: "Foglio A4", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
         { id: 1, name: "Foglio A3", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
@@ -102,8 +102,8 @@ export default function Step3() {
     { id: 5,
       name: "Busta C3 (297X420mm)",
       description: "Busta C3 (297X420mm)",
-      image: "/Images/Buste/spunta.svg",
-      imageInattiva: "/Images/Buste/BUSTA_C6.svg",
+      image: "/Images/Buste/busta-c3-bk.jpg",
+      imageInattiva: "/Images/Buste/busta-c3-bk.jpg",
       fogli: [
         { id: 0, name: "Foglio A3", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
         { id: 99, name: "Personalizzato", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" }
@@ -112,8 +112,8 @@ export default function Step3() {
     { id: 6,
       name: "Personalizzato",
       description: "Scegli il tuo formato",
-      image: "/Images/Buste/spunta.svg",
-      imageInattiva: "/Images/Buste/BUSTA_C6.svg" ,
+      image: "/Images/Buste/busta-c4-bk.jpg",
+      imageInattiva: "/Images/Buste/busta-c4-bk.jpg" ,
       fogli: [
         { id: 0, name: "Personalizzato", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
       ]
@@ -237,7 +237,7 @@ export default function Step3() {
   };
 
   const goBack = () => {
-    navigate('/Step-2');
+    navigate('/Step-1');
   };
 
   async function nextstep() {

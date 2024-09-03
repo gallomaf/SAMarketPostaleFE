@@ -17,6 +17,7 @@ export default function Step1() {
   const now = 15;
 
   const stepClick = localStorage.getItem("step1Click");
+  const quantity    = localStorage.getItem("step2Quantity");
 
   const navigate = useNavigate();
 
@@ -32,6 +33,13 @@ export default function Step1() {
   const GadgetInactive    = "/Images/Step1/Gadget.svg";
 
 
+  const [inputValue, setInputValue] = useState(quantity === null ? "": quantity);
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setInputValue(value);
+  };
+
   const handleClick = (cardnum) => {
     // setStep1Click((prevState) => !prevState);
     setStep1Click((prevState) => (prevState === cardnum ? null : cardnum));
@@ -39,6 +47,7 @@ export default function Step1() {
 
   const handleRoutes = () => {
     localStorage.setItem("step1Click", step1Click);
+    localStorage.setItem("step2Quantity", inputValue);
     if (step1Click === 1) {
       localStorage.setItem("sendoption", "Lettere");
     } else if (step1Click === 2) {
@@ -68,8 +77,8 @@ export default function Step1() {
         handleRoutes();
         // SuccessToast("updated");
         //navigate(`/Step-2?sendoption=${sendoption}`);
-        console.log("step1Click is", step1Click);
-        navigate('/Step-2');
+        //console.log("step1Click is", step1Click);
+        navigate('/Step-3');
       }
     } catch (error) {
       console.log(error);
@@ -104,48 +113,91 @@ export default function Step1() {
                   <div className="cards-rhs-row pb-4">
 
                     <Col onClick={() => handleClick(1)} className="cards-col">
-                      <div className={step1Click === 1 || step1Click === "1"  ? "card1-active" : "card1"} >
-                        <img src={step1Click === 1  || step1Click === "1"  ? LetterActive : LetterInactive} alt="Lettere" className="card1-img"/>
+                      <div className={step1Click === 1 || step1Click === "1" ? "card1-active" : "card1"}>
+                        <img src={step1Click === 1 || step1Click === "1" ? LetterActive : LetterInactive} alt="Lettere"
+                             className="card1-img"/>
                       </div>
                       <p className="option-txt">Lettere</p>
                     </Col>
 
                     <Col onClick={() => handleClick(2)} className="cards-col">
-                      <div className={step1Click === 2  || step1Click === "2" ? "card1-active" : "card1"}>
-                        <img src={ step1Click === 2  || step1Click === "2" ? CartolineActive : CartolineInactive } alt="Cartoline" className="card2-img"  />
+                      <div className={step1Click === 2 || step1Click === "2" ? "card1-active" : "card1"}>
+                        <img src={step1Click === 2 || step1Click === "2" ? CartolineActive : CartolineInactive}
+                             alt="Cartoline" className="card2-img"/>
                       </div>
                       <p className="option-txt">Cartoline</p>
                     </Col>
 
                     <Col onClick={() => handleClick(3)} className="cards-col ">
-                      <div className={step1Click === 3  || step1Click === "3" ? "card1-active" : "card1"}>
-                        <img src={  step1Click === 3   || step1Click === "3" ? CataloghiActive  : CataloghiInactive} alt="Cataloghi" className="card3-img"/>
+                      <div className={step1Click === 3 || step1Click === "3" ? "card1-active" : "card1"}>
+                        <img src={step1Click === 3 || step1Click === "3" ? CataloghiActive : CataloghiInactive}
+                             alt="Cataloghi" className="card3-img"/>
                       </div>
                       <p className="option-txt">Cataloghi</p>
                     </Col>
 
-                    <Col onClick={() => handleClick(4)} className="cards-col"  >
-                      <div className={step1Click === 4  || step1Click === "4"  ? "card1-active" : "card1"}>
-                        <img src={step1Click === 4  || step1Click === "4"  ? GadgetActive : GadgetInactive} alt="Gadget"  className="card4-img"/>
+                    <Col onClick={() => handleClick(4)} className="cards-col">
+                      <div className={step1Click === 4 || step1Click === "4" ? "card1-active" : "card1"}>
+                        <img src={step1Click === 4 || step1Click === "4" ? GadgetActive : GadgetInactive} alt="Gadget"
+                             className="card4-img"/>
                       </div>
                       <p className="option-txt">Gadget</p>
                     </Col>
 
                   </div>
                 </div>
+
+                {/* inizio step2 */}
+                <div>
+                  <p className="step2-txt">
+                    <span className="step2-txt-sp1"> Q.tà da spedire </span>
+                    <span className="step2-txt-sp2"> (min 100 pezzi) </span>
+                  </p>
+                  <p className="rhs-st2-des">
+                    Inserisci il numero totale di unità che desideri spedire. È
+                    richiesto un minimo di 100 pezzi per<br></br> procedere con
+                    la richiesta.
+                  </p>
+                </div>
+                <div className="rhs-input-btn-body">
+                  <div>
+                    <form className="form-ship">
+                      <div className="form-group">
+                        <input
+                            type="number"
+                            className="form-control ship-quantity-form ship-width"
+                            id="exampleInputQuantity"
+                            onChange={handleChange}
+                            placeholder="es. 100 pezzi"
+                            value={inputValue}
+                        />
+                      </div>
+                    </form>
+                    {inputValue < 100 && (
+                        <p className="alert-input">
+                          La quantità minima è 100 pezzi
+                        </p>
+                    )}
+                  </div>
+                </div>
+                {/* fine step2 */}
+
               </div>
+
+
+
 
               <div className="btn-rhs-row-mb">
                 <div>
-                  <button className="btn-r1" >
+                  <button className="btn-r1">
                     {"    INIZIA    "}
                   </button>
                 </div>
                 <div className="btn2-div">
                   <button
                       className={step1Click ? "btn-r2-active" : "btn-r2"}
-                    onClick={nextstep}
-                    disabled={ !step1Click }
+                      onClick={nextstep}
+                      disabled={!step1Click}
                   >
                     Avanti
                   </button>
@@ -160,8 +212,8 @@ export default function Step1() {
                 <div className="btn2-div w-100">
                   <button
                       className={step1Click ? "btn-r2-active" : "btn-r2"}
-                    onClick={nextstep}
-                    disabled={ !step1Click }
+                      onClick={nextstep}
+                      disabled={!step1Click}
                   >
                     Avanti
                   </button>

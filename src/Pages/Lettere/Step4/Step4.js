@@ -144,7 +144,7 @@ export default function Step4() {
                     Step 4:
                     <span className="step4-txt-sp1">
                       {" "}
-                      Dettagli delle buste da spedire{" "}
+                      Dettagli buste{" "}
                     </span>
                   </p>
                   <p className="rhs-st4-des">
@@ -162,9 +162,9 @@ export default function Step4() {
                         <div className="cards-rhs-row pb-4">
                           {buste.map((busta) => (
                               <Col key={busta.id} onClick={() => handleFormatoBuste(busta.id)} className="cards-col">
-                                <div className={formatoBuste == busta.id ? "card-active" : "card"}>
+                                <div className={formatoBuste == busta.id ? "c-card-active" : "c-card"}>
                                   <img src={formatoBuste == busta.id ? busta.image : busta.imageInattiva}
-                                       alt={busta.name} className="card-img"/>
+                                       alt={busta.name} className="card-imgx"/>
                                 </div>
                                 <p className="option-txt">{busta.name}</p>
                               </Col>

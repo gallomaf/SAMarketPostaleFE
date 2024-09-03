@@ -23,11 +23,11 @@ export default function Step2() {
   const sendoption  = localStorage.getItem("sendoption");
   //fine recupera info dal localstorage
 
-  useEffect(() => {
+  //useEffect(() => {
     //setItem(localStorage.getItem("sendoption"));
-    console.log("step1Click is " + step1Click);
-    console.log("quantity is " + quantity);
-  },[]);
+    //console.log("step1Click is " + step1Click);
+    //console.log("quantity is " + quantity);
+  //},[]);
 
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState(quantity === null ? "":quantity);
@@ -55,7 +55,7 @@ export default function Step2() {
   };
 
   const goBack = () => {
-    console.log("goBack1 /Step-1");
+    //console.log("goBack1 /Step-1");
     navigate('/Step-1');
   };
 

@@ -35,17 +35,44 @@ export default function Step4Gadget() {
 
   //const [isChecked, setIsChecked] = useState(false);
   //const [isChecked2, setIsChecked2] = useState(false);
-
+  const [selectedValue, setSelectedValue] = useState(step4peso);//peso Catalogo
+  const [measurement, setmeasurementValue]  = useState(step4Misure  ? step4Misure : "");
   const [isChecked, setIsChecked]         = useState(step4Stampa == 'cliente' ? true: false);
   const [isChecked2, setIsChecked2]       = useState(step4Stampa == 'sa' ? true : false);
+
+  //nuova versione buste
+  const [formatoBuste, setFormatoBuste] = useState(step4Busta);
+
+  //array composto da: elenco buste e per ogni busta la tipologia di fogli associata
+  const busteCataloghi  = JSON.parse(localStorage.getItem('busteCataloghi'));//recupero con JSON perchè è un array
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setSelectedValue(value);
+    //console.log("Measurement is", value);
+  };
+
+  const handleFormatoBuste = (cardno) => {
+    setFormatoBuste((prevState) => (prevState === cardno ? null : cardno));
+  };
+
+  //fine nuova versione buste
 
   //const location = useLocation();
   //const queryParams = new URLSearchParams(location.search);
   //const sendoption = queryParams.get("sendoption");
   //console.log("this is ", sendoption);
 
+  const handlePersonalizzatoInput = (e) => {
+    const value = e.target.value;
+    setmeasurementValue(value);
+    //console.log("Measurement Value is", value);
+  };
+
   const handleRoutes = () => {
 
+    localStorage.setItem("step4Busta", formatoBuste);
+    localStorage.setItem("step4Misure", measurement);
     localStorage.setItem("step4Stampa", isChecked ? 'cliente' : isChecked2 ? 'sa' : '');
 
     if (isChecked) {
@@ -92,7 +119,7 @@ export default function Step4Gadget() {
     { value: sendoption,          url: "/Step-1" },
     { value: step2Quantity,       url: "/Step-2" },
     { value: nazione,             url: "/Step-3" },
-    { value: "Dettaglio",         url: "/Cataloghi/Step-4" },
+    { value: "Dettaglio",         url: "/Gadget/Step-4" },
   ];
 
   const goBack = () => {
@@ -130,74 +157,139 @@ export default function Step4Gadget() {
                 <div className="rhs-form-gadget-btn-body">
                   <div className="size-contain">
                     <form className="form-envelope-main">
-                      <div className="printing-checks-gadget">
+                      <div
+                          className={
+                            selectedValue === "Personalizzato"
+                                ? "page-format-contain"
+                                : ""
+                          }>
+                        <div className="form-group cartoline-form-drop-width">
+                          <label className="envelope-label">Formato Busta</label>
+
+                          <div className="rhs-card-btn-body">
+                            <div className="cards-rhs-row pb-4">
+                              {busteCataloghi.map((busta) => (
+                                  <Col key={busta.id} onClick={() => handleFormatoBuste(busta.id)}
+                                       className="cards-col">
+                                    <div className={formatoBuste == busta.id ? "card-active" : "card"}>
+                                      <img src={formatoBuste == busta.id ? busta.image : busta.imageInattiva}
+                                           alt={busta.name} className="card-img"/>
+                                    </div>
+                                    <p className="option-txt">{busta.name}</p>
+                                  </Col>
+                              ))}
+                            </div>
+                          </div>
+
+                        </div>
+                        <div
+                            className={
+                              formatoBuste == 6
+                                  ? "form-group pg-quantity-personalizzato"
+                                  : "d-none"
+                            }
+                        >
+                          <label className="envelope-label">
+                            Inserisci misure
+                          </label>
+                          <input
+                              type="text"
+                              className="form-control personalizzato-form"
+                              id="exampleInputQuantity"
+                              onChange={handlePersonalizzatoInput}
+                              placeholder="es. 21cm x 21cm"
+                              value={measurement}
+                          />
+                        </div>
+                      </div>
+
+
+                      <div className="printing-checks pb-4">
                         <label className="envelope-label ">
-                        Stampa delle buste
+                          Stampa del gadget
                         </label>
 
                         <div className="Printing-contain">
                           <div
-                            className={
-                              !isChecked
-                                ? "Printing-check1"
-                                : "Printing-check-border"
-                            }
+                              className={
+                                !isChecked
+                                    ? "Printing-check1"
+                                    : "Printing-check-border"
+                              }
                           >
                             <div className="form-check">
                               <input
-                                className="form-check-input "
-                                type="checkbox"
-                                value=""
-                                checked={isChecked}
-                                onChange={() => {
-                                  setIsChecked(true);
-                                  setIsChecked2(false);
-                                }}
-                                id="flexCheckDefault1"
+                                  className="form-check-input "
+                                  type="checkbox"
+                                  value=""
+                                  checked={isChecked}
+                                  onChange={() => {
+                                    setIsChecked(true);
+                                    setIsChecked2(false);
+                                  }}
+                                  id="flexCheckDefault1"
                               />
                               <label
-                                className={
-                                  !isChecked
-                                    ? "form-check-label"
-                                    : "selected-ans-label"
-                                }
-                                htmlFor="flexCheckDefault1"
+                                  className={
+                                    !isChecked
+                                        ? "form-check-label"
+                                        : "selected-ans-label"
+                                  }
+                                  htmlFor="flexCheckDefault1"
                               >
-                                Stampate dal Cliente
+                                Stampato dal Cliente
                               </label>
                             </div>
                           </div>
                           <div
-                            className={
-                              !isChecked2
-                                ? "Printing-check2"
-                                : "Printing-check-border"
-                            }
+                              className={
+                                !isChecked2
+                                    ? "Printing-check2"
+                                    : "Printing-check-border"
+                              }
                           >
                             <div className="form-check">
                               <input
-                                className="form-check-input printing-checkbox"
-                                type="checkbox"
-                                value=""
-                                id="flexCheckDefault2"
-                                checked={isChecked2}
-                                onChange={() => {
-                                  setIsChecked2(true);
-                                  setIsChecked(false);
-                                }}
+                                  className="form-check-input printing-checkbox"
+                                  type="checkbox"
+                                  value=""
+                                  id="flexCheckDefault2"
+                                  checked={isChecked2}
+                                  onChange={() => {
+                                    setIsChecked2(true);
+                                    setIsChecked(false);
+                                  }}
                               />
                               <label
-                                className={
-                                  !isChecked2
-                                    ? "form-check-label"
-                                    : "selected-ans-label"
-                                }
-                                htmlFor="flexCheckDefault2"
+                                  className={
+                                    !isChecked2
+                                        ? "form-check-label"
+                                        : "selected-ans-label"
+                                  }
+                                  htmlFor="flexCheckDefault2"
                               >
-                                Stampate da SpedireAdesso
+                                Stampato da SpedireAdesso
                               </label>
                             </div>
                           </div>
+                        </div>
+                      </div>
+                      <div
+                          className={isChecked ? "form-group pg-quantity-cataloghi" : "d-none"}
+                      >
+                        <label className="envelope-label">
+                          Peso singolo gadget
+                        </label>
+                        <input
+                            type="text"
+                            className="form-control peso-form"
+                            id="exampleInputQuantity"
+                            onChange={handleChange}
+                            placeholder="es. 90g"
+                            value={selectedValue}
+                        />
+                        <div className="border-btm">
+
                         </div>
                       </div>
                     </form>
@@ -209,11 +301,11 @@ export default function Step4Gadget() {
                   <button className="btn-r1" onClick={goBack}>Indietro</button>
                 </div>
                 <div className="btn2-div">
-                <button
-                    className={
-                      isChecked || isChecked2 ? "btn-r2-active" : "btn-r2"
-                    }
-                    onClick={nextstep}
+                  <button
+                      className={
+                        isChecked || isChecked2 ? "btn-r2-active" : "btn-r2"
+                      }
+                      onClick={nextstep}
                   >
                     Avanti
                   </button>
@@ -224,18 +316,18 @@ export default function Step4Gadget() {
                   <button className="btn-r1" onClick={goBack}>Indietro</button>
                 </div>
                 <div className="btn2-div w-100">
-                <button
-                    className={
-                      isChecked || isChecked2 ? "btn-r2-active" : "btn-r2"
-                    }
-                    onClick={nextstep}
+                  <button
+                      className={
+                        isChecked || isChecked2 ? "btn-r2-active" : "btn-r2"
+                      }
+                      onClick={nextstep}
                   >
                     Avanti
                   </button>
                 </div>
               </div>
 
-              <BreadcrumbBt breadcrumbArray={breadcrumbArray}  now={now} />
+              <BreadcrumbBt breadcrumbArray={breadcrumbArray} now={now}/>
             </Col>
           </Row>
         </div>

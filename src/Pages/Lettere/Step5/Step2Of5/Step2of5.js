@@ -167,10 +167,10 @@ export default function Step2of5() {
               <div className="col-rhs-inner-custom">
                 <div>
                   <p className="step1-txt">
-                    Step 5:<span> Q.tà pagine interne </span>
+                    Step 5:<span> Dettagli fogli interni </span>
                   </p>
                   <p className="rhs-des">
-                    Fornisci i dettagli specifici sulle pagine che intendi
+                    Fornisci i dettagli specifici sui fogli che intendi
                     includere all'interno delle tue buste.
                   </p>
                 </div>
@@ -185,7 +185,7 @@ export default function Step2of5() {
                         }
                       >
                         <div className="form-group form-width ">
-                          <label className="envelope-label">Formato Pagina (in base al tipo di busta selezionata)</label>
+                          <label className="envelope-label">Formato fogli (in base al tipo di busta selezionata)</label>
 
                           <div className="rhs-card-btn-body">
                             <div className="cards-rhs-row pb-4">
@@ -285,7 +285,7 @@ export default function Step2of5() {
 
                       <div className="form-group pg-quantity printing-checks input-width">
                         <label className="envelope-label">
-                          Quantità pagine (max 6)
+                          Quantità fogli (max 6)
                         </label>
                         <input
                           type="number"
@@ -298,7 +298,7 @@ export default function Step2of5() {
                       </div>
                       <div className="printing-checks pb-4">
                         <label className="envelope-label ">
-                          Stampa lettera interna
+                          Stampa fogli interni
                         </label>
 
                         <div className="Printing-contain">

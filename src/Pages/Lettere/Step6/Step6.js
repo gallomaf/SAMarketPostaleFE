@@ -80,7 +80,7 @@ export default function Step6() {
 
     //dallo step 6 posso tornare allo step 5-3, oppure 5-2 oppure 5
     //if(opzione === 'Lettere'){
-    let step = step5Pagine == 2  ? "Step-5" : step52Stampa == 'sa' ? "Step-5-3" : "Step-5-2";
+    let step = step5Pagine == 2  ? "Step-5-2" : step52Stampa == 'sa' ? "Step-5-3" : "Step-5-2";
     if(opzione ==='Cartoline'){
       step = step4Stampa == "cliente"  ? "Step-4" :  "Step-4-2";
     }

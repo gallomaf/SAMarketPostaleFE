@@ -134,7 +134,7 @@ export default function Step3of5() {
               <div className="col-rhs-inner">
                 <div>
                   <p className="step1-txt">
-                    Step 5:<span> Stampa lettera interna </span>
+                    Step 5:<span> Stampa fogli interni </span>
                   </p>
                   <p className="rhs-des">
                     Scegli la qualità e il tipo della stampa che preferisci.

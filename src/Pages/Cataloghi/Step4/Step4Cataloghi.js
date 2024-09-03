@@ -82,6 +82,7 @@ export default function Step4Cataloghi() {
     const [isChecked, setIsChecked]         = useState(step4Stampa == 'cliente' ? true: false);
     const [isChecked2, setIsChecked2]       = useState(step4Stampa == 'sa' ? true : false);
      */
+    localStorage.setItem("step4Busta", formatoBuste);
 
     localStorage.setItem("step4peso", selectedValue);
     localStorage.setItem("step4Misure", measurement);
@@ -310,7 +311,6 @@ export default function Step4Cataloghi() {
                     </div>
                   </form>
                 </div>
-              
               </div>
             </div>
             <div className="btn-rhs-row-mb">

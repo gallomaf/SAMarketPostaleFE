@@ -36,7 +36,13 @@ export default function Step7() {
   let step4Misure     = localStorage.getItem("step4Misure");
   let step4Stampa     = localStorage.getItem("step4Stampa");
 
-  let step4Colore     = localStorage.getItem("step4Colore");
+  let step4Colore       = localStorage.getItem("step4Colore");//logo busta o cartoline
+  const step4Tipo       = localStorage.getItem("step4Tipo");
+  const step4Grammatura = localStorage.getItem("step4Grammatura");
+  const step4Carta      = localStorage.getItem("step4Carta");
+
+  const step4Gadget   = localStorage.getItem("step4Gadget");
+  const step4Peso     = localStorage.getItem("step4Peso");
 
   const step5Pagine   = localStorage.getItem("step5Pagine");
 
@@ -61,9 +67,9 @@ export default function Step7() {
   const [termsAccepted, setTermsAccepted] = useState(false); // Stato per la checkbox
   const location = useLocation();
 
-  useEffect(() => {
-    setItem(localStorage.getItem("sendoption"));
-  });
+  //useEffect(() => {
+    //setItem(localStorage.getItem("sendoption"));
+  //});
 
   //const queryParams = new URLSearchParams(location.search);
   //const sendoption = queryParams.get("sendoption");
@@ -164,6 +170,14 @@ export default function Step7() {
           measurements:       step4Misure,
 
           print_quality:      step4Colore,
+          //cartoline
+          print_type:         step4Tipo,
+          paper_grammage:     step4Grammatura,
+          paper_type:         step4Carta,
+
+          //gadget step 4-2
+          gadget:             step4Gadget,
+          weight:             step4Peso,
 
           rec: step5Pagine,
           //step 5-2

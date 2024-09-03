@@ -26,7 +26,6 @@ export default function Step2of4Gadget() {
   const step4Peso     = localStorage.getItem("step4Peso");
   const step4Misure   = localStorage.getItem("step4Misure");
 
-
   const step4Colore     = localStorage.getItem("step4Colore");
   //fine variabili da passare tra i vari steps
 
@@ -63,6 +62,22 @@ export default function Step2of4Gadget() {
     setGadgetWeight(value);
    // console.log("Gadget Weight is", value);
   };
+
+
+  const gadgets = [
+    { id: 1, name: "Penne / matite" },
+    { id: 2, name: "Calendari" },
+    { id: 3, name: "Cappellini" },
+    { id: 4, name: "Magliette" },
+    { id: 5, name: "Block notes personalizzati" },
+    { id: 6, name: "Card / Tessere" },
+    { id: 7, name: "Pendrive" },
+    { id: 8, name: "Porta Badge (ciondolini)" },
+    { id: 9, name: "Portachiavi" },
+    { id: 10, name: "Braccialetti" },
+    { id: 11, name: "Segnalibri" },
+    { id: 12, name: "Personalizzato" }
+  ];
 
   const DropdownhandleChange = (eventKey) => {
     setDropSelectedValue(eventKey);
@@ -259,31 +274,25 @@ export default function Step2of4Gadget() {
 
                           <Dropdown onSelect={DropdownhandleChange}>
                             <Dropdown.Toggle
-                              id="dropdown-basic"
-                              className={
-                                dropselectedValue === ""
-                                  ? "custom-drop "
-                                  : "custom-drop custom-drop-border"
-                              }
+                                id="dropdown-basic"
+                                className={
+                                  dropselectedValue === ""
+                                      ? "custom-drop"
+                                      : "custom-drop custom-drop-border"
+                                }
                             >
-                              {dropselectedValue === ""
-                                ? "Seleziona"
-                                : dropselectedValue}
+                              {dropselectedValue === "" ? "Seleziona" : dropselectedValue}
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>
-                              {/* <Dropdown.Item eventKey="Seleziona">
-                              Seleziona
-                            </Dropdown.Item> */}
-                              <Dropdown.Item eventKey="Personalizzato">
-                                Personalizzato
-                              </Dropdown.Item>
-                              <Dropdown.Item eventKey="Gadget Tecnologici ">
-                                Gadget Tecnologici{" "}
-                              </Dropdown.Item>
-                              <Dropdown.Item eventKey="A6">Penna </Dropdown.Item>
+                              {gadgets.map((gadget) => (
+                                  <Dropdown.Item key={gadget.id} eventKey={gadget.name}>
+                                    {gadget.name}
+                                  </Dropdown.Item>
+                              ))}
                             </Dropdown.Menu>
                           </Dropdown>
+
                         </div>
                         <div
                           className={
