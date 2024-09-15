@@ -1,16 +1,18 @@
 import React from "react";
 import "./Step4Cartoline.css";
-import Button from "react-bootstrap/Button";
-import { Row, Col, ToastContainer } from "react-bootstrap";
+//import Button from "react-bootstrap/Button";
+import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useState, useEffect } from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
-import Dropdown from "react-bootstrap/Dropdown";
-import { useSearchParams, useLocation, useParams } from "react-router-dom";
+//import Dropdown from "react-bootstrap/Dropdown";
+//import { useSearchParams, useLocation, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { API_URL } from "../../../services/client";
-import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
+//import axios from "axios";
+//import { API_URL } from "../../../services/client";
+//import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
+import {ToastContainer} from "react-toastify";
+import { ErrorToast } from "../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
 import BreadcrumbBt from "../../../Components/Footer/BreadcrumbBt";
 
@@ -27,7 +29,22 @@ export default function Step4Cartoline() {
   const step4Busta    = localStorage.getItem("step4Busta");
   const step4Misure   = localStorage.getItem("step4Misure");
   const step4Stampa   = localStorage.getItem("step4Stampa");
+
+  const step4Lunghezza= localStorage.getItem("step4Lunghezza");
+  const step4Altezza  = localStorage.getItem("step4Altezza");
+
+
   //fine variabili da passare tra i vari steps
+
+  const handleLunghezzaInput = (e) => {
+    const value = e.target.value;
+    setlunghezzaValue(value);
+  };
+
+  const handleAltezzaInput = (e) => {
+    const value = e.target.value;
+    setaltezzaValue(value);
+  };
 
 
   const [selectedValue, setSelectedValue] = useState(step4Busta);
@@ -36,6 +53,9 @@ export default function Step4Cartoline() {
   const [measurement, setmeasurementValue]  = useState(step4Misure  ? step4Misure : "");
   const [isChecked, setIsChecked]         = useState(step4Stampa == 'cliente' ? true: false);
   const [isChecked2, setIsChecked2]       = useState(step4Stampa == 'sa' ? true : false);
+
+  const [lunghezza, setlunghezzaValue]  = useState(step4Lunghezza > 0 ? step4Lunghezza : "");
+  const [altezza,   setaltezzaValue]    = useState(step4Altezza   > 0 ? step4Altezza : "");
 
 
  // const [sendItem, setItem] = useState();
@@ -94,8 +114,37 @@ export default function Step4Cartoline() {
     navigate('/Step-3');
   };
 
+
+    const formValidation = () => {
+        if (formatoBuste == 6) {
+          let lunghezzaInt= parseInt(lunghezza);
+          let altezzaInt  = parseInt(altezza);
+
+          //se non sono numeri, allora return false
+            if (isNaN(lunghezzaInt) || isNaN(altezzaInt)) {
+              ErrorToast("Inserire un numero intero nelle misure");
+              return false;
+            }
+
+            if (lunghezzaInt < 140 || lunghezzaInt > 235) {
+            ErrorToast("La lunghezza deve essere compresa tra 140 e 235 mm");
+            return false;
+            }
+            if (lunghezzaInt / altezzaInt < 1.4) {
+            ErrorToast("Il rapporto lunghezza/altezza deve essere maggiore o uguale a 1,4");
+            return false;
+            }
+        }
+        return true;
+    }
+
   async function nextstep() {
     try {
+
+      if (!formValidation()) {
+        return;
+      }
+
       /*
       const userId = localStorage.getItem("_id");
       const EnvelopePrintingOption = isChecked
@@ -187,9 +236,9 @@ export default function Step4Cartoline() {
                               {cartoline.map((busta) => (
                                   <Col key={busta.id} onClick={() => handleFormatoBuste(busta.id)}
                                        className="cards-col">
-                                    <div className={formatoBuste == busta.id ? "card-active" : "card"}>
+                                    <div className={formatoBuste == busta.id ? "card1-active" : "card1"}>
                                       <img src={formatoBuste == busta.id ? busta.image : busta.imageInattiva}
-                                           alt={busta.name} className="card-img"/>
+                                           alt={busta.name} className="card-imgx"/>
                                     </div>
                                     <p className="option-txt">{busta.name}</p>
                                   </Col>
@@ -198,25 +247,43 @@ export default function Step4Cartoline() {
                           </div>
 
                         </div>
-                        <div
-                            className={
-                              formatoBuste == 6
-                                  ? "form-group pg-quantity"
-                                  : "d-none"
-                            }
-                        >
-                          <label className="envelope-label">
-                            Inserisci misure
-                          </label>
-                          <input
-                              type="text"
-                              className="form-control personalizzato-form"
-                              id="exampleInputQuantity"
-                              onChange={handlePersonalizzatoInput}
-                              placeholder="es. 21cm x 21cm"
-                              value={measurement}
-                          />
+                        <div className={formatoBuste == 6 ? "" : "d-none"}>
+                          <p className="rhs-st4-des">
+                            Il rapporto lunghezza/altezza deve essere maggiore o uguale a 1,4
+                          </p>
+                          <div className="cards3-rhs-row">
+
+                            <Col className="c-cards-colx">
+                              <label className="envelope-label">Lunghezza min 140 - max 235 mm</label>
+                              <input
+                                  type="number"
+                                  min="140"
+                                  max="235"
+                                  className="form-control ship-quantity-form ship-width"
+                                  id="exampleInputQuantity"
+                                  onChange={handleLunghezzaInput}
+                                  placeholder="es. 140"
+                                  value={lunghezza}
+                              />
+                            </Col>
+                            <Col className="c-cards-colx">
+                              <label className="envelope-label">Altezza min 90 - max 120 mm</label>
+                              <input
+                                  type="number"
+                                  min="90"
+                                  max="120"
+                                  className="form-control ship-quantity-form ship-width"
+                                  id="exampleInputQuantity"
+                                  onChange={handleAltezzaInput}
+                                  placeholder="es. 90"
+                                  value={altezza}
+                              />
+                            </Col>
+                          </div>
+
+
                         </div>
+
                       </div>
 
                       <div className="printing-checks pb-4">
@@ -225,31 +292,25 @@ export default function Step4Cartoline() {
                         </label>
 
                         <div className="Printing-contain">
-                          <div
-                            className={
-                              !isChecked
-                                ? "Printing-check1"
-                                : "Printing-check-border"
-                            }
-                          >
+                          <div className={!isChecked ? "Printing-check1" : "Printing-check-border"}>
                             <div className="form-check">
                               <input
                                   className="form-check-input "
-                                type="checkbox"
-                                value=""
-                                checked={isChecked}
-                                onChange={() => {
-                                  setIsChecked(true);
-                                  setIsChecked2(false);
-                                }}
-                                id="flexCheckDefault1"
+                                  type="checkbox"
+                                  value=""
+                                  checked={isChecked}
+                                  onChange={() => {
+                                    setIsChecked(true);
+                                    setIsChecked2(false);
+                                  }}
+                                  id="flexCheckDefault1"
                               />
                               <label
                                   className={
-                                  !isChecked
-                                    ? "form-check-label"
-                                    : "selected-ans-label"
-                                }
+                                    !isChecked
+                                        ? "form-check-label"
+                                        : "selected-ans-label"
+                                  }
                                   htmlFor="flexCheckDefault1"
                               >
                                 Stampate dal Cliente

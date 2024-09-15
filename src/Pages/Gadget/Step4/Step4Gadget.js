@@ -171,9 +171,9 @@ export default function Step4Gadget() {
                               {busteCataloghi.map((busta) => (
                                   <Col key={busta.id} onClick={() => handleFormatoBuste(busta.id)}
                                        className="cards-col">
-                                    <div className={formatoBuste == busta.id ? "card-active" : "card"}>
+                                    <div className={formatoBuste == busta.id ? "card1-active" : "card1"}>
                                       <img src={formatoBuste == busta.id ? busta.image : busta.imageInattiva}
-                                           alt={busta.name} className="card-img"/>
+                                           alt={busta.name} className="card-imgx"/>
                                     </div>
                                     <p className="option-txt">{busta.name}</p>
                                   </Col>

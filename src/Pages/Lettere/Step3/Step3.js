@@ -414,7 +414,7 @@ export default function Step3() {
                   </button>
                 </div>
                 <div className="btn2-div">
-                  <button className={step3Click ? "btn-r2-active" : "btn-r2"} onClick={nextstep}>
+                  <button className={step3Click != 3 || (italia != "" && estero != "")  ? "btn-r2-active" : "btn-r2"} onClick={nextstep}>
                     Avanti
                   </button>
                 </div>
@@ -426,7 +426,7 @@ export default function Step3() {
                   </button>
                 </div>
                 <div className="btn2-div w-100">
-                  <button className={step3Click  ? "btn-r2-active" : "btn-r2"} onClick={nextstep}>
+                  <button className={step3Click != 3 || (italia != "" && estero != "")  ? "btn-r2-active" : "btn-r2"} onClick={nextstep}>
                     Avanti
                   </button>
                 </div>
