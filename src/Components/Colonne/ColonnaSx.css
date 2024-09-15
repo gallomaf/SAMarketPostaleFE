@@ -80,7 +80,7 @@ p {
   line-height: normal;
   text-decoration-line: underline;
 }
-
+/*
 .col-rhs {
   background: #fff;
   padding-left: 0px;
@@ -90,7 +90,7 @@ p {
   /* display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  flex-direction: column; */
+  flex-direction: column;
 }
 .col-rhs-inner {
   display: flex;
@@ -103,6 +103,7 @@ p {
   height: calc(100vh - 370px) !important;
   overflow: auto !important;
 }
+*/
 .step1-txt {
   color: #3c3c3b;
 
@@ -141,6 +142,7 @@ p {
   flex-direction: column;
 }
 
+/*
 .card1 {
   height: 189.469px;
   width: 189.469px;
@@ -232,6 +234,7 @@ p {
   border: 1.895px solid #afca0b;
   cursor: pointer;
 }
+ */
 .option-txt {
   color: rgba(60, 60, 59, 0.8);
   text-align: center;
@@ -241,6 +244,7 @@ p {
   line-height: normal;
   padding-top: 11.37px !important;
 }
+/*
 .rhs-card-btn-body {
   display: flex;
   align-items: flex-start;
@@ -250,6 +254,8 @@ p {
   gap: 197.16px;
   height: 100%;
 }
+
+ */
 .btn-rhs-row {
   display: flex;
   align-items: center;
@@ -258,7 +264,7 @@ p {
 .btn-rhs-row-mb {
   display: none;
 }
-
+/*
 .btn-r1 {
   display: flex;
   padding: 16px 48px;
@@ -278,6 +284,7 @@ p {
   background: #afca0b;
   color:#fff;
 }
+*/
 .btn-r2 {
   /* border-radius: 12px; */
   background: #d0d0d0;
@@ -421,6 +428,7 @@ p {
     justify-content: space-around;
     /* gap: 24px; */
   }
+  /*
   .card1,
   .card1-active {
     height: 120px;
@@ -445,7 +453,6 @@ p {
   .card4-active {
     height: 120px;
     width: 100%;
-
     padding: 19.581px 41.24px 19.469px 41.25px;
   }
   .card1-img {
@@ -464,6 +471,8 @@ p {
     width: 37.51px;
     height: 80.951px;
   }
+
+   */
   .btm-rhs {
     display: none;
   }

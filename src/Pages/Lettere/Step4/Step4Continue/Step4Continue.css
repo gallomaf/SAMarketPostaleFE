@@ -73,7 +73,7 @@ p {
   line-height: normal;
   text-decoration-line: underline;
 }
-
+/*
 .col-rhs {
   background: #fff;
   padding-left: 0px;
@@ -91,6 +91,7 @@ p {
   height:calc(100vh - 370px)  !important;
   overflow: auto !important;
 }
+*/
 .step4-txt {
   color: #3c3c3b;
 
@@ -126,6 +127,7 @@ p {
   gap: 200px;
   
 }
+/*
 .ship-quantity-form {
   border: none !important;
   padding-left: 0px !important;
@@ -135,9 +137,9 @@ p {
   font-style: normal !important;
   font-weight: 400 !important;
   line-height: normal !important;
-  /* width: 224px !important; */
+   width: 224px !important;
 }
-
+*/
 .p-envelope-label {
   color: #3c3c3b;
   text-align: center;
@@ -153,11 +155,13 @@ p {
   align-items: center;
   gap: 4px;
 }
+/*
 .Printing-contain {
   display: flex;
   align-items: center;
   gap: 12px;
 }
+*/
 .form-check-input[type="radio"] {
   border-radius: 1rem !important;
   margin-left: 0px !important;
@@ -285,7 +289,7 @@ p {
   align-items: center;
   justify-content: center;
   border: none;
-  background-color: transparent;
+  background-color: #fff;
   color: #3c3c3b;
   text-align: center;
   font-size: 22px;

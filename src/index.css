@@ -13,7 +13,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-.over-flow-setting{
-  height: 100vh !important;
-  overflow: hidden;
+
+@media (min-width: 768px) {
+  .over-flow-setting {
+    height: 100vh !important;
+    overflow: hidden;
+  }
+}
+
+/*FMG 04/09/2024  */
+@media (max-width: 768px) {
+  .over-flow-setting {
+    height: 100vh !important;
+    overflow: auto;
+  }
 }

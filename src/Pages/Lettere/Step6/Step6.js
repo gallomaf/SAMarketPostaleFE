@@ -8,11 +8,14 @@ import Navbar from "../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 //import { useSearchParams, useLocation, useParams } from "react-router-dom";
 //import {  useLocation } from "react-router-dom";
-import { API_URL } from "../../../services/client";
-import axios from "axios";
+//import { API_URL } from "../../../services/client";
+//import axios from "axios";
 //import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
+import {ToastContainer} from "react-toastify";
+import { ErrorToast } from "../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
 import BreadcrumbBt from "../../../Components/Footer/BreadcrumbBt";
+
 export default function Step6() {
   const now = 90;
 
@@ -25,9 +28,9 @@ export default function Step6() {
 
   const step4Stampa          = localStorage.getItem("step4Stampa");
 
-  const step5Pagine          = localStorage.getItem("step5Pagine");
-  const step5InternoColore   = localStorage.getItem("step5InternoColore");
-  const step5InternoStampa   = localStorage.getItem("step5InternoStampa");
+  //const step5Pagine          = localStorage.getItem("step5Pagine");
+  //const step5InternoColore   = localStorage.getItem("step5InternoColore");
+  //const step5InternoStampa   = localStorage.getItem("step5InternoStampa");
   //
   const step52Stampa  = localStorage.getItem("step52Stampa");
 
@@ -37,7 +40,7 @@ export default function Step6() {
 
   //const location = useLocation();
   const navigate = useNavigate();
-  const [sendItem, setItem] = useState();
+  //const [sendItem, setItem] = useState();
   useEffect(() => {
     //setItem(localStorage.getItem("sendoption"));
     //console.log("step5Pagine is " + step5Pagine);
@@ -47,7 +50,7 @@ export default function Step6() {
 
   const [isChecked1, setIsChecked1] = useState(step6Dest === "csv" ? true: false);
   const [isChecked2, setIsChecked2] = useState(step6Dest === "partner" ? true: false);
-  const [inputenote, setInputNote]    = useState(step6Note);
+  const [inputenote, setInputNote]    = useState(step6Note === null ? "" : step6Note);
 
   //const queryParams = new URLSearchParams(location.search);
   //const sendoption = queryParams.get("sendoption");
@@ -55,7 +58,7 @@ export default function Step6() {
   const handleChange = (e) => {
     const value = e.target.value;
     setInputNote(value);
-    console.log("Note is", value);
+    //console.log("Note is", value);
   };
   const handleRoutes = () => {
 
@@ -80,7 +83,7 @@ export default function Step6() {
 
     //dallo step 6 posso tornare allo step 5-3, oppure 5-2 oppure 5
     //if(opzione === 'Lettere'){
-    let step = step5Pagine == 2  ? "Step-5-2" : step52Stampa == 'sa' ? "Step-5-3" : "Step-5-2";
+    let step = "Step-5-2";
     if(opzione ==='Cartoline'){
       step = step4Stampa == "cliente"  ? "Step-4" :  "Step-4-2";
     }
@@ -99,8 +102,21 @@ export default function Step6() {
 
   };
 
+  const formValidation = () => {
+    if (!isChecked1 && !isChecked2) {
+      ErrorToast("Seleziona una delle due opzioni");
+      return false;
+    }
+    return true;
+  }
+
   async function nextstep() {
     try {
+
+      if (!formValidation()) {
+        return;
+      }
+
       /*
       const userId = localStorage.getItem("_id");
       const RecipientList = isChecked1
@@ -141,6 +157,7 @@ export default function Step6() {
 
   return (
     <>
+      <ToastContainer />
       <div className="over-flow-setting">
         <Navbar />
         <div>
@@ -151,10 +168,10 @@ export default function Step6() {
                 <ProgressBar now={now} />
               </div>
 
-              <div className="col-rhs6-inner">
+              <div className="col-rhs-inner-custom">
                 <div>
                   <p className="step1-txt">
-                    Step 6:<span> Elenco destinatari </span>
+                    Step 5:<span> Elenco destinatari </span>
                   </p>
                   <p className="rhs-des">
                     In questo importante passaggio, ti chiediamo i dettagli per
@@ -170,14 +187,13 @@ export default function Step6() {
                           <div className="form-check6">
                             <input
                                 className="form-check-input "
-                              type="checkbox"
-                              value=""
-                              checked={isChecked1}
-                              onChange={() => {
-                                setIsChecked1(true);
-                                setIsChecked2(false);
-                              }}
-                              id="flexCheckDefault1"
+                                type="checkbox"
+                                checked={isChecked1}
+                                onChange={() => {
+                                  setIsChecked1(true);
+                                  setIsChecked2(false);
+                                }}
+                                id="flexCheckDefault1"
                             />
                             <label className="form-check-label " htmlFor="flexCheckDefault1">
                               <div className={isChecked1 ? "label-head-bold" : "label-head"}>
@@ -193,20 +209,20 @@ export default function Step6() {
                             </label>
                           </div>
                         </div>
-                        <div className={!isChecked2 ? "Printing-check1 st6-check" : "Printing-check-border st6-check" }>
+                        <div className={!isChecked2 ? "Printing-check1 st6-check" : "Printing-check-border st6-check"}>
                           <div className="form-check6">
                             <input
                                 className="form-check-input "
-                              type="checkbox"
-                              value=""
-                              checked={isChecked2}
-                              onChange={() => {
-                                setIsChecked2(true);
-                                setIsChecked1(false);
-                              }}
-                              id="flexCheckDefault2"
+                                type="checkbox"
+                                value=""
+                                checked={isChecked2}
+                                onChange={() => {
+                                  setIsChecked2(true);
+                                  setIsChecked1(false);
+                                }}
+                                id="flexCheckDefault2"
                             />
-                            <label className="form-check-label " htmlFor="flexCheckDefault2" >
+                            <label className="form-check-label " htmlFor="flexCheckDefault2">
                               <div className={isChecked2 ? "label-head-bold" : "label-head"}>
                                 Forniti da un nostro partner
                               </div>
@@ -233,7 +249,7 @@ export default function Step6() {
                             cols="85"
                             placeholder="Lascia una nota con le specifiche dei destinatari"
                             onChange={handleChange}
-                            value={inputenote}
+                            value={inputenote ? inputenote : "" }
                         >
                         </textarea>
                       </form>

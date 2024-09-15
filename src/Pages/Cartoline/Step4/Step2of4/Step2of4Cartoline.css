@@ -198,13 +198,14 @@ p {
   line-height: normal;
   text-decoration-line: underline;
 }
-
+/*
 .col-rhs {
   background: #fff;
   padding-left: 0px;
   padding-right: 0px !important;
   padding-top: 50px !important;
 }
+*/
 .col-rhs-inner-new {
   display: flex;
   align-items: flex-start;
@@ -250,6 +251,7 @@ p {
   gap: 76.06px;
   height: 100%;
 }
+/*
 .ship-quantity-form {
   border: none !important;
   padding-left: 0px !important;
@@ -259,9 +261,9 @@ p {
   font-style: normal !important;
   font-weight: 400 !important;
   line-height: normal !important;
-  /* width: 224px !important; */
+  /* width: 224px !important;
 }
-
+*/
 .p-envelope-label {
   color: #3c3c3b;
   text-align: center;
@@ -277,11 +279,13 @@ p {
   align-items: center;
   gap: 4px;
 }
+/*
 .Printing-contain {
   display: flex;
   align-items: center;
   gap: 12px;
 }
+*/
 .form-check-input[type="radio"] {
   border-radius: 1rem !important;
   margin-left: 0px !important;
@@ -411,7 +415,7 @@ p {
   align-items: center;
   justify-content: center;
   border: none;
-  background-color: transparent;
+  background-color: #fff;
   color: #3c3c3b;
   text-align: center;
   font-size: 22px;

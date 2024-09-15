@@ -31,17 +31,18 @@ export default function Step3of5() {
   //fine variabili da passare tra i vari steps
 
 
-  const [sendItem, setItem] = useState();
-  useEffect(() => {
-    setItem(localStorage.getItem("sendoption"));
-  });
+  //const [sendItem, setItem] = useState();
+  //useEffect(() => {
+  //  setItem(localStorage.getItem("sendoption"));
+  //});
+
   const navigate = useNavigate();
   const [isChecked1, setIsChecked1]   = useState(step5InternoColore == "bn"         ? true: false);
   const [isChecked2, setIsChecked2]   = useState(step5InternoColore == "colore"     ? true: false);
   const [isCheckedR1, setIsCheckedR1] = useState(step5InternoStampa == "solofronte" ? true: false);
   const [isCheckedR2, setIsCheckedR2] = useState(step5InternoStampa == "fronteretro"? true: false);
-  const location = useLocation();
 
+  //const location = useLocation();
   //const queryParams = new URLSearchParams(location.search);
   //const sendoption = queryParams.get("sendoption");
 

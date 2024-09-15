@@ -78,7 +78,7 @@ p {
   line-height: normal;
   text-decoration-line: underline;
 }
-
+/*
 .col-rhs {
   background: #fff;
   padding-left: 0px;
@@ -96,6 +96,7 @@ p {
   height:calc(100vh - 370px)  !important;
   overflow: auto !important;
 }
+*/
 .step1-txt {
   color: #3c3c3b;
 

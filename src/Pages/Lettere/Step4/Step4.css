@@ -78,18 +78,18 @@ p {
   background: #fff;
   padding-left: 0px;
   padding-right: 0px !important;
-  padding-top: 50px !important;
+  padding-top: 0px !important;
 }
 .col-rhs-inner-custom {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   flex-direction: column;
-  gap: 50px;
+  gap: 10px;
   padding-left: 50px;
   padding-right: 50px;
 
-  height: calc(100vh - 370px) !important;
+  height: calc(100vh - 320px) !important;
   overflow: auto !important;
 
 }
@@ -127,6 +127,7 @@ p {
   height: 100%;
   /* gap: 194px; */
 }
+/*
 .ship-quantity-form {
   border: none !important;
   padding-left: 0px !important;
@@ -136,9 +137,9 @@ p {
   font-style: normal !important;
   font-weight: 400 !important;
   line-height: normal !important;
-  /* width: 224px !important; */
+  /* width: 224px !important;
 }
-
+ */
 .envelope-label {
   color: #3c3c3b;
 
@@ -259,7 +260,7 @@ p {
   align-items: center;
   justify-content: center;
   border: none;
-  background-color: transparent;
+  background-color: #fff;
   color: #3c3c3b;
   text-align: center;
   font-size: 22px;
@@ -382,10 +383,8 @@ p {
 }
 
 .c-card {
-  /*
-  height: 189.469px;
-  width: 189.469px;
-  */
+  height: 150px;
+  width: 150px;
   border-radius: 22.736px;
   padding: 50px 49.469px 49.469px 50px ;
   background: #f5f5f7;
@@ -395,10 +394,10 @@ p {
   cursor: pointer;
 }
 .c-card-active {
-  height: 189.469px;
-  width: 189.469px;
+  height: 150px;
+  width: 150px;
   border-radius: 22.736px;
-  background: #afca0b; /* #f5f5f7 */
+  background: #afca0b;
   display: flex;
   padding: 50px 49.469px 49.469px 50px ;
   justify-content: center;
@@ -408,8 +407,8 @@ p {
 }
 
 .card-imgx{
-    width: 160px;
-    height: 160px;
+    width:  180px;
+    height: 180px;
 }
 
 
@@ -481,6 +480,7 @@ p {
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 15px;
+    padding-bottom: 150px; /* FMG aggiunto 04/09/2024 */
     gap: 24px;
 
     /*

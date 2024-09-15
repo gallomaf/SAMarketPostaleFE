@@ -73,13 +73,14 @@ p {
     line-height: normal;
     text-decoration-line: underline;
   }
-  
+  /*
   .col-rhs {
     background: #fff;
     padding-left: 0px;
     padding-right: 0px !important;
     padding-top: 50px !important;
   }
+
   .col-rhs-inner {
     display: flex;
     align-items: flex-start;
@@ -91,6 +92,7 @@ p {
     height:calc(100vh - 370px)  !important;
     overflow: auto !important;
   }
+   */
   .step4-txt {
     color: #3c3c3b;
   
@@ -125,6 +127,7 @@ p {
     height: 100%;
     gap: 319px;
   }
+  /*
   .ship-quantity-form {
     border: none !important;
     padding-left: 0px !important;
@@ -134,9 +137,9 @@ p {
     font-style: normal !important;
     font-weight: 400 !important;
     line-height: normal !important;
-    /* width: 224px !important; */
+    /* width: 224px !important;
   }
-  
+  */
   .envelope-label {
     color: #3c3c3b;
     font-size: 24px;
@@ -149,11 +152,13 @@ p {
   .printing-checks-gadget {
     padding-top: 0px;
   }
+  /*
   .Printing-contain {
     display: flex;
     align-items: center;
     gap: 12px;
   }
+  */
   .form-check-input[type="checkbox"] {
     border-radius: 1rem !important;
     margin-left: 0px !important;
@@ -240,14 +245,14 @@ p {
   .btn-rhs-row-mb {
     display: none;
   }
-  
+  /*
   .btn-r1 {
     display: flex;
     padding: 16px 48px;
     align-items: center;
     justify-content: center;
     border: none;
-    background-color: transparent;
+    background-color: #fff;
     color: #3c3c3b;
     text-align: center;
     font-size: 22px;
@@ -256,6 +261,7 @@ p {
     line-height: normal;
     cursor: pointer;
   }
+  */
   .btn-r2 {
   width: 100%;
 
@@ -440,9 +446,9 @@ p {
     font-weight: 400 !important;
     line-height: normal !important;
     /* display: inline !important; */
-  
     width: 191px !important;
   }
+
   .personalizzato-form {
     border: none !important;
     padding-left: 0px !important;
@@ -454,9 +460,9 @@ p {
     font-style: normal !important;
     font-weight: 400 !important;
     line-height: normal !important;
-  
     /* display: inline !important; */
   }
+
   .peso-form {
     border: none !important;
     padding-left: 0px !important;
@@ -468,11 +474,10 @@ p {
     font-style: normal !important;
     font-weight: 400 !important;
     line-height: normal !important;
-  
     width: 94px !important;
-  
     /* display: inline !important; */
   }
+
   .border-btm {
     border-bottom: 2px solid #e6e6e6 !important;
     width: 94px !important;
@@ -486,6 +491,7 @@ p {
     font-weight: 400 !important;
     line-height: normal !important;
   }
+
   @media (max-width: 990px) {
     .col-lhs {
       height: calc(100vh - 78px) !important;
@@ -497,9 +503,12 @@ p {
     }
   }
   @media (min-width: 768px) {
+    /*
     .col-rhs {
       padding-left: 0px !important;
     }
+
+     */
   }
   @media (max-width: 1400px) {
     .rhs-st4-des br {
@@ -639,12 +648,14 @@ p {
     .rhs-st4-des {
       font-size: 14px;
     }
-  
+
+    /*
     .btn-r1,
     .btn-r2,
     .btn-r2-active {
       font-size: 16px;
     }
+    */
   
     .pg-quantity-form::placeholder {
       font-size: 28px !important;

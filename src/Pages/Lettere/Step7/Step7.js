@@ -3,13 +3,13 @@ import "./Step7.css";
 //import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-import { useSearchParams, useLocation, useParams } from "react-router-dom";
+//import {  useLocation } from "react-router-dom";
 import { API_URL } from "../../../services/client";
 import axios from "axios";
-import { SuccessToast,ErrorToast } from "../../../Components/Navbar/Toast/Toast";
+import { ErrorToast } from "../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
 import BreadcrumbBt from "../../../Components/Footer/BreadcrumbBt";
 import {ToastContainer} from "react-toastify";
@@ -59,13 +59,13 @@ export default function Step7() {
 
 
   const navigate          = useNavigate();
-  const [sendItem, setItem]     = useState();
+  //const [sendItem, setItem]     = useState();
   const [name, setName]             = useState("");
   const [agency, setAgency]         = useState("");
   const [number, setNumber]         = useState("");
   const [email, setEmail]           = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false); // Stato per la checkbox
-  const location = useLocation();
+  //const location = useLocation();
 
   //useEffect(() => {
     //setItem(localStorage.getItem("sendoption"));
@@ -101,7 +101,6 @@ export default function Step7() {
 
   const formValidation = () => {
     if (name.length < 3) {
-      console.log("rror nome");
       ErrorToast("Il nome e cognome deve essere lungo almeno 3 caratteri.");
       return false;
     } else if (agency.length < 3) {
@@ -230,11 +229,10 @@ export default function Step7() {
               <div className="top-rhs">
                 <ProgressBar now={now} />
               </div>
-
-              <div className="col-rhs7-inner">
+              <div className="col-rhs-inner-custom">
                 <div>
                   <p className="step1-txt">
-                    Step 7:<span> Dettagli contatto </span>
+                    Ultimo Step:<span> Dettagli contatto </span>
                   </p>
                   <p className="rhs-des">
                     In questo step finale, ti chiediamo di fornire i tuoi
@@ -248,58 +246,58 @@ export default function Step7() {
                       <form className="form-group inputs-all">
                         <div className="w-100">
                           <input
-                            type="text"
-                            className={
-                              name
-                                ? "form-control form-custom-control outer1"
-                                : "form-control form-custom-control"
-                            }
-                            id="exampleFormControlInput1"
-                            placeholder="Nome e Cognome"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                              type="text"
+                              className={
+                                name
+                                    ? "form-control form-custom-control outer1"
+                                    : "form-control form-custom-control"
+                              }
+                              id="exampleFormControlInput1"
+                              placeholder="Nome e Cognome"
+                              value={name}
+                              onChange={(e) => setName(e.target.value)}
                           />
                         </div>
                         <div className="w-100">
                           <input
-                            type="text"
-                            className={
-                              agency
-                                ? "form-control form-custom-control outer2"
-                                : "form-control form-custom-control"
-                            }
-                            id="exampleFormControlInput2"
-                            placeholder="Azienda"
-                            value={agency}
-                            onChange={(e) => setAgency(e.target.value)}
+                              type="text"
+                              className={
+                                agency
+                                    ? "form-control form-custom-control outer2"
+                                    : "form-control form-custom-control"
+                              }
+                              id="exampleFormControlInput2"
+                              placeholder="Azienda"
+                              value={agency}
+                              onChange={(e) => setAgency(e.target.value)}
                           />
                         </div>
                         <div className="w-100">
                           <input
-                            type="tel"
-                            className={
-                              number
-                                ? "form-control form-custom-control outer3"
-                                : "form-control form-custom-control"
-                            }
-                            id="exampleFormControlInput3"
-                            placeholder="Numero di Telefono"
-                            value={number}
-                            onChange={(e) => setNumber(e.target.value)}
+                              type="tel"
+                              className={
+                                number
+                                    ? "form-control form-custom-control outer3"
+                                    : "form-control form-custom-control"
+                              }
+                              id="exampleFormControlInput3"
+                              placeholder="Numero di Telefono"
+                              value={number}
+                              onChange={(e) => setNumber(e.target.value)}
                           />
                         </div>
                         <div className="w-100">
                           <input
-                            type="email"
-                            className={
-                              email
-                                ? "form-control form-custom-control outer4"
-                                : "form-control form-custom-control"
-                            }
-                            id="exampleFormControlInput4"
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                              type="email"
+                              className={
+                                email
+                                    ? "form-control form-custom-control outer4"
+                                    : "form-control form-custom-control"
+                              }
+                              id="exampleFormControlInput4"
+                              placeholder="Email"
+                              value={email}
+                              onChange={(e) => setEmail(e.target.value)}
                           />
                         </div>
                       </form>
@@ -317,11 +315,11 @@ export default function Step7() {
                           className="form-check-label7"
                           htmlFor="flexCheckDefault1"
                       >
-                          Con l'invio di questa richiesta, accetto espressamente i
-                          Termini e Condizioni e acconsento al<br></br>{" "}
-                          trattamento dei miei dati personali in conformità con la
-                          Privacy Policy.
-                        </label>
+                        Con l'invio di questa richiesta, accetto espressamente i
+                        Termini e Condizioni e acconsento al<br></br>{" "}
+                        trattamento dei miei dati personali in conformità con la
+                        Privacy Policy.
+                      </label>
                     </div>
                   </div>
                 </div>

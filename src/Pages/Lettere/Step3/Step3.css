@@ -78,17 +78,17 @@ p {
     line-height: normal;
     text-decoration-line: underline;
   }
-  
+/*
   .col-rhs {
     background: #fff;
     padding-left: 0px;
     padding-right: 0px !important;
     padding-top: 50px !important;
-  
+
     /* display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    flex-direction: column; */
+    flex-direction: column;
   }
   .col-rhs-inner {
     display: flex;
@@ -101,6 +101,7 @@ p {
     height:calc(100vh - 370px)  !important;
     overflow: auto !important;
   }
+  */
   .step1-txt {
     color: #3c3c3b;
   
@@ -136,7 +137,7 @@ p {
   
   .c-card1 {
     height: 189.469px;
-  width: 189.469px;
+    width: 189.469px;
     border-radius: 22.736px;
     padding: 50px 49.469px 49.469px 50px ;
     background: #f5f5f7;
@@ -144,12 +145,13 @@ p {
    
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   }
   .c-card1-active {
     height: 189.469px;
-  width: 189.469px;
+    width: 189.469px;
     border-radius: 22.736px;
-    background: #f5f5f7;
+    background: lightgray; /* #f5f5f7; */
     display: flex;
     padding: 50px 49.469px 49.469px 50px ;
     justify-content: center;
@@ -170,9 +172,9 @@ p {
   }
   .c-card2-active {
     height: 189.469px;
-  width: 189.469px;
+    width: 189.469px;
     border-radius: 22.736px;
-    background: #f5f5f7;
+    background: lightgray; /* #f5f5f7; */
     display: flex;
     padding: 50px 49.937px 49.469px 49.531px;
     justify-content: center;
@@ -190,12 +192,13 @@ p {
     align-items: center;
     border-radius: 22.736px;
     background: #f5f5f7;
+    cursor: pointer;
   }
   .c-card3-active {
     height: 189.469px;
     width: 189.469px;
     border-radius: 22.736px;
-    background: #f5f5f7;
+    background: lightgray; /* #f5f5f7; */
     display: flex;
     padding: 49px 50px 50.5px 48.5px;
     justify-content: center;
@@ -245,7 +248,7 @@ p {
     align-items: center;
     justify-content: center;
     border: none;
-    background-color: transparent;
+    background-color: #fff;
     color: #3c3c3b;
     text-align: center;
     font-size: 22px;

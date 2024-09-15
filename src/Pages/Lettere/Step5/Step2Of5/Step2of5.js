@@ -1,21 +1,25 @@
-import React from "react";
-import Form from "react-bootstrap/Form";
+import React, {useRef} from "react";
+//import Form from "react-bootstrap/Form";
 import "./Step2of5.css";
-import Button from "react-bootstrap/Button";
+//import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useState, useEffect } from "react";
 import Navbar from "../../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-import Dropdown from "react-bootstrap/Dropdown";
-import { useSearchParams, useLocation, useParams } from "react-router-dom";
-import { API_URL } from "../../../../services/client";
-import axios from "axios";
-import { SuccessToast } from "../../../../Components/Navbar/Toast/Toast";
+//import Dropdown from "react-bootstrap/Dropdown";
+//import { useSearchParams, useLocation, useParams } from "react-router-dom";
+//import { API_URL } from "../../../../services/client";
+//import axios from "axios";
+//import { SuccessToast } from "../../../../Components/Navbar/Toast/Toast";
+import {ToastContainer} from "react-toastify";
+import { ErrorToast } from "../../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../../Components/Colonne/ColonnaSx"
 import BreadcrumbBt from "../../../../Components/Footer/BreadcrumbBt";
+
 export default function Step2of5() {
   const now = 75;
+
 
   //variabili da passare tra i vari steps
   const sendoption    = localStorage.getItem("sendoption");
@@ -27,13 +31,17 @@ export default function Step2of5() {
 
   const storedBuste          = JSON.parse(localStorage.getItem('buste'));//recupero con JSON perchè è un array
   const step4Stampa   = localStorage.getItem("step4Stampa");
-  const step5Pagine   = localStorage.getItem("step5Pagine");
+  //const step5Pagine   = localStorage.getItem("step5Pagine");
 
   //
   const step52Formato = localStorage.getItem("step52Formato");
   const step52Misure  = localStorage.getItem("step52Misure");
   const step52Quantita= localStorage.getItem("step52Quantita");
   const step52Stampa  = localStorage.getItem("step52Stampa");
+
+  const step5InternoColore   = localStorage.getItem("step5InternoColore");
+  const step5InternoStampa   = localStorage.getItem("step5InternoStampa");
+
   //fine variabili da passare tra i vari steps
 
   const [formatoFogli, setFormatoFogli] = useState(step52Formato);
@@ -43,28 +51,32 @@ export default function Step2of5() {
   const fogli = bustaSelezionata.fogli;
 
   const handleFormatoFogli = (cardno, name) => {
-    console.log("handleFormatoFogli1 >> " + name  );
+    //console.log("handleFormatoFogli1 >> " + name  );
     setFormatoFogli((prevState) => (prevState === name ? null : name));
-    console.log("handleFormatoFogli2 >>  " +formatoFogli);
+    //console.log("handleFormatoFogli2 >>  " +formatoFogli);
   };
 
+  const targetRef = useRef(null);
+  const targetRef2 = useRef(null);
 
-  const [sendItem, setItem] = useState();
-  useEffect(() => {
-    //setItem(localStorage.getItem("sendoption"));
-  });
   const navigate = useNavigate();
   const [selectedValue, setSelectedValue] = useState(step52Quantita > 0 ? step52Quantita: "1");
   const [measurement, setmeasurementValue] = useState(step52Misure ? step52Misure : "");
   const [dropselectedValue, setDropSelectedValue] = useState("");
 
-  const [isChecked, setIsChecked] = useState(   step52Stampa == 'cliente' ? true: false);
-  const [isChecked2, setIsChecked2] = useState( step52Stampa == 'sa'      ? true: false);
+  const [isChecked,   setIsChecked]   = useState( step52Stampa == 'cliente' ? true: false);
+  const [isChecked2,  setIsChecked2]  = useState( step52Stampa == 'sa'      ? true: false);
+
+  const [isCheckedCol1, setIsCheckedCol1]   = useState(step5InternoColore == "bn"         ? true: false);
+  const [isCheckedCol2, setIsCheckedCol2]   = useState(step5InternoColore == "colore"     ? true: false);
+
+  const [isCheckedR1, setIsCheckedR1] = useState(step5InternoStampa == "solofronte" ? true: false);
+  const [isCheckedR2, setIsCheckedR2] = useState(step5InternoStampa == "fronteretro"? true: false);
 
   const handleChange = (e) => {
     const value = e.target.value;
     setSelectedValue(value);
-    console.log("Page Quantity is", value);
+    //console.log("Page Quantity is", value);
   };
   const handlePersonalizzatoInput = (e) => {
     const value = e.target.value;
@@ -76,31 +88,71 @@ export default function Step2of5() {
     //console.log("Dropdown Selected Value is ", eventKey);
   };
 
-  //const location = useLocation();
-  //const queryParams = new URLSearchParams(location.search);
-  //const sendoption = queryParams.get("sendoption");
-  //console.log("this is ", sendoption);
+
+  useEffect(() => {
+    if (formatoFogli) {
+      scrollToSection();
+    }
+    if (isChecked2 && formatoFogli) {
+      scrollToSection2();
+    }
+  }, [formatoFogli,isChecked2]);
+
+
+  const scrollToSection = () => {
+    console.log("scrollToSection");
+    console.log(formatoFogli);
+    if (targetRef.current) {
+      targetRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+
+  const scrollToSection2 = () => {
+    if (targetRef2.current) {
+      targetRef2.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+
   const handleRoutes = () => {
 
     localStorage.setItem("step52Formato",   formatoFogli);
     localStorage.setItem("step52Misure",    measurement);
     localStorage.setItem("step52Quantita",  selectedValue);
 
-    if (isChecked && formatoFogli) {
+    if (isCheckedCol1){
+      localStorage.setItem("step5InternoColore",   "bn");
+    }
+    else if (isCheckedCol2){
+      localStorage.setItem("step5InternoColore",   "colore");
+    }
+
+    if (isCheckedR1){
+      localStorage.setItem("step5InternoStampa",   "solofronte");
+    }
+    else if (isCheckedR2){
+      localStorage.setItem("step5InternoStampa",   "fronteretro");
+    }
+
+    if ( isChecked && formatoFogli) {
       localStorage.setItem("step52Stampa",   "cliente");
+      localStorage.setItem("step5InternoStampa",   "");
+      localStorage.setItem("step5InternoColore",   "");
       navigate(`/Lettere/Step-6`);
     }
-    else if (isChecked2 && formatoFogli) {
+    else if (isChecked2 && ( isCheckedCol1 || isCheckedCol2 ) && (isCheckedR1 || isCheckedR2) && formatoFogli) {
       localStorage.setItem("step52Stampa",   "sa");
-      navigate(`/Lettere/Step-5-3`);
+      navigate(`/Lettere/Step-6`);
     }
+
   };
 
   const goBack = () => {
 
     let opzione = sendoption;
 
-    let step = step4Stampa === 'sa' ? "Step-4-2"  : "Step-4";
+    let step = step4Stampa === 'sa' ? "Step-4"  : "Step-4"; //abbiamo abolito lo Step-4-2
 
     if(opzione !== null){
       opzione = opzione.charAt(0).toUpperCase() + opzione.slice(1);
@@ -109,8 +161,47 @@ export default function Step2of5() {
 
   };
 
+  const formValidation = () => {
+
+        if (!formatoFogli) {
+        ErrorToast("Seleziona il formato dei fogli");
+        return false;
+        }
+        if (formatoFogli === "Personalizzato" && !measurement) {
+        ErrorToast("Inserisci le misure personalizzate");
+        return false;
+        }
+        if (!selectedValue) {
+        ErrorToast("Inserisci la quantità di fogli");
+        return false;
+        }
+        if (selectedValue > 6) {
+        ErrorToast("La quantità massima di fogli è 6");
+        return false;
+        }
+        if (!isChecked && !isChecked2) {
+          ErrorToast("Seleziona chi deve stampare i fogli interni");
+        return false;
+        }
+        if (isChecked2 && !isCheckedCol1 && !isCheckedCol2) {
+        ErrorToast("Seleziona la Qualità di Stampa");
+        return false;
+        }
+        if (isChecked2 && !isCheckedR1 && !isCheckedR2) {
+        ErrorToast("Seleziona il Tipo di Stampa");
+        return false;
+        }
+
+        return true;
+  }
+
   async function nextstep() {
     try {
+
+      if (!formValidation()) {
+        return;
+      }
+
       /*
       const userId = localStorage.getItem("_id");
       const InternalLetterPrinting = isChecked
@@ -154,6 +245,7 @@ export default function Step2of5() {
 
   return (
     <>
+      <ToastContainer />
       <div className="over-flow-setting">
         <Navbar />
         <div>
@@ -167,7 +259,7 @@ export default function Step2of5() {
               <div className="col-rhs-inner-custom">
                 <div>
                   <p className="step1-txt">
-                    Step 5:<span> Dettagli fogli interni </span>
+                    Step 4:<span> Dettagli fogli interni </span>
                   </p>
                   <p className="rhs-des">
                     Fornisci i dettagli specifici sui fogli che intendi
@@ -178,11 +270,11 @@ export default function Step2of5() {
                   <div className="size-contain">
                     <form className="form-envelope-main">
                       <div
-                        className={
-                          dropselectedValue === "Personalizzato"
-                            ? "page-format-contain"
-                            : ""
-                        }
+                          className={
+                            dropselectedValue === "Personalizzato"
+                                ? "page-format-contain"
+                                : ""
+                          }
                       >
                         <div className="form-group form-width ">
                           <label className="envelope-label">Formato fogli (in base al tipo di busta selezionata)</label>
@@ -192,44 +284,15 @@ export default function Step2of5() {
                               {fogli.map((item) => (
                                   <Col key={item.id} onClick={() => handleFormatoFogli(item.id, item.name)}
                                        className="cards-col">
-                                    <div className={formatoFogli == item.name ? "card-active" : "card"}>
+                                    <div className={formatoFogli == item.name ?  "card1-active" : "card1"  }>
                                       <img src={formatoFogli == item.name ? item.image : item.imageInattiva}
-                                           alt={busta.name} className="card-img"/>
+                                           alt={busta.name} className="card-imgx"/>
                                     </div>
                                     <p className="option-txt">{item.name}</p>
                                   </Col>
                               ))}
                             </div>
                           </div>
-
-
-                          {/*
-                          <Dropdown onSelect={DropdownhandleChange}>
-                            <Dropdown.Toggle
-                              id="dropdown-basic"
-                              className={
-                                dropselectedValue === ""
-                                  ? "custom-drop "
-                                  : "custom-drop custom-drop-border"
-                              }
-                            >
-                              {dropselectedValue === ""
-                                ? "Seleziona"
-                                : dropselectedValue}
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu>
-                              {/* <Dropdown.Item eventKey="Seleziona">
-                              Seleziona
-                            </Dropdown.Item> * /}
-                              <Dropdown.Item eventKey="Personalizzato">
-                                Personalizzato
-                              </Dropdown.Item>
-                              <Dropdown.Item eventKey="A4">A4</Dropdown.Item>
-                              <Dropdown.Item eventKey="A6">A6</Dropdown.Item>
-                            </Dropdown.Menu>
-                          </Dropdown>
-                          */}
 
                         </div>
                         <div className={formatoFogli === "Personalizzato" ? "form-group pg-quantity" : "d-none"}>
@@ -247,100 +310,181 @@ export default function Step2of5() {
                         </div>
                       </div>
 
-                      {/* <div className="page-format-contain">
-                        <label className="envelope-label">Formato Pagina</label>
-                        <select
-                          className={
-                            selectedValue
-                              ? "form-select form-envelope-border"
-                              : "form-select form-envelope"
-                          }
-                          aria-label="Default select example"
-                          onChange={handleChange}
-                        >
-                          <option>Seleziona</option>
-                          <option value="1">A4</option>
-                          <option value="2">Personalizzato</option>
-                          <option value="3">A6</option>
-                        </select>
-                      </div>
-                      <div
-                        className={
-                          selectedValue === "2"
-                            ? "form-group pg-quantity"
-                            : "d-none"
-                        }
-                      >
-                        <label className="envelope-label">
-                          Quantità pagine
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control pg-quantity-form"
-                          id="exampleInputQuantity"
-                          onChange={handleChange}
-                          placeholder="es. 21cm x 21cm"
-                        />
-                      </div> */}
-
-                      <div className="form-group pg-quantity printing-checks input-width">
+                      <div className="printing-checks pb-4">
                         <label className="envelope-label">
                           Quantità fogli (max 6)
                         </label>
                         <input
-                          type="number"
-                          className="form-control pg-quantity-form"
-                          id="exampleInputQuantity"
-                          onChange={handleChange}
-                          placeholder="max 6 fogli"
+                            type="number"
+                            max="6"
+                            min="1"
+                            className="form-control ship-quantity-form ship-width"
+                            id="exampleInputQuantity"
+                            onChange={handleChange}
+                            placeholder="max 6 fogli"
                             value={selectedValue}
                         />
                       </div>
-                      <div className="printing-checks pb-4">
+
+                      <div className="printing-checks pb-4" ref={targetRef}>
                         <label className="envelope-label ">
                           Stampa fogli interni
                         </label>
-
                         <div className="Printing-contain">
                           <div className={!isChecked ? "Printing-check1" : "Printing-check-border"}>
                             <div className="form-check">
                               <input className="form-check-input " type="checkbox" value=""
-                                checked={isChecked} onChange={() => {
-                                  setIsChecked(true);
-                                  setIsChecked2(false);
-                                }}
-                                id="flexCheckDefault1"
+                                     checked={isChecked} onChange={() => {
+                                setIsChecked(true);
+                                setIsChecked2(false);
+                              }}
+                                     id="flexCheckDefault1"
                               />
-                              <label className={!isChecked ? "form-check-label" : "selected-check-bold" } htmlFor="flexCheckDefault1">
-                                Stampate dal Cliente
+                              <label className={!isChecked ? "form-check-label" : "selected-check-bold"}
+                                     htmlFor="flexCheckDefault1">
+                                Stampati dal Cliente
                               </label>
                             </div>
                           </div>
                           <div
-                            className={
-                              !isChecked2
-                                ? "Printing-check2"
-                                : "Printing-check-border"
-                            }
+                              className={
+                                !isChecked2
+                                    ? "Printing-check2"
+                                    : "Printing-check-border"
+                              }
                           >
                             <div className="form-check">
                               <input
-                                className="form-check-input printing-checkbox"
-                                type="checkbox"
-                                id="flexCheckDefault2"
-                                checked={isChecked2}
-                                onChange={() => {
-                                  setIsChecked2(true);
-                                  setIsChecked(false);
-                                }}
+                                  className="form-check-input printing-checkbox"
+                                  type="checkbox"
+                                  id="flexCheckDefault2"
+                                  checked={isChecked2}
+                                  onChange={() => {
+                                    setIsChecked2(true);
+                                    setIsChecked(false);
+                                  }}
                               />
-                              <label  className={!isChecked2 ? "form-check-label" : "selected-check-bold" } htmlFor="flexCheckDefault2">
-                                Stampate da Spedire Adesso
+                              <label className={!isChecked2 ? "form-check-label" : "selected-check-bold"}
+                                     htmlFor="flexCheckDefault2">
+                                Stampati da Spedire Adesso
                               </label>
+                              <div className={isChecked2 ? "" : "d-none"}>
+                                <img
+                                    src="/Images/scendi3.svg"
+                                    alt="Scegli la qualità della stampa"
+                                    width="30px"
+                                    height="30px"
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
+
+                      <div className={isChecked2 ? "" : "d-none"}>
+
+                        <div className="printing-checks pb-4" ref={targetRef2}>
+                          <label className="p-envelope-label ">
+                            Qualità della stampa
+                          </label>
+                          <div className="Printing-contain">
+                            <div className={!isCheckedCol1 ? "Printing-check1" : "Printing-check-border"}>
+                              <div className="form-check">
+                                <input
+                                    className="form-check-input"
+                                    type="radio"
+                                    name="flexRadioDefault"
+                                    id="flexRadioDefault1"
+                                    checked={isCheckedCol1}
+                                    onChange={() => {
+                                      setIsCheckedCol1(true);
+                                      setIsCheckedCol2(false);
+                                    }}
+                                />
+                                <div className="label-img ">
+                                  <label className={!isCheckedCol1 ? "form-check-label " : "selected-check-bold"} htmlFor="flexRadioDefault1">
+                                    Bianco/Nero
+                                  </label>
+                                  <img src="/Images/Step1/blackwhite-check.svg" alt="Bianco/Nero"/>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className={!isCheckedCol2 ? "Printing-check2" : "Printing-check-border2"}>
+                              <div className="form-check">
+                                <input
+                                    className="form-check-input"
+                                    type="radio"
+                                    name="flexRadioDefault"
+                                    id="flexRadioDefault2"
+                                    checked={isCheckedCol2}
+                                    onChange={() => {
+                                      setIsCheckedCol2(true);
+                                      setIsCheckedCol1(false);
+                                    }}
+                                />
+                                <div className="label-img">
+                                  <label className={!isCheckedCol2 ? "form-check-label " : "selected-check-bold"} htmlFor="flexRadioDefault2">
+                                    Colore
+                                  </label>
+                                  <img src="/Images/Step1/Color-check.svg" alt="Colored"/>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="printing-checks pb-4">
+                          <label className="p-envelope-label ">
+                            Tipo di Stampa
+                          </label>
+
+                          <div className="Printing-contain-r2">
+                            <div className={!isCheckedR1 ? "Printing-check1" : "Printing-check-border"}>
+                              <div className="form-check">
+                                <input
+                                    className="form-check-input"
+                                    type="radio"
+                                    name="flexRadioDefaultR1"
+                                    id="flexRadioDefaultR1"
+                                    checked={isCheckedR1}
+                                    onChange={() => {
+                                      setIsCheckedR1(true);
+                                      setIsCheckedR2(false);
+                                    }}
+                                />
+
+                                <label className={!isCheckedR1 ? "form-check-label " : "selected-check-bold"}
+                                       htmlFor="flexRadioDefaultR1">
+                                  Solo fronte
+                                </label>
+                              </div>
+                            </div>
+
+                            <div className={!isCheckedR2 ? "Printing-check2" : "Printing-check-border2"}>
+                              <div className="form-check">
+                                <input
+                                    className="form-check-input"
+                                    type="radio"
+                                    name="flexRadioDefaultR2"
+                                    id="flexRadioDefaultR2"
+                                    checked={isCheckedR2}
+                                    onChange={() => {
+                                      setIsCheckedR2(true);
+                                      setIsCheckedR1(false);
+                                    }}/>
+
+                                <label className={!isCheckedR2 ? "form-check-label " : "selected-check-bold"}
+                                       htmlFor="flexRadioDefaultR2">
+                                  Fronte/retro
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
                     </form>
                   </div>
                 </div>
@@ -350,16 +494,16 @@ export default function Step2of5() {
                   <button className="btn-r1" onClick={goBack}>Indietro</button>
                 </div>
                 <div className="btn2-div">
-                <button
-                    className={
-                      selectedValue &&
-                        selectedValue <=6 &&
-                      formatoFogli &&
-                      (isChecked || isChecked2)
-                        ? "btn-r2-active"
-                        : "btn-r2"
-                    }
-                    onClick={nextstep}
+                  <button
+                      className={
+                        formatoFogli &&
+                        selectedValue &&
+                        selectedValue <= 6 &&
+                        ( isChecked || (isChecked2 && ( isCheckedCol1 || isCheckedCol2) && (isCheckedR1 || isCheckedR2) ))
+                            ? "btn-r2-active"
+                            : "btn-r2"
+                      }
+                      onClick={nextstep}
                   >
                     Avanti
                   </button>
@@ -370,22 +514,22 @@ export default function Step2of5() {
                   <button className="btn-r1" onClick={goBack}>Indietro</button>
                 </div>
                 <div className="btn2-div w-100">
-                <button
-                    className={
-                      selectedValue &&
-                      selectedValue <=6 &&
-                      formatoFogli &&
-                      (isChecked || isChecked2)
-                        ? "btn-r2-active"
-                        : "btn-r2"
-                    }
-                    onClick={nextstep}
+                  <button
+                      className={
+                        formatoFogli &&
+                        selectedValue &&
+                        selectedValue <= 6 &&
+                        ( isChecked || (isChecked2 && ( isCheckedCol1 || isCheckedCol2) && (isCheckedR1 || isCheckedR2) ))
+                            ? "btn-r2-active"
+                            : "btn-r2"
+                      }
+                      onClick={nextstep}
                   >
                     Avanti
                   </button>
                 </div>
               </div>
-              <BreadcrumbBt breadcrumbArray={breadcrumbArray}  now={now} />
+              <BreadcrumbBt breadcrumbArray={breadcrumbArray} now={now}/>
             </Col>
           </Row>
         </div>

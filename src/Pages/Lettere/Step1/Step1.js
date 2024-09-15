@@ -12,11 +12,12 @@ import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
+import {ErrorToast} from "../../../Components/Navbar/Toast/Toast";
 
 export default function Step1() {
   const now = 15;
-
-  const stepClick = localStorage.getItem("step1Click");
+  //localStorage.clear(); //clear local storage
+  const stepClick   = localStorage.getItem("step1Click");
   const quantity    = localStorage.getItem("step2Quantity");
 
   const navigate = useNavigate();
@@ -48,22 +49,43 @@ export default function Step1() {
   const handleRoutes = () => {
     localStorage.setItem("step1Click", step1Click);
     localStorage.setItem("step2Quantity", inputValue);
-    if (step1Click === 1) {
+
+    if (step1Click == 1) {
       localStorage.setItem("sendoption", "Lettere");
-    } else if (step1Click === 2) {
+    } else if (step1Click == 2) {
       localStorage.setItem("sendoption", "Cartoline");
-    } else if (step1Click === 3) {
+    } else if (step1Click == 3) {
       localStorage.setItem("sendoption", "Cataloghi");
-    } else if (step1Click === 4) {
+    } else if (step1Click == 4) {
       localStorage.setItem("sendoption", "Gadget");
     }
   };
 
+  const formValidation = () => {
+
+    if (step1Click === null) {
+      ErrorToast("Seleziona il tipo di oggetto che vuoi spedire");
+      return false;
+    }
+    if (inputValue < 100) {
+      ErrorToast("La quantità minima è 100 pezzi");
+      return false;
+    }
+    //controllare step1Click
+
+    return true;
+  }
+
   async function nextstep() {
     try {
+
+      if (!formValidation()) {
+        return;
+      }
+
       //handleRoutes();
 
-      const sendoption        = localStorage.getItem("sendoption");
+      //const sendoption        = localStorage.getItem("sendoption");
       /*
       const res   = await axios.post(`${API_URL}/auth/addQA_lettere_step1`, {
         categorytag: sendoption,
@@ -78,7 +100,13 @@ export default function Step1() {
         // SuccessToast("updated");
         //navigate(`/Step-2?sendoption=${sendoption}`);
         //console.log("step1Click is", step1Click);
-        navigate('/Step-3');
+
+        //console.log("step1Click is " + step1Click);
+        //console.log("quantity is " + inputValue);
+        //console.log(step1Click  && inputValue >= 100);
+        if(step1Click  && inputValue >= 100) {
+          navigate('/Step-3');
+        }
       }
     } catch (error) {
       console.log(error);
@@ -98,7 +126,7 @@ export default function Step1() {
                 <ProgressBar now={15} />
               </div>
 
-              <div className="col-rhs-inner">
+              <div className=" col-rhs-inner-custom">
                 <div>
                   <p className="step1-txt">
                     <span> Cosa devi spedire?</span>
@@ -113,7 +141,7 @@ export default function Step1() {
                   <div className="cards-rhs-row pb-4">
 
                     <Col onClick={() => handleClick(1)} className="cards-col">
-                      <div className={step1Click === 1 || step1Click === "1" ? "card1-active" : "card1"}>
+                      <div className={step1Click === 1 || step1Click === "1" ? "card2-active" : "card1"}>
                         <img src={step1Click === 1 || step1Click === "1" ? LetterActive : LetterInactive} alt="Lettere"
                              className="card1-img"/>
                       </div>
@@ -121,7 +149,7 @@ export default function Step1() {
                     </Col>
 
                     <Col onClick={() => handleClick(2)} className="cards-col">
-                      <div className={step1Click === 2 || step1Click === "2" ? "card1-active" : "card1"}>
+                      <div className={step1Click === 2 || step1Click === "2" ? "card2-active" : "card1"}>
                         <img src={step1Click === 2 || step1Click === "2" ? CartolineActive : CartolineInactive}
                              alt="Cartoline" className="card2-img"/>
                       </div>
@@ -129,7 +157,7 @@ export default function Step1() {
                     </Col>
 
                     <Col onClick={() => handleClick(3)} className="cards-col ">
-                      <div className={step1Click === 3 || step1Click === "3" ? "card1-active" : "card1"}>
+                      <div className={step1Click === 3 || step1Click === "3" ? "card2-active" : "card1"}>
                         <img src={step1Click === 3 || step1Click === "3" ? CataloghiActive : CataloghiInactive}
                              alt="Cataloghi" className="card3-img"/>
                       </div>
@@ -137,7 +165,7 @@ export default function Step1() {
                     </Col>
 
                     <Col onClick={() => handleClick(4)} className="cards-col">
-                      <div className={step1Click === 4 || step1Click === "4" ? "card1-active" : "card1"}>
+                      <div className={step1Click === 4 || step1Click === "4" ? "card2-active" : "card1"}>
                         <img src={step1Click === 4 || step1Click === "4" ? GadgetActive : GadgetInactive} alt="Gadget"
                              className="card4-img"/>
                       </div>
@@ -155,7 +183,7 @@ export default function Step1() {
                   </p>
                   <p className="rhs-st2-des">
                     Inserisci il numero totale di unità che desideri spedire. È
-                    richiesto un minimo di 100 pezzi per<br></br> procedere con
+                    richiesto un minimo di 100 pezzi per procedere con
                     la richiesta.
                   </p>
                 </div>
@@ -185,35 +213,35 @@ export default function Step1() {
               </div>
 
 
-
-
               <div className="btn-rhs-row-mb">
+                {/*
                 <div>
-                  <button className="btn-r1">
-                    {"    INIZIA    "}
-                  </button>
+                  <button className="btn-r1"></button>
                 </div>
+                */
+                }
                 <div className="btn2-div">
                   <button
-                      className={step1Click ? "btn-r2-active" : "btn-r2"}
+                      className={step1Click  && inputValue >= 100  ? "btn-r2-active" : "btn-r2"}
                       onClick={nextstep}
-                      disabled={!step1Click}
                   >
                     Avanti
                   </button>
                 </div>
               </div>
               <div className="btn-rhs-row w-100 ">
+                {/*
                 <div>
                   <button className="btn-r1">
                     {"    INIZIA    "}
                   </button>
                 </div>
+                */
+                }
                 <div className="btn2-div w-100">
                   <button
-                      className={step1Click ? "btn-r2-active" : "btn-r2"}
+                      className={step1Click && inputValue >= 100  ? "btn-r2-active" : "btn-r2"}
                       onClick={nextstep}
-                      disabled={!step1Click}
                   >
                     Avanti
                   </button>
