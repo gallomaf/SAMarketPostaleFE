@@ -588,12 +588,13 @@ p {
   .btn-rhs-row-mb {
     display: flex;
     align-items: center;
-    position: absolute;
+    position: fixed; /* absolute */
     bottom: 0;
 
     width: 100%;
     border-top: 1px solid #dee2e6;
   }
+
   .btn-rhs-row {
     display: none;
   }

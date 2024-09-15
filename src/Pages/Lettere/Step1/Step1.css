@@ -426,28 +426,28 @@ p {
   }
   .card1,
   .card1-active {
-    height: 120px;
-    width: 100%;
+    height: 150px;
+    width: 150px;
     padding: 24.212px 30.266px 25.225px 29.734px !important;
   }
   .card2,
   .card2-active {
-    height: 120px;
-    width: 100%;
+    height: 150px;
+    width: 150px;
 
     padding: 21.598px 23.5px 22.988px 23.38px !important;
   }
   .card-3,
   .card3-active {
-    height: 120px;
-    width: 100%;
+    height: 150px;
+    width: 150px;
 
     padding: 22.632px 26.52px 22.297px 26.75px;
   }
   .card-4,
   .card4-active {
-    height: 120px;
-    width: 100%;
+    height: 150px;
+    width: 150px;
 
     padding: 19.581px 41.24px 19.469px 41.25px;
   }
