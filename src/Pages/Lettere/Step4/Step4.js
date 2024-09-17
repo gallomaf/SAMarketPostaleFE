@@ -279,14 +279,6 @@ export default function Step4() {
                                  htmlFor="flexCheckDefault2">
                             Stampate da Spedire Adesso
                           </label>
-                          <div className={isChecked2 ? "" : "d-none"}>
-                            <img
-                                src="/Images/scendi3.svg"
-                                alt="Scegli la qualità della stampa"
-                                width="30px"
-                                height="30px"
-                            />
-                          </div>
                         </div>
                       </div>
                     </div>

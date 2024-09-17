@@ -15,6 +15,12 @@ import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
 import {ErrorToast} from "../../../Components/Navbar/Toast/Toast";
 
 export default function Step1() {
+
+  // Aggiungi il listener per pulire il localStorage alla chiusura del browser
+  window.addEventListener('beforeunload', () => {
+    localStorage.clear();
+  });
+
   const now = 15;
   //localStorage.clear(); //clear local storage
   const stepClick   = localStorage.getItem("step1Click");

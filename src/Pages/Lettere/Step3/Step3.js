@@ -130,69 +130,23 @@ export default function Step3() {
 
   const cartoline = [
     { id: 1,
-      name: "Cartolina C6 (220X110mm)",
-      description: "Busta C6 (220X110mm)",
+      name: "Cartolina (150X105mm)",
+      description: "Cartolina (150X105mm)",
       image: "/Images/Buste/spunta.svg",
       imageInattiva: "/Images/Buste/BUSTA_C6.svg",
-      fogli: [
-        { id: 0, name: "Foglio A6", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
-        { id: 1, name: "Foglio A5", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
-        { id: 2, name: "Foglio A4", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
-        { id: 99, name: "Personalizzato", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" }
-      ]
     },
     { id: 2,
-      name: "Cartolina C5 (230X162mm)",
-      description: "Busta C5 (230X162mm)",
+      name: "Cartolina (210X105mm)",
+      description: "Cartolina (210X105mm)",
       image: "/Images/Buste/spunta.svg",
       imageInattiva: "/Images/Buste/BUSTA_C6.svg",
-      fogli: [
-        { id: 0, name: "Foglio A5", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
-        { id: 1, name: "Foglio A4", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
-        { id: 99, name: "Personalizzato", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" }
-      ]
-    },
-    { id: 3,
-      name: "Cartolina DL (220X110mm)",
-      description: "Busta DL (220X110mm)",
-      image: "/Images/Buste/spunta.svg",
-      imageInattiva: "/Images/Buste/BUSTA_C6.svg",
-      fogli: [
-        { id: 0, name: "Invito/Flyer", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
-        { id: 1, name: "Flyer Doppio", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
-        { id: 2, name: "Foglio A4", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
-        { id: 99, name: "Personalizzato", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" }
-      ]
-    },
-    { id: 4,
-      name: "Cartolina C4 (324X229mm)",
-      description: "Busta C4 (324X229mm)",
-      image: "/Images/Buste/spunta.svg",
-      imageInattiva: "/Images/Buste/BUSTA_C6.svg",
-      fogli: [
-        { id: 0, name: "Foglio A4", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
-        { id: 1, name: "Foglio A3", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
-        { id: 99, name: "Personalizzato", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" }
-      ]
-    },
-    { id: 5,
-      name: "Cartolina C3 (297X420mm)",
-      description: "Busta C3 (297X420mm)",
-      image: "/Images/Buste/spunta.svg",
-      imageInattiva: "/Images/Buste/BUSTA_C6.svg",
-      fogli: [
-        { id: 0, name: "Foglio A3", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
-        { id: 99, name: "Personalizzato", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" }
-      ]
+
     },
     { id: 6,
       name: "Personalizzato",
       description: "Scegli il tuo formato",
       image: "/Images/Buste/spunta.svg",
       imageInattiva: "/Images/Buste/BUSTA_C6.svg" ,
-      fogli: [
-        { id: 0, name: "Personalizzato", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" },
-      ]
     },
   ];
 
