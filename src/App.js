@@ -17,7 +17,7 @@ import Step2of4Cartoline from "./Pages/Cartoline/Step4/Step2of4/Step2of4Cartolin
 import Step5Cartoline from "./Pages/Cartoline/Step5/Step5Cartoline";
 import Step6Cartoline from "./Pages/Cartoline/Step6/Step6Cartoline";
 
-import Step4Cataloghi from "./Pages/Cataloghi/Step4/Step4Cataloghi";
+import Step4Cataloghi   from "./Pages/Cataloghi/Step4/Step4Cataloghi";
 import Step2of4Cataloghi from "./Pages/Cataloghi/Step4/Step2of4/Step2of4Cataloghi";
 import Step3of4Cataloghi from "./Pages/Cataloghi/Step4/Step3of4/Step3of4Cataloghi";
 
@@ -26,7 +26,28 @@ import Step2of4Gadget from "./Pages/Gadget/Step4/Step2of4Gadget/Step2of4Gadget";
 
 import Thankyou from "./Pages/ThankYouPg/Thankyou";
 
+import { useEffect } from "react";
+
 function App() {
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      const currentPath = window.location.pathname;
+
+      console.log("currentPath", currentPath);
+      // Cancella solo se l'utente è sulla pagina Step1
+      if (currentPath === "/Step-1") {
+        localStorage.clear();
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
   return (
     <>
       <BrowserRouter>

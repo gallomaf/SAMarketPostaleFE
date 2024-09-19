@@ -203,17 +203,17 @@ export default function Step4Cartoline() {
               <div className="col-rhs-inner-custom">
                 <div>
                   <p className="step4-txt">
-                    Step 4:
+                    Step 3:
                     <span className="step4-txt-sp1">
                       {" "}
-                      Dettagli delle cartoline{" "}
+                      Dettagli delle cartoline
                     </span>
                   </p>
                   <p className="rhs-st4-des">
                     Qui puoi specificare le preferenze per la personalizzazione
-                    delle tue cartoline. Scegli se fornire le<br></br> cartoline
+                    delle tue cartoline. <br/>Scegli se fornire le cartoline
                     già stampate o se preferisci che ci occupiamo noi della
-                    stampa
+                    stampa.
                   </p>
                 </div>
                 <div className="rhs-form-btn-body">
@@ -254,7 +254,8 @@ export default function Step4Cartoline() {
                           <div className="cards3-rhs-row">
 
                             <Col className="c-cards-colx">
-                              <label className="envelope-label">Lunghezza min 140 - max 235 mm</label>
+                              <label className="envelope-label">Lunghezza </label>
+                              <div >{" "} min 140 - max 235 mm</div>
                               <input
                                   type="number"
                                   min="140"
@@ -267,8 +268,9 @@ export default function Step4Cartoline() {
                               />
                             </Col>
                             <Col className="c-cards-colx">
-                              <label className="envelope-label">Altezza min 90 - max 120 mm</label>
-                              <input
+                              <label className="envelope-label">Altezza </label>
+                              <div>{" "} min 90 - max 120 mm</div>
+                                <input
                                   type="number"
                                   min="90"
                                   max="120"

@@ -1,21 +1,25 @@
 import React from "react";
-import "./Step4Cataloghi.css";
-import Button from "react-bootstrap/Button";
+//import "./Step4.css";
+//import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
-import Dropdown from "react-bootstrap/Dropdown";
+
+//import { useSearchParams, useLocation, useParams } from "react-router-dom";
+//import {  useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useSearchParams, useLocation, useParams } from "react-router-dom";
-import axios from "axios";
-import { API_URL } from "../../../services/client";
-import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
+//import { API_URL } from "../../../services/client";
+//import axios from "axios";
+import {ToastContainer} from "react-toastify";
+import { ErrorToast } from "../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
 import BreadcrumbBt from "../../../Components/Footer/BreadcrumbBt";
+//import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
+import { useRef } from "react";
 
 export default function Step4Cataloghi() {
-  const navigate = useNavigate();
+
   const now = 60;
 
   //variabili da passare tra i vari steps
@@ -27,37 +31,38 @@ export default function Step4Cataloghi() {
   const step4Busta    = localStorage.getItem("step4Busta");
   const step4Misure   = localStorage.getItem("step4Misure");
   const step4Stampa   = localStorage.getItem("step4Stampa");
-  const step4peso     = localStorage.getItem("step4peso");
+  const step4Colore   = localStorage.getItem("step4Colore");
   //fine variabili da passare tra i vari steps
+
+  const navigate = useNavigate();
+  //const [sendItem, setItem] = useState();
+
+  const targetRef = useRef(null);
 
   //nuova versione buste
   const [formatoBuste, setFormatoBuste] = useState(step4Busta);
 
   //array composto da: elenco buste e per ogni busta la tipologia di fogli associata
-  const busteCataloghi  = JSON.parse(localStorage.getItem('busteCataloghi'));//recupero con JSON perchè è un array
+  const buste        = JSON.parse(localStorage.getItem('busteCataloghi'));//recupero con JSON perchè è un array
 
   const handleFormatoBuste = (cardno) => {
     setFormatoBuste((prevState) => (prevState === cardno ? null : cardno));
+    localStorage.setItem("step52Formato",   "");
   };
 
   //fine nuova versione buste
 
-  //const [sendItem, setItem] = useState();
-  
-  //useEffect(() => {
-  //  setItem(localStorage.getItem("sendoption"));
-  //});
-
-  const [selectedValue, setSelectedValue] = useState(step4peso);//peso Catalogo
-  //const [dropselectedValue, setDropSelectedValue] = useState("");
   const [measurement, setmeasurementValue]  = useState(step4Misure  ? step4Misure : "");
   const [isChecked, setIsChecked]         = useState(step4Stampa == 'cliente' ? true: false);
   const [isChecked2, setIsChecked2]       = useState(step4Stampa == 'sa' ? true : false);
 
-  const handleChange = (e) => {
-    const value = e.target.value;
-    setSelectedValue(value);
-    //console.log("Measurement is", value);
+  const [isCheckedCol1, setIsCheckedCol1] = useState(step4Colore == "Bianco/Nero" ? true: false);
+  const [isCheckedCol2, setIsCheckedCol2] = useState(step4Colore == "Colore" ? true: false);
+
+  const scrollToSection = () => {
+    if (targetRef.current) {
+      targetRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const handlePersonalizzatoInput = (e) => {
@@ -66,39 +71,66 @@ export default function Step4Cataloghi() {
     //console.log("Measurement Value is", value);
   };
 
-  //const DropdownhandleChange = (eventKey) => {
-  //  setDropSelectedValue(eventKey);
-  //  console.log("Dropdown Selected Value is ", eventKey);
-  //};
   //const location = useLocation();
   //const queryParams = new URLSearchParams(location.search);
   //const sendoption = queryParams.get("sendoption");
-  //console.log("this is ", sendoption);
   const handleRoutes = () => {
 
-    /*
-    const [selectedValue, setSelectedValue] = useState(step4peso);//peso Catalogo
-    const [measurement, setmeasurementValue]  = useState(step4Misure  ? step4Misure : "");
-    const [isChecked, setIsChecked]         = useState(step4Stampa == 'cliente' ? true: false);
-    const [isChecked2, setIsChecked2]       = useState(step4Stampa == 'sa' ? true : false);
-     */
-    localStorage.setItem("step4Busta", formatoBuste);
-
-    localStorage.setItem("step4peso", selectedValue);
+    localStorage.setItem("step4Busta",  formatoBuste);
     localStorage.setItem("step4Misure", measurement);
-    localStorage.setItem("step4Stampa", isChecked ? 'cliente' : isChecked2 ? 'sa' : '');
+    let bustax = buste[formatoBuste-1].name;
+    localStorage.setItem("busta", bustax);
 
-    if (isChecked ) {
-      navigate(`/Lettere/Step-6`);
-    } 
-    else if (isChecked2 ) {
-
-      navigate(`/Cataloghi/Step-4-2`);
+    if (isChecked && formatoBuste) {
+      localStorage.setItem("step4Stampa",   "cliente");
+      localStorage.setItem("step4Colore",   "");
+      navigate(`/Cataloghi/Step-4-3`);
+    }
+    else if (isChecked2 && (isCheckedCol1 || isCheckedCol2) && formatoBuste) {
+      localStorage.setItem("step4Stampa",   "sa");
+      localStorage.setItem("step4Colore",   isCheckedCol1 ? "Bianco/Nero" : "Colore");
+      navigate(`/Cataloghi/Step-4-3`);
     }
 
   };
+
+  useEffect(() => {
+    if (isChecked2) {
+      scrollToSection();
+    }
+  }, [isChecked2]);
+
+  const goBack = () => {
+    navigate('/Step-3');
+  };
+
+    const formValidation = () => {
+    if (!formatoBuste) {
+      ErrorToast("Seleziona il formato della busta");
+      return false;
+    }
+
+    if (!isChecked && !isChecked2) {
+      ErrorToast("Seleziona chi deve stampare le buste");
+      return false;
+    }
+
+    if (isChecked2 && !isCheckedCol1 && !isCheckedCol2) {
+      ErrorToast("Seleziona la qualità della stampa.");
+      return false;
+    }
+
+    return true;
+
+    }
+
   async function nextstep() {
     try {
+
+      if (!formValidation()) {
+        return;
+      }
+
       /*
       const userId = localStorage.getItem("_id");
       const EnvelopePrintingOption = isChecked
@@ -107,25 +139,23 @@ export default function Step4Cataloghi() {
         ? "Stampate da Spedire Adesso"
         : "";
       const res = await axios.post(
-        `${API_URL}/auth/addQA_cataloghi_step4a`,
+        `${API_URL}/auth/addQA_lettere_step4a`,
         {
-          id: userId,
-          envelope_format: dropselectedValue,
-          measurements: measurement,
+          id:userId,
+          envelope_format: formatoBuste,
           envelope_printing: EnvelopePrintingOption,
-        }
+          measurements: measurement,
+        }f
       );
-      */
+       */
 
-      let res = {status : 200};
-
-      if (res.status === 200) {
-        //console.log("Sending Option ", sendoption)
-        //console.log("Envelope Printing Option is", EnvelopePrintingOption);
-        //console.log("Page Format is ", dropselectedValue);
-        //console.log("measurements is ", measurement);
+      let res_status = 200;
+      if (res_status === 200) {
+        //console.log("Envelope Printion Option is", EnvelopePrintingOption);
+        //console.log("Page Format is ", formatoBuste);
+        //console.log("Measurement is ", measurement);
         handleRoutes();
-        //SuccessToast("updated");
+        // SuccessToast("updated");
       }
     } catch (error) {
       console.log(error);
@@ -136,106 +166,75 @@ export default function Step4Cataloghi() {
     { value: sendoption,          url: "/Step-1" },
     { value: step2Quantity,       url: "/Step-2" },
     { value: nazione,             url: "/Step-3" },
-    { value: "Dettaglio",         url: "/Cataloghi/Step-4" },
+    { value: "Dettaglio Buste",   url: "/Lettere/Step-4" },
   ];
-
-  const goBack = () => {
-    navigate('/Step-3');
-  };
 
   return (
     <>
-     <div className="over-flow-setting" >
-      <Navbar />
-      <div>
-        <Row className="step1-row">
-          <ColonnaSx />
-          <Col md={8} className="col-rhs">
-            <div className="top-rhs">
-              <ProgressBar now={now} />
-            </div>
-
-            <div className="col-rhs-inner">
-              <div>
-                <p className="step4-txt">
-                  Step 4:
-                  <span className="step4-txt-sp1">
-                    {" "}
-                    Dettagli delle buste da spedire
-                  </span>
-                </p>
-                <p className="rhs-st4-des">
-                  Qui puoi specificare le preferenze per la personalizzazione
-                  delle tue buste. Scegli se fornire le buste già<br></br>{" "}
-                  stampate o se preferisci che ci occupiamo noi della stampa
-                </p>
+      <ToastContainer />
+      <div className="over-flow-setting">
+        <Navbar />
+        <div>
+          <Row className="step1-row">
+            <ColonnaSx />
+            <Col md={8} className="col-rhs">
+              <div className="top-rhs">
+                <ProgressBar now={now} />
               </div>
-              <div className="rhs-form-peso-btn-body">
-                <div className="size-contain">
-                  <form className="form-envelope-main">
-                    <div
-                      className={
-                        selectedValue === "Personalizzato"
-                          ? "page-format-contain"
-                          : ""
-                      }
-                    >
-                      <div className="form-group cartoline-form-drop-width">
-                        <label className="envelope-label">Formato Busta</label>
 
-                        <div className="rhs-card-btn-body">
-                          <div className="cards-rhs-row pb-4">
-                            {busteCataloghi.map((busta) => (
-                                <Col key={busta.id} onClick={() => handleFormatoBuste(busta.id)}
-                                     className="cards-col">
-                                  <div className={formatoBuste == busta.id ? "card1-active" : "card1"}>
-                                    <img src={formatoBuste == busta.id ? busta.image : busta.imageInattiva}
-                                         alt={busta.name} className="card-imgx"/>
-                                  </div>
-                                  <p className="option-txt">{busta.name}</p>
-                                </Col>
-                            ))}
+              <div className="col-rhs-inner-custom">
+                <div>
+                  <p className="step4-txt">
+                    Step 3:
+                    <span className="step4-txt-sp1">
+                      {" "}
+                      Dettagli buste{" "}
+                    </span>
+                  </p>
+                  <p className="rhs-st4-des">
+                    Qui puoi specificare le preferenze per la personalizzazione
+                    delle tue buste di spedizione. Scegli se<br></br> fornire le
+                    buste già stampate o se preferisci che ci occupiamo noi
+                    della stampa
+                  </p>
+                </div>
+
+                <div className="rhs-form-btn-body">
+                  <div className="cards-rhs-row pb-4">
+                    {buste.map((busta) => (
+                        <Col key={busta.id} onClick={() => handleFormatoBuste(busta.id)} className="cards-col">
+                          <div className={formatoBuste == busta.id ? "card1-active" : "card1"}>
+                            <img src={formatoBuste == busta.id ? busta.image : busta.imageInattiva}
+                                 alt={busta.name} className="card-imgx"/>
                           </div>
-                        </div>
-
-                      </div>
-                      <div
-                          className={
-                            formatoBuste == 6
-                                ? "form-group pg-quantity-personalizzato"
-                                : "d-none"
-                          }
-                      >
-                        <label className="envelope-label">
-                          Inserisci misure
-                        </label>
+                          <p className="option-txt">{busta.name}</p>
+                        </Col>
+                    ))}
+                  </div>
+                  <div className="rhs3-card-btn-body">
+                    <div className={formatoBuste == 6 ? "cards3-rhs-row" : "d-none"}>
+                      <Col className="c-cards-col">
+                        <label className="envelope-label">Dimensioni </label>
                         <input
                             type="text"
                             className="form-control personalizzato-form"
                             id="exampleInputQuantity"
                             onChange={handlePersonalizzatoInput}
-                            placeholder="es. 21cm x 21cm"
+                            placeholder="es. 21x21 cm"
                             value={measurement}
                         />
-                      </div>
+                      </Col>
                     </div>
+                  </div>
+                  <div className="printing-checks">
+                    <label className="envelope-label ">
+                      Stampa delle buste
+                    </label>
 
-
-                    <div className="printing-checks pb-4">
-                      <label className="envelope-label ">
-                        Stampa del catalogo
-                      </label>
-
-                      <div className="Printing-contain">
-                        <div
-                          className={
-                            !isChecked
-                              ? "Printing-check1"
-                              : "Printing-check-border"
-                          }
-                        >
-                          <div className="form-check">
-                            <input
+                    <div className="Printing-contain pb-4 ">
+                      <div className={!isChecked ? "Printing-check1" : "Printing-check-border"}>
+                        <div className="form-check">
+                          <input
                               className="form-check-input "
                               type="checkbox"
                               value=""
@@ -245,28 +244,22 @@ export default function Step4Cataloghi() {
                                 setIsChecked2(false);
                               }}
                               id="flexCheckDefault1"
-                            />
-                            <label
+                          />
+                          <label
                               className={
                                 !isChecked
-                                  ? "form-check-label"
-                                  : "selected-ans-label"
+                                    ? "form-check-label"
+                                    : "selected-check-bold"
                               }
                               htmlFor="flexCheckDefault1"
-                            >
-                              Stampato dal Cliente
-                            </label>
-                          </div>
+                          >
+                            Stampate dal Cliente
+                          </label>
                         </div>
-                        <div
-                          className={
-                            !isChecked2
-                              ? "Printing-check2"
-                              : "Printing-check-border"
-                          }
-                        >
-                          <div className="form-check">
-                            <input
+                      </div>
+                      <div className={!isChecked2 ? "Printing-check2" : "Printing-check-border"}>
+                        <div className="form-check">
+                          <input
                               className="form-check-input printing-checkbox"
                               type="checkbox"
                               value=""
@@ -276,82 +269,123 @@ export default function Step4Cataloghi() {
                                 setIsChecked2(true);
                                 setIsChecked(false);
                               }}
-                            />
-                            <label
-                              className={
-                                !isChecked2
-                                  ? "form-check-label"
-                                  : "selected-ans-label"
-                              }
-                              htmlFor="flexCheckDefault2"
-                            >
-                              Stampato da SpedireAdesso
-                            </label>
-                          </div>
+                          />
+                          <label className={!isChecked2 ? "form-check-label" : "selected-check-bold"}
+                                 htmlFor="flexCheckDefault2">
+                            Stampate da Spedire Adesso
+                          </label>
                         </div>
                       </div>
                     </div>
-                    <div
-                      className={isChecked ? "form-group pg-quantity-cataloghi" : "d-none"}
-                    >
-                      <label className="envelope-label">
-                        Peso singolo catalogo
-                      </label>
-                      <input
-                        type        ="text"
-                        className       ="form-control peso-form"
-                        id          ="exampleInputQuantity"
-                        onChange    ={handleChange}
-                        placeholder ="es. 90g"
-                        value       ={selectedValue}
-                      />
-                      <div className="border-btm">
+                  </div>
+                  <div ref={targetRef} className={isChecked2 ? "" : "d-none"}   >
 
+                      <div className="printing-checks pb-4">
+                        <label className="p-envelope-label ">
+                          Qualità della stampa
+                        </label>
+
+                        <div className="Printing-contain">
+                          <div
+                              className={
+                                !isCheckedCol1
+                                    ? "Printing-check1"
+                                    : "Printing-check-border"
+                              }
+                          >
+                            <div className="form-check">
+                              <input
+                                  className="form-check-input"
+                                  type="radio"
+                                  name="flexRadioDefault"
+                                  id="flexRadioDefault1"
+                                  checked={isCheckedCol1}
+                                  onChange={() => {
+                                    setIsCheckedCol1(true);
+                                    setIsCheckedCol2(false);
+                                  }}
+                              />
+                              <div className="label-img ">
+                                <label
+                                    className={
+                                      !isCheckedCol1
+                                          ? "form-check-label"
+                                          : "selected-check-bold"
+                                    }
+                                    htmlFor="flexRadioDefault1"
+                                >
+                                  Bianco/Nero
+                                </label>
+                                <img
+                                    src="/Images/Step1/blackwhite-check.svg"
+                                    alt="Black and White"
+                                />
+                              </div>
+                            </div>
+                          </div>
+
+                          <div
+                              className={
+                                !isCheckedCol2
+                                    ? "Printing-check2"
+                                    : "Printing-check-border2"
+                              }
+                          >
+                            <div className="form-check">
+                              <input
+                                  className="form-check-input"
+                                  type="radio"
+                                  name="flexRadioDefault"
+                                  id="flexRadioDefault2"
+                                  checked={isCheckedCol2}
+                                  onChange={() => {
+                                    setIsCheckedCol2(true);
+                                    setIsCheckedCol1(false);
+                                  }}
+                              />
+                              <div className="label-img">
+                                <label className={!isCheckedCol2 ? "form-check-label" : "selected-check-bold"}
+                                       htmlFor="flexRadioDefault2">
+                                  Colore
+                                </label>
+                                <img src="/Images/Step1/Color-check.svg" alt="Colored"/>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-            <div className="btn-rhs-row-mb">
-              <div>
-                <button className="btn-r1" onClick={goBack}>Indietro</button>
-              </div>
-              <div className="btn2-div">
-                <button
-                  className={
-                    selectedValue && (isChecked || isChecked2)
-                      ? "btn-r2-active"
-                      : "btn-r2"
-                  }
-                  onClick={nextstep}
 
-                >
-                  Avanti
-                </button>
-              </div>
-            </div>
-            <div className="btn-rhs-row w-100">
-                  <div>
-                    <button className="btn-r1" onClick={goBack}>Indietro</button>
-                  </div>
-              <div className="btn2-div w-100">
-                    <button
-                      className={
-                       selectedValue && (isChecked || isChecked2)
-                          ? "btn-r2-active"
-                          : "btn-r2"
-                      }
-                      onClick={nextstep}
-                    >
-                      Avanti
-                    </button>
-                  </div>
+                    </div>
                 </div>
-            <BreadcrumbBt breadcrumbArray={breadcrumbArray}  now={now} />
-          </Col>
-        </Row>
-      </div>
+
+              </div>
+
+              <div className="btn-rhs-row-mb">
+                <div>
+                  <button className="btn-r1" onClick={goBack}>Indietro</button>
+                </div>
+                <div className="btn2-div">
+                  <button className={formatoBuste && (isChecked || ( isChecked2 && (isCheckedCol1 || isCheckedCol2))  )? "btn-r2-active" : "btn-r2"}
+                          onClick={nextstep}>
+                    Avanti
+                  </button>
+                </div>
+              </div>
+
+              <div className="btn-rhs-row w-100 ">
+                <div>
+                  <button className="btn-r1" onClick={goBack}>Indietro</button>
+                </div>
+                <div className="btn2-div w-100">
+                  <button className={formatoBuste && (isChecked || ( isChecked2 && (isCheckedCol1 || isCheckedCol2)))  ? "btn-r2-active" : "btn-r2"}
+                          onClick={nextstep}>Avanti
+                  </button>
+                </div>
+              </div>
+              <BreadcrumbBt breadcrumbArray={breadcrumbArray} now={now}/>
+            </Col>
+          </Row>
+        </div>
       </div>
     </>
   );

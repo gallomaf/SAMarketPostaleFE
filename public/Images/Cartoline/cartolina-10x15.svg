@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: Corel App -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="40mm" height="40mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 289.75 289.75"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:#2B2A29;stroke-width:1.45;stroke-miterlimit:22.9256}
+    .fil0 {fill:none}
+    .fil1 {fill:#FEFEFE}
+   ]]>
+  </style>
+   <clipPath id="id0">
+    <rect x="47.88" y="148.37" width="81.57" height="87.7"/>
+   </clipPath>
+   <clipPath id="id1">
+    <rect x="113.5" y="173.52" width="68.08" height="63.78"/>
+   </clipPath>
+ </defs>
+ <g id="Livello_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" x="-0" y="0" width="289.75" height="289.75" rx="20.7" ry="23.81"/>
+  <rect class="fil1 str0" x="45.08" y="141.31" width="135.92" height="95.65" rx="2.87" ry="4.18"/>
+  <g style="clip-path:url(#id0)">
+   <image id="_21743169-un-bellissimo-donna-spettacoli-un-gesto-di-approvazione-freddo-o-ok-pollice-sollevato-su-vettoriale.jpg" x="47.88" y="148.37" width="81.57" height="87.7" xlink:href="cartolina-10x15_Images\cartolina-10x15_ImgID1.png"/>
+  </g>
+  <g style="clip-path:url(#id1)">
+   <image x="113.5" y="173.52" width="68.08" height="63.78" xlink:href="cartolina-10x15_Images\cartolina-10x15_ImgID2.png"/>
+  </g>
+  <rect class="fil1 str0" x="108.58" y="69.45" width="135.92" height="95.65" rx="2.01" ry="2.93"/>
+  <rect class="fil0 str0" x="217.41" y="79.89" width="17.13" height="22.98"/>
+  <line class="fil0 str0" x1="191.09" y1="122.51" x2="236.21" y2= "122.51" />
+  <line class="fil0 str0" x1="190.67" y1="134.63" x2="235.79" y2= "134.63" />
+  <line class="fil0 str0" x1="190.67" y1="147.99" x2="235.79" y2= "147.99" />
+  <line class="fil0 str0" x1="173.54" y1="80.31" x2="174.38" y2= "154.68" />
+ </g>
+</svg>

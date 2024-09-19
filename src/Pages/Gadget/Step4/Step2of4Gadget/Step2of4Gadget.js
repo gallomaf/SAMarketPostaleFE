@@ -6,10 +6,12 @@ import { useState, useEffect } from "react";
 import Navbar from "../../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
-import { useSearchParams, useLocation, useParams } from "react-router-dom";
-import axios from "axios";
-import { API_URL } from "../../../../services/client";
-import { SuccessToast } from "../../../../Components/Navbar/Toast/Toast";
+//import { useSearchParams, useLocation, useParams } from "react-router-dom";
+//import axios from "axios";
+//import { API_URL } from "../../../../services/client";
+//import { SuccessToast } from "../../../../Components/Navbar/Toast/Toast";
+import {ToastContainer} from "react-toastify";
+import {ErrorToast, SuccessToast} from "../../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../../Components/Colonne/ColonnaSx";
 import BreadcrumbBt from "../../../../Components/Footer/BreadcrumbBt";
 export default function Step2of4Gadget() {
@@ -76,7 +78,7 @@ export default function Step2of4Gadget() {
     { id: 9, name: "Portachiavi" },
     { id: 10, name: "Braccialetti" },
     { id: 11, name: "Segnalibri" },
-    { id: 12, name: "Personalizzato" }
+    { id: 12, name: "Altro" }
   ];
 
   const DropdownhandleChange = (eventKey) => {
@@ -89,13 +91,6 @@ export default function Step2of4Gadget() {
   //console.log("this is ", sendoption);
   const handleRoutes = () => {
 
-    if (isChecked1){
-      localStorage.setItem("step4Colore",   "Bianco/Nero");
-    }
-    if (isChecked2){
-      localStorage.setItem("step4Colore",   "Colore");
-    }
-
     localStorage.setItem("step4Gadget", dropselectedValue);
     localStorage.setItem("step4Peso", gadgetweight);
     localStorage.setItem("step4Misure", measurement);
@@ -106,13 +101,35 @@ export default function Step2of4Gadget() {
     //console.log("Measurements", measurement);
 
 
-    if ((isChecked1 || isChecked2) && dropselectedValue) {
+    if (( dropselectedValue =='Altro' && measurement ) || ( dropselectedValue !== 'Altro' && dropselectedValue != ""  ) && gadgetweight) {
       navigate(`/Lettere/Step-6`);
     }
   };
 
+  const formValidation = () => {
+    if (dropselectedValue === "") {
+      ErrorToast("Seleziona il tipo di gadget");
+      return false;
+    }
+    if (dropselectedValue === "Altro" && measurement === "") {
+      ErrorToast("Inserisci il tipo di gadget");
+      return false;
+    }
+    if (gadgetweight === "") {
+      ErrorToast("Inserisci il peso del gadget");
+      return false;
+    }
+    return true;
+
+  }
+
   async function nextstep() {
     try {
+
+      if (!formValidation()) {
+        return;
+      }
+
       /*
       const userId = localStorage.getItem("_id");
       const SenderLogoPrintQuality = isChecked1
@@ -161,6 +178,7 @@ export default function Step2of4Gadget() {
 
   return (
     <>
+      <ToastContainer />
       <div className="over-flow-setting">
         <Navbar />
         <div>
@@ -171,11 +189,11 @@ export default function Step2of4Gadget() {
                 <ProgressBar now={now} />
               </div>
 
-              <div className="col-rhs-inner">
+              <div className="col-rhs-inner-custom">
                 <div>
                   <p className="step4-txt">
                     Step 4:
-                    <span className="step4-txt-sp1"> Stampa buste </span>
+                    <span className="step4-txt-sp1"> Dettagli Gadget </span>
                   </p>
                   <p className="rhs-st4-des">
                     Scegli la qualità e il tipo della stampa che preferisci.
@@ -185,87 +203,13 @@ export default function Step2of4Gadget() {
                 <div className="rhs-form-gadget2-body">
                   <div className="size-contain">
                     <form className="form-envelope-main">
-                      <div className="printing-checks-contain">
-                        <label className="p-envelope-label ">
-                          Qualità stampa logo mittente
-                        </label>
 
-                        <div className="Printing-contain">
-                          <div
-                            className={
-                              !isChecked1
-                                ? "Printing-check1"
-                                : "Printing-check-border"
-                            }
-                          >
-                            <div className="form-check">
-                              <input
-                                className="form-check-input"
-                                type="radio"
-                                name="flexRadioDefault"
-                                id="flexRadioDefault1"
-                                checked={isChecked1}
-                                onChange={() => {
-                                  setIsChecked1(true);
-                                  setIsChecked2(false);
-                                }}
-                              />
-                              <div className="label-img ">
-                                <label
-                                  className="form-check-label "
-                                  htmlFor="flexRadioDefault1"
-                                >
-                                  Bianco/Nero
-                                </label>
-                                <img
-                                  src="/Images/Step1/blackwhite-check.svg"
-                                  alt="Black and White"
-                                />
-                              </div>
-                            </div>
-                          </div>
-
-                          <div
-                            className={
-                              !isChecked2
-                                ? "Printing-check2"
-                                : "Printing-check-border2"
-                            }
-                          >
-                            <div className="form-check">
-                              <input
-                                className="form-check-input"
-                                type="radio"
-                                name="flexRadioDefault"
-                                id="flexRadioDefault2"
-                                checked={isChecked2}
-                                onChange={() => {
-                                  setIsChecked2(true);
-                                  setIsChecked1(false);
-                                }}
-                              />
-                              <div className="label-img">
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="flexRadioDefault2"
-                                >
-                                  Colore
-                                </label>
-                                <img
-                                  src="/Images/Step1/Color-check.svg"
-                                  alt="Colored"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                       <div
-                        className={
-                          dropselectedValue === "Personalizzato"
-                            ? "page-format-contain-gadget"
-                            : ""
-                        }
+                          className={
+                            dropselectedValue === "Altro"
+                                ? "page-format-contain-gadget"
+                                : ""
+                          }
                       >
                         <div className="form-group cartoline-form-drop-width gadget-drop">
                           <label className="envelope-label">
@@ -295,22 +239,22 @@ export default function Step2of4Gadget() {
 
                         </div>
                         <div
-                          className={
-                            dropselectedValue === "Personalizzato"
-                              ? "form-group pg-quantity-gadget"
-                              : "d-none"
-                          }
+                            className={
+                              dropselectedValue === "Altro"
+                                  ? "form-group pg-quantity-gadget"
+                                  : "d-none"
+                            }
                         >
                           <label className="envelope-label">
                             Specifica Gadget
                           </label>
                           <input
-                            type="text"
-                            className="form-control personalizzato-form"
-                            id="exampleInputQuantity"
-                            onChange={handlePersonalizzatoInput}
-                            placeholder="es. Calendario"
-                            value={measurement}
+                              type="text"
+                              className="form-control personalizzato-form"
+                              id="exampleInputQuantity"
+                              onChange={handlePersonalizzatoInput}
+                              placeholder="es. Calendario"
+                              value={measurement}
                           />
                         </div>
                       </div>
@@ -320,12 +264,12 @@ export default function Step2of4Gadget() {
                           Peso del gadget
                         </label>
                         <input
-                          type="text"
-                          className="form-control peso-form"
-                          id="exampleInputQuantity"
-                          onChange={handleChangeGadget}
-                          placeholder="es. 90g"
-                          value={gadgetweight}
+                            type="text"
+                            className="form-control peso-form"
+                            id="exampleInputQuantity"
+                            onChange={handleChangeGadget}
+                            placeholder="es. 90g"
+                            value={gadgetweight}
                         />
                         <div className="border-btm"></div>
                       </div>
@@ -364,7 +308,7 @@ export default function Step2of4Gadget() {
                   <div className="btn2-div">
                     <button
                       className={
-                        (isChecked1 || isChecked2) && dropselectedValue
+                          (( dropselectedValue =='Altro' && measurement ) || ( dropselectedValue !== 'Altro' && dropselectedValue != ""  ) && gadgetweight)
                           ? "btn-r2-active"
                           : "btn-r2"
                       }
@@ -383,7 +327,7 @@ export default function Step2of4Gadget() {
                 <div className="btn2-div w-100">
                   <button
                     className={
-                      (isChecked1 || isChecked2) && dropselectedValue
+                      (( dropselectedValue =='Altro' && measurement ) || ( dropselectedValue !== 'Altro' && dropselectedValue != ""  ) && gadgetweight)
                         ? "btn-r2-active"
                         : "btn-r2"
                     }

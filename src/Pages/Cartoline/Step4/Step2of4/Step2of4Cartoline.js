@@ -216,7 +216,7 @@ export default function Step2of4Cartoline() {
                 <ProgressBar now={now} />
               </div>
 
-              <div className="col-rhs-inner-new overflow-auto ">
+              <div className="col-rhs-inner-custom overflow-auto ">
                 <div>
                   <p className="step4-txt">
                     Step 4:

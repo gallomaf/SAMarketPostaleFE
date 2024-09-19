@@ -88,7 +88,7 @@ export default function Step6() {
       step = step4Stampa == "cliente"  ? "Step-4" :  "Step-4-2";
     }
     else if(opzione ==='Cataloghi'){
-      step = step4Stampa == "cliente"  ? "Step-4" :  "Step-4-3";
+      step =  "Step-4-3";
     }
     else if(opzione ==='Gadget'){
       step = step4Stampa == "cliente"  ? "Step-4" :  "Step-4-2";

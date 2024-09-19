@@ -130,23 +130,23 @@ export default function Step3() {
 
   const cartoline = [
     { id: 1,
-      name: "Cartolina (150X105mm)",
+      name: "150 X 105 mm",
       description: "Cartolina (150X105mm)",
-      image: "/Images/Buste/spunta.svg",
-      imageInattiva: "/Images/Buste/BUSTA_C6.svg",
+      image: "/Images/Cartoline/cartolina-10x15.svg",
+      imageInattiva: "/Images/Cartoline/cartolina-10x15.svg",
     },
     { id: 2,
-      name: "Cartolina (210X105mm)",
+      name: " 210 X 105 mm ",
       description: "Cartolina (210X105mm)",
-      image: "/Images/Buste/spunta.svg",
-      imageInattiva: "/Images/Buste/BUSTA_C6.svg",
+      image: "/Images/Cartoline/cartolina-10x21.svg",
+      imageInattiva: "/Images/Cartoline/cartolina-10x21.svg",
 
     },
     { id: 6,
       name: "Personalizzato",
       description: "Scegli il tuo formato",
-      image: "/Images/Buste/spunta.svg",
-      imageInattiva: "/Images/Buste/BUSTA_C6.svg" ,
+      image: "/Images/Cartoline/cartolina-personalizzata.svg",
+      imageInattiva: "/Images/Cartoline/cartolina-personalizzata.svg",
     },
   ];
 
@@ -156,7 +156,80 @@ export default function Step3() {
 
   //inizio buste per cataloghi
 
-  const busteCataloghi = buste;
+  const busteCataloghi = [
+    /*
+    { id: 1,
+      name: "Busta C6 (220X110mm)",
+      description: "Busta C6 (220X110mm)",
+      image: "/Images/Buste/busta-c6-bk.svg",
+      imageInattiva: "/Images/Buste/busta-c6-bk.svg",
+      fogli: [
+        { id: 0, name: "Foglio A6", image: "/Images/Buste/busta-c6-foglio-a6-bk.svg", imageInattiva: "/Images/Buste/busta-c6-foglio-a6-bk.svg" },
+        { id: 1, name: "Foglio A5", image: "/Images/Buste/busta-c6-foglio-a5-bk.svg", imageInattiva: "/Images/Buste/busta-c6-foglio-a5-bk.svg" },
+        { id: 2, name: "Foglio A4", image: "/Images/Buste/busta-c6-foglio-a4-bk.svg", imageInattiva: "/Images/Buste/busta-c6-foglio-a4-bk.svg" },
+        //{ id: 99, name: "Personalizzato", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" }
+      ]
+    },
+      */
+    { id: 2,
+      name: "Busta C5 (230X162mm)",
+      description: "Busta C5 (230X162mm)",
+      image: "/Images/Buste/busta-c5-bk.svg",
+      imageInattiva: "/Images/Buste/busta-c5-bk.svg",
+      fogli: [
+        { id: 0, name: "Foglio A5", image: "/Images/Buste/busta-c5-foglio-a5-bk.svg", imageInattiva: "/Images/Buste/busta-c5-foglio-a5-bk.svg" },
+        { id: 1, name: "Foglio A4", image: "/Images/Buste/busta-c5-foglio-a4-bk.svg", imageInattiva: "/Images/Buste/busta-c5-foglio-a4-bk.svg" },
+        //{ id: 99, name: "Personalizzato", image: "/Images/Buste/busta-c3-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c3-foglio-a3-bk.svg" },
+      ]
+    },
+      /*
+    { id: 3,
+      name: "Busta DL (220X110mm)",
+      description: "Busta DL (220X110mm)",
+      image: "/Images/Buste/busta-DL-bk.svg",
+      imageInattiva: "/Images/Buste/busta-DL-bk.svg",
+      fogli: [
+        { id: 0, name: "Invito/Flyer",    image: "/Images/Buste/busta-DL-foglio-flyer-bk.svg",          imageInattiva: "/Images/Buste/busta-DL-foglio-flyer-bk.svg" },
+        { id: 1, name: "Flyer Doppio",    image: "/Images/Buste/busta-DL-foglio-flyer-doppio-bk.svg",   imageInattiva: "/Images/Buste/busta-DL-foglio-flyer-doppio-bk.svg" },
+        { id: 2, name: "Foglio A4",       image: "/Images/Buste/busta-DL-foglio-a4-bk.svg",             imageInattiva: "/Images/Buste/busta-DL-foglio-a4-bk.svg" },
+        //{ id: 99, name: "Personalizzato", image: "/Images/Buste/busta-c3-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c3-foglio-a3-bk.svg" },
+      ]
+    },
+    */
+    { id: 4,
+      name: "Busta C4 (324X229mm)",
+      description: "Busta C4 (324X229mm)",
+      image: "/Images/Buste/busta-c4-bk.svg",
+      imageInattiva: "/Images/Buste/busta-c4-bk.svg",
+      fogli: [
+        { id: 0, name: "Foglio A4", image: "/Images/Buste/busta-c4-foglio-a4-bk.svg", imageInattiva: "/Images/Buste/busta-c4-foglio-a4-bk.svg" },
+        { id: 1, name: "Foglio A3", image: "/Images/Buste/busta-c4-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c4-foglio-a3-bk.svg" },
+        //{ id: 99, name: "Personalizzato", image: "/Images/Buste/busta-c3-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c3-foglio-a3-bk.svg" },
+      ]
+    },
+    { id: 5,
+      name: "Busta C3 (297X420mm)",
+      description: "Busta C3 (297X420mm)",
+      image: "/Images/Buste/busta-c3-bk.svg",
+      imageInattiva: "/Images/Buste/busta-c3-bk.svg",
+      fogli: [
+        { id: 0, name: "Foglio A3", image: "/Images/Buste/busta-c3-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c3-foglio-a3-bk.svg" },
+        //{ id: 99, name: "Personalizzato", image: "/Images/Buste/busta-c3-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c3-foglio-a3-bk.svg" },
+      ]
+    },
+    /*
+  { id: 6,
+    name: "Personalizzato",
+    description: "Scegli il tuo formato",
+    image: "/Images/Buste/busta-c4-bk.svg",
+    imageInattiva: "/Images/Buste/busta-c4-bk.svg" ,
+    fogli: [
+      { id: 0, name: "Personalizzato", image: "/Images/Buste/busta-c3-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c3-foglio-a3-bk.svg" },
+    ]
+  },
+
+     */
+  ];
 
   localStorage.setItem('busteCataloghi', JSON.stringify(busteCataloghi));
 
@@ -214,7 +287,7 @@ export default function Step3() {
               ErrorToast("Inserisci la quantità per Italia ed Estero");
               return false;
             }
-            if(  ( parseInt(italia) + parseInt(estero) )  < parseInt(step2Quantity)  ){
+            if(  ( parseInt(italia) + parseInt(estero) )  != parseInt(step2Quantity)  ){
                 ErrorToast("La somma delle quantità per Italia ed Estero deve essere uguale alla quantità: " + step2Quantity);
                 return false;
             }
@@ -368,7 +441,7 @@ export default function Step3() {
                   </button>
                 </div>
                 <div className="btn2-div">
-                  <button className={step3Click != 3 || (italia != "" && estero != "")  ? "btn-r2-active" : "btn-r2"} onClick={nextstep}>
+                  <button className={ step3Click && (step3Click != 3 || (italia != "" && estero != ""))  ? "btn-r2-active" : "btn-r2"} onClick={nextstep}>
                     Avanti
                   </button>
                 </div>
@@ -380,7 +453,7 @@ export default function Step3() {
                   </button>
                 </div>
                 <div className="btn2-div w-100">
-                  <button className={step3Click != 3 || (italia != "" && estero != "")  ? "btn-r2-active" : "btn-r2"} onClick={nextstep}>
+                  <button className={step3Click && (step3Click != 3 || (italia != "" && estero != ""))  ? "btn-r2-active" : "btn-r2"} onClick={nextstep}>
                     Avanti
                   </button>
                 </div>
