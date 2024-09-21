@@ -36,10 +36,11 @@ export default function Step5() {
 
   },[]);
   const [step5Click, setStep5Click] = useState(step5Pagine);
-  const InternalPgActive    = "/Images/Step1/circle-tick-active.svg";
-  const InternalPgInactive  = "/Images/Step1/circle-tick.svg";
-  const NoInactive          = "/Images/Step1/cross-icon.svg";
-  const NoActive            = "/Images/Step1/cross-active.svg";
+  const InternalPgActive    = `${process.env.PUBLIC_URL}/Images/Step1/circle-tick-active.svg`;
+  const InternalPgInactive  = `${process.env.PUBLIC_URL}/Images/Step1/circle-tick.svg`;
+  const NoInactive          = `${process.env.PUBLIC_URL}/Images/Step1/cross-icon.svg`;
+  const NoActive            = `${process.env.PUBLIC_URL}/Images/Step1/cross-active.svg`;
+
 
   const handleClick5 = (cardno) => {
     setStep5Click((prevState) => (prevState === cardno ? null : cardno));

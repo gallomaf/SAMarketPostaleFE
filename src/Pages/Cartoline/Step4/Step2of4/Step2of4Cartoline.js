@@ -4,13 +4,15 @@ import "./Step2of4Cartoline.css";
 //import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navbar from "../../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-import { useSearchParams, useLocation, useParams } from "react-router-dom";
-import axios from "axios";
-import { API_URL } from "../../../../services/client";
-import { SuccessToast } from "../../../../Components/Navbar/Toast/Toast";
+//import { useSearchParams, useLocation, useParams } from "react-router-dom";
+//import axios from "axios";
+//import { API_URL } from "../../../../services/client";
+//import { SuccessToast } from "../../../../Components/Navbar/Toast/Toast";
+import {ToastContainer} from "react-toastify";
+import { ErrorToast } from "../../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../../Components/Colonne/ColonnaSx";
 import BreadcrumbBt from "../../../../Components/Footer/BreadcrumbBt";
 
@@ -149,9 +151,36 @@ export default function Step2of4Cartoline() {
     navigate('/Cartoline/Step-4');
   };
 
+    const formValidation = () => {
+      if (!isChecked1 && !isChecked2) {
+        ErrorToast("Seleziona la qualità della stampa");
+        return false;
+      }
+
+      if (!isCheckedR1 && !isCheckedR2) {
+        ErrorToast("Seleziona il tipo di stampa");
+        return false;
+      }
+
+      if (!isCheckedT1 && !isCheckedT2) {
+        ErrorToast("Seleziona la grammatura della carta");
+        return false;
+      }
+
+      if (!isCheckedG1 && !isCheckedG2 && !isCheckedG3) {
+        ErrorToast("Seleziona la grammatura della carta");
+        return false;
+      }
+
+      return true;
+    }
+
   async function nextstep() {
     try {
 
+        if (!formValidation()) {
+          return;
+        }
 
 
       /*
@@ -184,13 +213,7 @@ export default function Step2of4Cartoline() {
 
       let res = {status: 200};
       if (res.status === 200) {
-        //console.log("print_quality ", print_quality);
-        //console.log("type_of_printing ", type_of_printing);
-        //console.log("paper_weight ", paper_weight);
-        //console.log("type_of_paper ", type_of_paper);
-
         handleRoutes();
-        //SuccessToast("updated");
       }
     } catch (error) {
       console.log(error);
@@ -206,6 +229,7 @@ export default function Step2of4Cartoline() {
 
   return (
     <>
+      <ToastContainer/>
       <div className="over-flow-setting">
         <Navbar />
         <div>
@@ -267,8 +291,8 @@ export default function Step2of4Cartoline() {
                                     Bianco/Nero
                                   </label>
                                   <img
-                                    src="/Images/Step1/blackwhite-check.svg"
-                                    alt="Black and White"
+                                      src={`${process.env.PUBLIC_URL}/Images/Step1/blackwhite-check.svg`}
+                                      alt="Black and White"
                                   />
                                 </div>
                               </div>
@@ -305,7 +329,7 @@ export default function Step2of4Cartoline() {
                                     Colore
                                   </label>
                                   <img
-                                    src="/Images/Step1/Color-check.svg"
+                                    src={`${process.env.PUBLIC_URL}/Images/Step1/Color-check.svg`}
                                     alt="Colored"
                                   />
                                 </div>
@@ -717,13 +741,13 @@ export default function Step2of4Cartoline() {
 
                             {selectedFile ? (
                               <img
-                                src="/Images/Step1/file-icon.svg"
+                                src={`${process.env.PUBLIC_URL}/Images/Step1/file-icon.svg`}
                                 alt="selected-file"
                               />
                             ) : (
                               <img
-                                src="/Images/Step1/upload-file.svg"
-                                alt="upload-file"
+                                  src={`${process.env.PUBLIC_URL}/Images/Step1/upload-file.svg`}
+                                  alt="upload-file"
                               />
                             )}
 
@@ -747,7 +771,7 @@ export default function Step2of4Cartoline() {
                             {selectedFile && (
                               <div className="dot-preview">
                                 <img
-                                  src="/Images/Step1/dot-img.svg"
+                                  src={`${process.env.PUBLIC_URL}/Images/Step1/dot-img.svg`}
                                   alt="dot"
                                 />
                                 <p
@@ -760,7 +784,7 @@ export default function Step2of4Cartoline() {
                                 </p>
                                 <div className="dot-preview">
                                   <img
-                                    src="/Images/Step1/dot-img.svg"
+                                    src={`${process.env.PUBLIC_URL}/Images/Step1/dot-img.svg`}
                                     alt="dot"
                                   />
                                   <p
@@ -810,7 +834,7 @@ export default function Step2of4Cartoline() {
                       }
                     >
                       <img
-                        src="/Images/Cartoline/Step4-Stampa.svg"
+                          src={`${process.env.PUBLIC_URL}/Images/Cartoline/Step4-Stampa.svg`}
                         alt="Envelope"
                       />
                     </div>

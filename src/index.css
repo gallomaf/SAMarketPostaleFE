@@ -26,5 +26,6 @@ code {
   .over-flow-setting {
     height: 100vh !important;
     overflow: auto;
+    overflow-x: hidden !important;
   }
 }

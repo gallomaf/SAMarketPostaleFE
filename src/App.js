@@ -1,4 +1,4 @@
-import logo from "./logo.svg";
+//import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Step1 from "./Pages/Lettere/Step1/Step1";
@@ -50,7 +50,7 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter basename="marketingpostale/">
         <Routes>
           <Route path="/" element={<Step1 />} />
           <Route path="/Step-1" element={<Step1 />} />

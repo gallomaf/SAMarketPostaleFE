@@ -1,15 +1,15 @@
 import React from "react";
 import "./Step6Cartoline.css";
-import Button from "react-bootstrap/Button";
+//import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useState, useEffect } from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-import { useSearchParams, useLocation, useParams } from "react-router-dom";
+import {  useLocation } from "react-router-dom";
 import { API_URL } from "../../../services/client";
 import axios from "axios";
-import { SuccessToast,ErrorToast } from "../../../Components/Navbar/Toast/Toast";
+import { ErrorToast } from "../../../Components/Navbar/Toast/Toast";
 
 export default function Step6Cartoline() {
   const now = 98;
@@ -33,25 +33,9 @@ export default function Step6Cartoline() {
 
   useEffect(() => {
     setItem(localStorage.getItem("sendoption"));
-  });
-  const formValidation = () => {
-    if (!name) {
-      ErrorToast("Kindly Add First Name");
-      return false;
-    }
-     else if (!email) {
-      ErrorToast("Kindly Add your Email");
-      return false;
-    }
-    else if (!agency) {
-      ErrorToast("Kindly Add Agency Name");
-      return false;
-    }
-    else if (!number) {
-      ErrorToast("Kindly Add number");
-      return false;
-    }  
-  };
+  },[]);
+
+
   async function nextstep() {
     try {
       const userId = localStorage.getItem("_id");

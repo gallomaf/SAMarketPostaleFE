@@ -7,7 +7,7 @@ const ColonnaSx = () => {
         <Col md={4} className="col-lhs">
             <div className="col-lhs-inner">
                 <div className="lhs-img">
-                    <img src="/Images/Step1/send-img.svg" alt="send" />
+                    <img src={`${process.env.PUBLIC_URL}/Images/Step1/send-img.svg`} alt="send" />
                 </div>
                 <div>
                     <p className="heading-lhs">

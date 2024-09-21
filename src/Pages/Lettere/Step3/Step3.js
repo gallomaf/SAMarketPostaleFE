@@ -32,12 +32,14 @@ export default function Step3() {
   const navigate = useNavigate();
   //const [sendItem, setItem] = useState();
   const [step3Click, setStep3Click] = useState(step3Nazione);
-  const ItaliaActive    = "/Images/Step1/Italia-active.svg";
-  const ItaliaInactive  = "/Images/Step1/italia.svg.svg";
-  const EsteroInactive  = "/Images/Step1/estero.svg.svg";
-  const EsteroActive    = "/Images/Estero Active.svg";
-  const MistoActive     = "/Images/Misto Active.svg";
-  const MistoInactive   = "/Images/Step1/Misto.svg";
+
+  const ItaliaActive    = `${process.env.PUBLIC_URL}/Images/Step1/Italia-active.svg`;
+  const ItaliaInactive  = `${process.env.PUBLIC_URL}/Images/Step1/italia.svg`;
+  const EsteroInactive  = `${process.env.PUBLIC_URL}/Images/Step1/estero.svg`;
+  const EsteroActive    = `${process.env.PUBLIC_URL}/Images/Estero Active.svg`;
+  const MistoActive     = `${process.env.PUBLIC_URL}/Images/Misto Active.svg`;
+  const MistoInactive   = `${process.env.PUBLIC_URL}/Images/Step1/Misto.svg`;
+
 
   const [italia, setitaliaValue] = useState(step3QtaItalia > 0 ? step3QtaItalia : "");
   const [estero, setesteroValue] = useState(step3QtaEstero > 0 ? step3QtaEstero : "");
@@ -52,77 +54,120 @@ export default function Step3() {
 
   localStorage.setItem('nazioni', JSON.stringify(nazioni));
 
-  //array composto da: elenco buste e per ogni busta la tipologia di fogli associata
   const buste = [
-    { id: 1,
+    {
+      id: 1,
       name: "Busta C6 (220X110mm)",
       description: "Busta C6 (220X110mm)",
-      image: "/Images/Buste/busta-c6-bk.svg",
-      imageInattiva: "/Images/Buste/busta-c6-bk.svg",
+      image: `${process.env.PUBLIC_URL}/Images/Buste/busta-c6-bk.svg`,
+      imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-c6-bk.svg`,
       fogli: [
-        { id: 0, name: "Foglio A6", image: "/Images/Buste/busta-c6-foglio-a6-bk.svg", imageInattiva: "/Images/Buste/busta-c6-foglio-a6-bk.svg" },
-        { id: 1, name: "Foglio A5", image: "/Images/Buste/busta-c6-foglio-a5-bk.svg", imageInattiva: "/Images/Buste/busta-c6-foglio-a5-bk.svg" },
-        { id: 2, name: "Foglio A4", image: "/Images/Buste/busta-c6-foglio-a4-bk.svg", imageInattiva: "/Images/Buste/busta-c6-foglio-a4-bk.svg" },
-        //{ id: 99, name: "Personalizzato", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" }
-      ]
+        {
+          id: 0,
+          name: "Foglio A6",
+          image: `${process.env.PUBLIC_URL}/Images/Buste/busta-c6-foglio-a6-bk.svg`,
+          imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-c6-foglio-a6-bk.svg`,
+        },
+        {
+          id: 1,
+          name: "Foglio A5",
+          image: `${process.env.PUBLIC_URL}/Images/Buste/busta-c6-foglio-a5-bk.svg`,
+          imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-c6-foglio-a5-bk.svg`,
+        },
+        {
+          id: 2,
+          name: "Foglio A4",
+          image: `${process.env.PUBLIC_URL}/Images/Buste/busta-c6-foglio-a4-bk.svg`,
+          imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-c6-foglio-a4-bk.svg`,
+        },
+      ],
     },
-    { id: 2,
+    {
+      id: 2,
       name: "Busta C5 (230X162mm)",
       description: "Busta C5 (230X162mm)",
-      image: "/Images/Buste/busta-c5-bk.svg",
-      imageInattiva: "/Images/Buste/busta-c5-bk.svg",
+      image: `${process.env.PUBLIC_URL}/Images/Buste/busta-c5-bk.svg`,
+      imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-c5-bk.svg`,
       fogli: [
-        { id: 0, name: "Foglio A5", image: "/Images/Buste/busta-c5-foglio-a5-bk.svg", imageInattiva: "/Images/Buste/busta-c5-foglio-a5-bk.svg" },
-        { id: 1, name: "Foglio A4", image: "/Images/Buste/busta-c5-foglio-a4-bk.svg", imageInattiva: "/Images/Buste/busta-c5-foglio-a4-bk.svg" },
-        //{ id: 99, name: "Personalizzato", image: "/Images/Buste/busta-c3-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c3-foglio-a3-bk.svg" },
-      ]
+        {
+          id: 0,
+          name: "Foglio A5",
+          image: `${process.env.PUBLIC_URL}/Images/Buste/busta-c5-foglio-a5-bk.svg`,
+          imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-c5-foglio-a5-bk.svg`,
+        },
+        {
+          id: 1,
+          name: "Foglio A4",
+          image: `${process.env.PUBLIC_URL}/Images/Buste/busta-c5-foglio-a4-bk.svg`,
+          imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-c5-foglio-a4-bk.svg`,
+        },
+      ],
     },
-    { id: 3,
+    {
+      id: 3,
       name: "Busta DL (220X110mm)",
       description: "Busta DL (220X110mm)",
-      image: "/Images/Buste/busta-DL-bk.svg",
-      imageInattiva: "/Images/Buste/busta-DL-bk.svg",
+      image: `${process.env.PUBLIC_URL}/Images/Buste/busta-DL-bk.svg`,
+      imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-DL-bk.svg`,
       fogli: [
-        { id: 0, name: "Invito/Flyer",    image: "/Images/Buste/busta-DL-foglio-flyer-bk.svg",          imageInattiva: "/Images/Buste/busta-DL-foglio-flyer-bk.svg" },
-        { id: 1, name: "Flyer Doppio",    image: "/Images/Buste/busta-DL-foglio-flyer-doppio-bk.svg",   imageInattiva: "/Images/Buste/busta-DL-foglio-flyer-doppio-bk.svg" },
-        { id: 2, name: "Foglio A4",       image: "/Images/Buste/busta-DL-foglio-a4-bk.svg",             imageInattiva: "/Images/Buste/busta-DL-foglio-a4-bk.svg" },
-        //{ id: 99, name: "Personalizzato", image: "/Images/Buste/busta-c3-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c3-foglio-a3-bk.svg" },
-      ]
+        {
+          id: 0,
+          name: "Invito/Flyer",
+          image: `${process.env.PUBLIC_URL}/Images/Buste/busta-DL-foglio-flyer-bk.svg`,
+          imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-DL-foglio-flyer-bk.svg`,
+        },
+        {
+          id: 1,
+          name: "Flyer Doppio",
+          image: `${process.env.PUBLIC_URL}/Images/Buste/busta-DL-foglio-flyer-doppio-bk.svg`,
+          imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-DL-foglio-flyer-doppio-bk.svg`,
+        },
+        {
+          id: 2,
+          name: "Foglio A4",
+          image: `${process.env.PUBLIC_URL}/Images/Buste/busta-DL-foglio-a4-bk.svg`,
+          imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-DL-foglio-a4-bk.svg`,
+        },
+      ],
     },
-    { id: 4,
+    {
+      id: 4,
       name: "Busta C4 (324X229mm)",
       description: "Busta C4 (324X229mm)",
-      image: "/Images/Buste/busta-c4-bk.svg",
-      imageInattiva: "/Images/Buste/busta-c4-bk.svg",
+      image: `${process.env.PUBLIC_URL}/Images/Buste/busta-c4-bk.svg`,
+      imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-c4-bk.svg`,
       fogli: [
-        { id: 0, name: "Foglio A4", image: "/Images/Buste/busta-c4-foglio-a4-bk.svg", imageInattiva: "/Images/Buste/busta-c4-foglio-a4-bk.svg" },
-        { id: 1, name: "Foglio A3", image: "/Images/Buste/busta-c4-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c4-foglio-a3-bk.svg" },
-        //{ id: 99, name: "Personalizzato", image: "/Images/Buste/busta-c3-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c3-foglio-a3-bk.svg" },
-      ]
+        {
+          id: 0,
+          name: "Foglio A4",
+          image: `${process.env.PUBLIC_URL}/Images/Buste/busta-c4-foglio-a4-bk.svg`,
+          imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-c4-foglio-a4-bk.svg`,
+        },
+        {
+          id: 1,
+          name: "Foglio A3",
+          image: `${process.env.PUBLIC_URL}/Images/Buste/busta-c4-foglio-a3-bk.svg`,
+          imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-c4-foglio-a3-bk.svg`,
+        },
+      ],
     },
-    { id: 5,
+    {
+      id: 5,
       name: "Busta C3 (297X420mm)",
       description: "Busta C3 (297X420mm)",
-      image: "/Images/Buste/busta-c3-bk.svg",
-      imageInattiva: "/Images/Buste/busta-c3-bk.svg",
+      image: `${process.env.PUBLIC_URL}/Images/Buste/busta-c3-bk.svg`,
+      imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-c3-bk.svg`,
       fogli: [
-        { id: 0, name: "Foglio A3", image: "/Images/Buste/busta-c3-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c3-foglio-a3-bk.svg" },
-        //{ id: 99, name: "Personalizzato", image: "/Images/Buste/busta-c3-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c3-foglio-a3-bk.svg" },
-      ]
+        {
+          id: 0,
+          name: "Foglio A3",
+          image: `${process.env.PUBLIC_URL}/Images/Buste/busta-c3-foglio-a3-bk.svg`,
+          imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-c3-foglio-a3-bk.svg`,
+        },
+      ],
     },
-      /*
-    { id: 6,
-      name: "Personalizzato",
-      description: "Scegli il tuo formato",
-      image: "/Images/Buste/busta-c4-bk.svg",
-      imageInattiva: "/Images/Buste/busta-c4-bk.svg" ,
-      fogli: [
-        { id: 0, name: "Personalizzato", image: "/Images/Buste/busta-c3-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c3-foglio-a3-bk.svg" },
-      ]
-    },
-
-       */
   ];
+
 
   localStorage.setItem('buste', JSON.stringify(buste));
 
@@ -132,21 +177,21 @@ export default function Step3() {
     { id: 1,
       name: "150 X 105 mm",
       description: "Cartolina (150X105mm)",
-      image: "/Images/Cartoline/cartolina-10x15.svg",
-      imageInattiva: "/Images/Cartoline/cartolina-10x15.svg",
+      image: `${process.env.PUBLIC_URL}/Images/Cartoline/cartolina-10x15.svg`,
+      imageInattiva: `${process.env.PUBLIC_URL}/Images/Cartoline/cartolina-10x15.svg`,
     },
     { id: 2,
       name: " 210 X 105 mm ",
       description: "Cartolina (210X105mm)",
-      image: "/Images/Cartoline/cartolina-10x21.svg",
-      imageInattiva: "/Images/Cartoline/cartolina-10x21.svg",
+      image: `${process.env.PUBLIC_URL}/Images/Cartoline/cartolina-10x21.svg`,
+      imageInattiva: `${process.env.PUBLIC_URL}/Images/Cartoline/cartolina-10x21.svg`,
 
     },
-    { id: 6,
+    { id: 3,
       name: "Personalizzato",
       description: "Scegli il tuo formato",
-      image: "/Images/Cartoline/cartolina-personalizzata.svg",
-      imageInattiva: "/Images/Cartoline/cartolina-personalizzata.svg",
+      image: `${process.env.PUBLIC_URL}/Images/Cartoline/cartolina-personalizzata.svg`,
+      imageInattiva: `${process.env.PUBLIC_URL}/Images/Cartoline/cartolina-personalizzata.svg`,
     },
   ];
 
@@ -157,83 +202,64 @@ export default function Step3() {
   //inizio buste per cataloghi
 
   const busteCataloghi = [
-    /*
-    { id: 1,
-      name: "Busta C6 (220X110mm)",
-      description: "Busta C6 (220X110mm)",
-      image: "/Images/Buste/busta-c6-bk.svg",
-      imageInattiva: "/Images/Buste/busta-c6-bk.svg",
-      fogli: [
-        { id: 0, name: "Foglio A6", image: "/Images/Buste/busta-c6-foglio-a6-bk.svg", imageInattiva: "/Images/Buste/busta-c6-foglio-a6-bk.svg" },
-        { id: 1, name: "Foglio A5", image: "/Images/Buste/busta-c6-foglio-a5-bk.svg", imageInattiva: "/Images/Buste/busta-c6-foglio-a5-bk.svg" },
-        { id: 2, name: "Foglio A4", image: "/Images/Buste/busta-c6-foglio-a4-bk.svg", imageInattiva: "/Images/Buste/busta-c6-foglio-a4-bk.svg" },
-        //{ id: 99, name: "Personalizzato", image: "/Images/Buste/spunta.svg", imageInattiva: "/Images/Buste/BUSTA_C6.svg" }
-      ]
-    },
-      */
-    { id: 2,
-      name: "Busta C5 (230X162mm)",
-      description: "Busta C5 (230X162mm)",
-      image: "/Images/Buste/busta-c5-bk.svg",
-      imageInattiva: "/Images/Buste/busta-c5-bk.svg",
-      fogli: [
-        { id: 0, name: "Foglio A5", image: "/Images/Buste/busta-c5-foglio-a5-bk.svg", imageInattiva: "/Images/Buste/busta-c5-foglio-a5-bk.svg" },
-        { id: 1, name: "Foglio A4", image: "/Images/Buste/busta-c5-foglio-a4-bk.svg", imageInattiva: "/Images/Buste/busta-c5-foglio-a4-bk.svg" },
-        //{ id: 99, name: "Personalizzato", image: "/Images/Buste/busta-c3-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c3-foglio-a3-bk.svg" },
-      ]
-    },
-      /*
-    { id: 3,
-      name: "Busta DL (220X110mm)",
-      description: "Busta DL (220X110mm)",
-      image: "/Images/Buste/busta-DL-bk.svg",
-      imageInattiva: "/Images/Buste/busta-DL-bk.svg",
-      fogli: [
-        { id: 0, name: "Invito/Flyer",    image: "/Images/Buste/busta-DL-foglio-flyer-bk.svg",          imageInattiva: "/Images/Buste/busta-DL-foglio-flyer-bk.svg" },
-        { id: 1, name: "Flyer Doppio",    image: "/Images/Buste/busta-DL-foglio-flyer-doppio-bk.svg",   imageInattiva: "/Images/Buste/busta-DL-foglio-flyer-doppio-bk.svg" },
-        { id: 2, name: "Foglio A4",       image: "/Images/Buste/busta-DL-foglio-a4-bk.svg",             imageInattiva: "/Images/Buste/busta-DL-foglio-a4-bk.svg" },
-        //{ id: 99, name: "Personalizzato", image: "/Images/Buste/busta-c3-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c3-foglio-a3-bk.svg" },
-      ]
-    },
-    */
-    { id: 4,
+      {
+        id: 1,
+        name: "Busta C5 (230X162mm)",
+        description: "Busta C5 (230X162mm)",
+        image: `${process.env.PUBLIC_URL}/Images/Buste/busta-c5-bk.svg`,
+        imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-c5-bk.svg`
+      },
+    {
+      id: 2,
       name: "Busta C4 (324X229mm)",
       description: "Busta C4 (324X229mm)",
-      image: "/Images/Buste/busta-c4-bk.svg",
-      imageInattiva: "/Images/Buste/busta-c4-bk.svg",
-      fogli: [
-        { id: 0, name: "Foglio A4", image: "/Images/Buste/busta-c4-foglio-a4-bk.svg", imageInattiva: "/Images/Buste/busta-c4-foglio-a4-bk.svg" },
-        { id: 1, name: "Foglio A3", image: "/Images/Buste/busta-c4-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c4-foglio-a3-bk.svg" },
-        //{ id: 99, name: "Personalizzato", image: "/Images/Buste/busta-c3-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c3-foglio-a3-bk.svg" },
-      ]
+      image: `${process.env.PUBLIC_URL}/Images/Buste/busta-c4-bk.svg`,
+      imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-c4-bk.svg`,
     },
-    { id: 5,
+    { id: 3,
       name: "Busta C3 (297X420mm)",
       description: "Busta C3 (297X420mm)",
-      image: "/Images/Buste/busta-c3-bk.svg",
-      imageInattiva: "/Images/Buste/busta-c3-bk.svg",
-      fogli: [
-        { id: 0, name: "Foglio A3", image: "/Images/Buste/busta-c3-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c3-foglio-a3-bk.svg" },
-        //{ id: 99, name: "Personalizzato", image: "/Images/Buste/busta-c3-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c3-foglio-a3-bk.svg" },
-      ]
+      image: `${process.env.PUBLIC_URL}/Images/Buste/busta-c3-bk.svg`,
+      imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-c3-bk.svg`,
     },
-    /*
-  { id: 6,
-    name: "Personalizzato",
-    description: "Scegli il tuo formato",
-    image: "/Images/Buste/busta-c4-bk.svg",
-    imageInattiva: "/Images/Buste/busta-c4-bk.svg" ,
-    fogli: [
-      { id: 0, name: "Personalizzato", image: "/Images/Buste/busta-c3-foglio-a3-bk.svg", imageInattiva: "/Images/Buste/busta-c3-foglio-a3-bk.svg" },
-    ]
-  },
-
-     */
   ];
 
   localStorage.setItem('busteCataloghi', JSON.stringify(busteCataloghi));
 
   //fine buste per cataloghi
+
+
+  const busteGadget = [
+    {
+      id: 1,
+      name: "Busta C5 (230X162mm)",
+      description: "Busta C5 (230X162mm)",
+      image: `${process.env.PUBLIC_URL}/Images/Buste/busta-c5-bk.svg`,
+      imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-c5-bk.svg`
+    },
+    {
+      id: 2,
+      name: "Busta C4 (324X229mm)",
+      description: "Busta C4 (324X229mm)",
+      image: `${process.env.PUBLIC_URL}/Images/Buste/busta-c4-bk.svg`,
+      imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-c4-bk.svg`,
+    },
+    {
+      id: 3,
+      name: "Busta DL (220X110mm)",
+      description: "Busta DL (220X110mm)",
+      image: `${process.env.PUBLIC_URL}/Images/Buste/busta-DL-bk.svg`,
+      imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-DL-bk.svg`
+    },
+    { id: 4,
+      name: "Busta C3 (297X420mm)",
+      description: "Busta C3 (297X420mm)",
+      image: `${process.env.PUBLIC_URL}/Images/Buste/busta-c3-bk.svg`,
+      imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-c3-bk.svg`,
+    },
+  ];
+
+  localStorage.setItem('busteGadget', JSON.stringify(busteGadget));
 
   const handleClick3 = (cardno) => {
     setStep3Click((prevState) => (prevState == cardno ? null : cardno));

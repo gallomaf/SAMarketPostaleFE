@@ -1,16 +1,16 @@
 import React from "react";
-import Form from "react-bootstrap/Form";
+//import Form from "react-bootstrap/Form";
 import "./Step2of4Cataloghi.css";
-import Button from "react-bootstrap/Button";
+//import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import { useState,useEffect } from "react";
+import { useState } from "react";
 import Navbar from "../../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-import { useSearchParams, useLocation, useParams } from "react-router-dom";
-import axios from "axios";
-import { API_URL } from "../../../../services/client";
-import { SuccessToast } from "../../../../Components/Navbar/Toast/Toast";
+//import { useSearchParams, useLocation, useParams } from "react-router-dom";
+//import axios from "axios";
+//import { API_URL } from "../../../../services/client";
+//import { SuccessToast } from "../../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../../Components/Colonne/ColonnaSx";
 import BreadcrumbBt from "../../../../Components/Footer/BreadcrumbBt";
 export default function Step2of4Cataloghi() {
@@ -25,10 +25,10 @@ export default function Step2of4Cataloghi() {
 
     const step4Colore   = localStorage.getItem("step4Colore");
 
-    const step4Busta    = localStorage.getItem("step4Busta");
-    const step4Misure   = localStorage.getItem("step4Misure");
-    const step4Stampa   = localStorage.getItem("step4Stampa");
-    const step4peso     = localStorage.getItem("step4peso");
+    //const step4Busta    = localStorage.getItem("step4Busta");
+    //const step4Misure   = localStorage.getItem("step4Misure");
+    //const step4Stampa   = localStorage.getItem("step4Stampa");
+   // const step4peso     = localStorage.getItem("step4peso");
     //fine variabili da passare tra i vari steps
 
   //const [sendItem, setItem] = useState();

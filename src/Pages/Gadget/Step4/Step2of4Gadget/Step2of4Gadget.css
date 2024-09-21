@@ -632,4 +632,9 @@ p {
     bottom: 70px;
     right: 0;
   }
+  .dropdown-menu {
+    max-height: 200px; /* Imposta l'altezza massima */
+    overflow-y: auto; /* Consenti lo scroll verticale */
+  }
+
 }

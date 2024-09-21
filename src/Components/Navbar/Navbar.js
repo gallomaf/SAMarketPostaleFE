@@ -1,7 +1,7 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
+//import NavDropdown from "react-bootstrap/NavDropdown";
 import "./Navbar.css";
 
 function CollapsibleExample() {
@@ -38,7 +38,7 @@ function CollapsibleExample() {
                 title="acquista francobollo"
               >
                 <img
-                  src="/Images/Navbar/icon-1.svg"
+                  src={`${process.env.PUBLIC_URL}/Images/Navbar/icon-1.svg`}
                   alt="acquista francobollo"
                 />
               </Nav.Link>
@@ -48,7 +48,7 @@ function CollapsibleExample() {
                 title="Advertising mail quote form"
               >
                 <img
-                  src="/Images/Navbar/icon-2.svg"
+                  src={`${process.env.PUBLIC_URL}/Images/Navbar/icon-2.svg`}
                   alt="Advertising mail quote form"
                 />
               </Nav.Link>
@@ -58,17 +58,17 @@ function CollapsibleExample() {
                 title="spedizione busta"
               >
                 <img
-                  src="/Images/Navbar/icon-3.svg"
+                  src={`${process.env.PUBLIC_URL}/Images/Navbar/icon-3.svg`}
                   alt="spedizione busta"
                 />
               </Nav.Link>
               <Nav.Link
                 eventKey={4}
-                href="#https://www.spedireadesso.com/modulo-ordine-spedizione.html"
+                href="https://www.spedireadesso.com/modulo-ordine-spedizione.html"
                 title="spedizione pacco"
               >
                 <img
-                  src="/Images/Navbar/icon-4.svg"
+                  src={`${process.env.PUBLIC_URL}/Images/Navbar/icon-4.svg`}
                   alt="spedizione pacco"
                 />
               </Nav.Link>
@@ -79,7 +79,7 @@ function CollapsibleExample() {
                 title="Spedizione valigia"
               >
                 <img
-                  src="/Images/Navbar/icon-5.svg"
+                  src={`${process.env.PUBLIC_URL}/Images/Navbar/icon-5.svg`}
                   alt="Spedizione valigia"
                 />
               </Nav.Link>
@@ -89,7 +89,7 @@ function CollapsibleExample() {
                 title="spedizione bicicletta"
               >
                 <img
-                  src="/Images/Navbar/icon-6.svg"
+                    src={`${process.env.PUBLIC_URL}/Images/Navbar/icon-6.svg`}
                   alt="spedizione bicicletta"
                 />
               </Nav.Link>
@@ -99,7 +99,7 @@ function CollapsibleExample() {
                 title="spedizione pallet"
               >
                 <img
-                  src="/Images/Navbar/icon-7.svg"
+                    src={`${process.env.PUBLIC_URL}/Images/Navbar/icon-7.svg`}
                   alt="Spedizione pallet"
                 />
               </Nav.Link>
@@ -108,7 +108,8 @@ function CollapsibleExample() {
                 href="https://www.spedireadesso.com/modulo-richiesta-preventivo.html"
                 title="modulo richiesta preventivo"
               >
-                <img src="/Images/Navbar/icon-8.svg" alt="modulo richiesta preventivo" />
+                <img src={`${process.env.PUBLIC_URL}/Images/Navbar/icon-8.svg`}
+                     alt="modulo richiesta preventivo" />
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
@@ -121,7 +122,8 @@ function CollapsibleExample() {
           </div>
           <Navbar.Brand href="#home">
             <div>
-              <img src="/Images/Logo.svg" alt="SpedireAdesso"  className="logo-img"/>
+              <img src={`${process.env.PUBLIC_URL}/Images/Logo.svg`}
+                   alt="SpedireAdesso"  className="logo-img"/>
             </div>
           </Navbar.Brand>
 

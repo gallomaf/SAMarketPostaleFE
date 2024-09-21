@@ -41,14 +41,22 @@ export default function Step4Gadget() {
   const [formatoBuste, setFormatoBuste] = useState(step4Busta);
 
   const targetRef = useRef(null);
+  const targetRefStampa = useRef(null);
+
   const scrollToSection = () => {
     if (targetRef.current) {
       targetRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
+  const scrollToSectionStampa = () => {
+    if (targetRefStampa.current) {
+      targetRefStampa.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   //array composto da: elenco buste e per ogni busta la tipologia di fogli associata
-  const busteCataloghi  = JSON.parse(localStorage.getItem('busteCataloghi'));//recupero con JSON perchè è un array
+  const busteCataloghi  = JSON.parse(localStorage.getItem('busteGadget'));//recupero con JSON perchè è un array
 
   const handleFormatoBuste = (cardno) => {
     setFormatoBuste((prevState) => (prevState === cardno ? null : cardno));
@@ -141,12 +149,14 @@ export default function Step4Gadget() {
     { value: "Dettaglio",         url: "/Gadget/Step-4" },
   ];
 
-
   useEffect(() => {
     if (isChecked2) {
       scrollToSection();
     }
-  }, [isChecked2]);
+    if(formatoBuste){
+      scrollToSectionStampa();
+    }
+  }, [isChecked2,formatoBuste]);
 
   const goBack = () => {
     navigate('/Step-3');
@@ -227,7 +237,7 @@ export default function Step4Gadget() {
                       </div>
 
 
-                      <div className="printing-checks pb-4">
+                      <div  ref={targetRefStampa}  className="printing-checks pb-4">
                         <label className="envelope-label ">
                           Stampa delle buste
                         </label>
@@ -336,7 +346,7 @@ export default function Step4Gadget() {
                                       Bianco/Nero
                                     </label>
                                     <img
-                                        src="/Images/Step1/blackwhite-check.svg"
+                                        src={`${process.env.PUBLIC_URL}/Images/Step1/blackwhite-check.svg`}
                                         alt="Black and White"
                                     />
                                   </div>
@@ -367,7 +377,9 @@ export default function Step4Gadget() {
                                            htmlFor="flexRadioDefault2">
                                       Colore
                                     </label>
-                                    <img src="/Images/Step1/Color-check.svg" alt="Colored"/>
+                                    <img
+                                        src={`${process.env.PUBLIC_URL}/Images/Step1/Color-check.svg`}
+                                        alt="Colored"/>
                                   </div>
                                 </div>
                               </div>

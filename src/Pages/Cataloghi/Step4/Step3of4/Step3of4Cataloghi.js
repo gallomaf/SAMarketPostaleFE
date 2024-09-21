@@ -1,16 +1,16 @@
 import React, {useRef} from "react";
-import Form from "react-bootstrap/Form";
+//import Form from "react-bootstrap/Form";
 import "./Step3of4.css";
-import Button from "react-bootstrap/Button";
+//import Button from "react-bootstrap/Button";
 import { Row, Col, Nav } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useState, useEffect } from "react";
 import Navbar from "../../../../Components/Navbar/Navbar";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useNavigate } from "react-router-dom";
-import { useSearchParams, useLocation, useParams } from "react-router-dom";
-import axios from "axios";
-import { API_URL } from "../../../../services/client";
+//import { useSearchParams, useLocation, useParams } from "react-router-dom";
+//import axios from "axios";
+//import { API_URL } from "../../../../services/client";
 import {ToastContainer} from "react-toastify";
 import {ErrorToast, SuccessToast} from "../../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../../Components/Colonne/ColonnaSx";
@@ -26,7 +26,7 @@ export default function Step3of4Cataloghi() {
 
   const step4Formato    = localStorage.getItem("step4Formato");
 
-  const step4Colore     = localStorage.getItem("step4Colore");
+  const step4ColoreCatalogo     = localStorage.getItem("step4ColoreCatalogo");
   const step4Tipo       = localStorage.getItem("step4Tipo");
   const step4Grammatura = localStorage.getItem("step4Grammatura");
 
@@ -44,11 +44,11 @@ export default function Step3of4Cataloghi() {
 
   const targetRef = useRef(null);
   //const [selectedValue, setSelectedValue] = useState("");
-  const [dropselectedValue, setDropSelectedValue] = useState(step4Formato);
+  const [dropselectedValue, setDropSelectedValue] = useState(step4Formato ? step4Formato : null);
 
 
-  const [isChecked1, setIsChecked1]   = useState(step4Colore === "Bianco/Nero" );
-  const [isChecked2, setIsChecked2]   = useState(step4Colore === "Colore" );
+  const [isChecked1, setIsChecked1]   = useState(step4ColoreCatalogo === "Bianco/Nero" );
+  const [isChecked2, setIsChecked2]   = useState(step4ColoreCatalogo === "Colore" );
 
   const [isCheckedR1, setIsCheckedR1] = useState(step4Tipo === "Patina Lucida" );
   const [isCheckedR2, setIsCheckedR2] = useState(step4Tipo === "Patina Opaca");
@@ -64,12 +64,9 @@ export default function Step3of4Cataloghi() {
 
   const handleChange = (e) => {
     const value = e.target.value;
-    //setSelectedValue(value);
-    //console.log("Value is", value);
   };
 
   const [selectedFile, setSelectedFile] = useState(null);
-
   const [previewVisible, setPreviewVisible] = useState(false);
 
   const handleFileChange = (event) => {
@@ -99,17 +96,7 @@ export default function Step3of4Cataloghi() {
   };
   const DropdownhandleChange = (eventKey) => {
     setDropSelectedValue(eventKey);
-    //console.log("Dropdown Selected Value is ", eventKey);
   };
-
-  //const location = useLocation();
-  //const queryParams = new URLSearchParams(location.search);
-  //const sendoption = queryParams.get("sendoption");
-  //console.log("this is ", sendoption);
-
-
-  console.log(dropselectedValue);
-
 
   const handleRoutes = () => {
 
@@ -133,7 +120,7 @@ export default function Step3of4Cataloghi() {
                     ? "170gr"
                     : "";
 
-    localStorage.setItem("step4Colore",     print_quality);
+    localStorage.setItem("step4ColoreCatalogo",     print_quality);
     localStorage.setItem("step4Tipo",       type_of_printing);
     localStorage.setItem("step4Grammatura", paper_weight);
 
@@ -280,7 +267,7 @@ export default function Step3of4Cataloghi() {
                             id="dropdown-basic"
                             className={
                               dropselectedValue === "" ? "custom-drop " : "custom-drop custom-drop-border"}>
-                          {!dropselectedValue || dropselectedValue == "" ? "Seleziona" : dropselectedValue}
+                            {!dropselectedValue || dropselectedValue == "" ? "Seleziona" : dropselectedValue}
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
@@ -344,7 +331,7 @@ export default function Step3of4Cataloghi() {
                               }
                               htmlFor="flexCheckDefault1"
                           >
-                            Stampate dal Cliente
+                            Stampato dal Cliente
                           </label>
                         </div>
                       </div>
@@ -363,7 +350,7 @@ export default function Step3of4Cataloghi() {
                           />
                           <label className={!isCheckedSpa ? "form-check-label" : "selected-check-bold"}
                                  htmlFor="flexCheckDefault2">
-                            Stampate da Spedire Adesso
+                            Stampato da Spedire Adesso
                           </label>
                         </div>
                       </div>
@@ -410,7 +397,7 @@ export default function Step3of4Cataloghi() {
                                     Bianco/Nero
                                   </label>
                                   <img
-                                      src="/Images/Step1/blackwhite-check.svg"
+                                      src={`${process.env.PUBLIC_URL}/Images/Step1/blackwhite-check.svg`}
                                       alt="Black and White"
                                   />
                                 </div>
@@ -448,7 +435,7 @@ export default function Step3of4Cataloghi() {
                                     Colore
                                   </label>
                                   <img
-                                      src="/Images/Step1/Color-check.svg"
+                                      src={`${process.env.PUBLIC_URL}/Images/Step1/Color-check.svg`}
                                       alt="Colored"
                                   />
                                 </div>
@@ -701,12 +688,12 @@ export default function Step3of4Cataloghi() {
                             )}
                             {selectedFile ? (
                                 <img
-                                    src="/Images/Step1/file-icon.svg"
+                                    src={`${process.env.PUBLIC_URL}/Images/Step1/file-icon.svg`}
                                     alt="selected-file"
                                 />
                             ) : (
                                 <img
-                                    src="/Images/Step1/upload-file.svg"
+                                    src={`${process.env.PUBLIC_URL}/Images/Step1/upload-file.svg`}
                                     alt="upload-file"
                                 />
                             )}
@@ -730,7 +717,7 @@ export default function Step3of4Cataloghi() {
                             {selectedFile && (
                                 <div className="dot-preview">
                                   <img
-                                      src="/Images/Step1/dot-img.svg"
+                                      src={`${process.env.PUBLIC_URL}/Images/Step1/dot-img.svg`}
                                       alt="dot"
                                   />
                                   <p
@@ -743,7 +730,7 @@ export default function Step3of4Cataloghi() {
                                   </p>
                                   <div className="dot-preview">
                                     <img
-                                        src="/Images/Step1/dot-img.svg"
+                                        src={`${process.env.PUBLIC_URL}/Images/Step1/dot-img.svg`}
                                         alt="dot"
                                     />
                                     <p

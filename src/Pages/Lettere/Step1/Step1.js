@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useRef} from "react";
 import "./Step1.css";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
@@ -18,29 +18,45 @@ export default function Step1() {
 
 
   const now = 15;
-  //localStorage.clear(); //clear local storage
+
   const stepClick   = localStorage.getItem("step1Click");
   const quantity    = localStorage.getItem("step2Quantity");
+
+  //voglio fare il localStorage.clear tranne di stepClick e quantity
+  localStorage.clear();
+
 
   const navigate = useNavigate();
 
   const [step1Click, setStep1Click] = useState(stepClick);
 
-  const LetterActive      = "/Images/Step1/letter-active.svg";
-  const LetterInactive    = "/Images/Step1/Letter.svg";
-  const CartolineActive   = "/Images/Step1/Caroline-active.svg";
-  const CartolineInactive = "/Images/Step1/Cartolina.svg";
-  const CataloghiActive   = "/Images/Cataloghi-active.svg";
-  const CataloghiInactive = "/Images/Step1/Catalog.svg";
-  const GadgetActive      = "/Images/Gadget-active.svg";
-  const GadgetInactive    = "/Images/Step1/Gadget.svg";
-
+  //const LetterActive      = "/Images/Step1/letter-active.svg";
+  const LetterActive      = `${process.env.PUBLIC_URL}/Images/Step1/letter-active.svg`;
+  const LetterInactive    = `${process.env.PUBLIC_URL}/Images/Step1/Letter.svg`;
+  const CartolineActive   = `${process.env.PUBLIC_URL}/Images/Step1/Caroline-active.svg`;
+  const CartolineInactive = `${process.env.PUBLIC_URL}/Images/Step1/Cartolina.svg`;
+  const CataloghiActive   = `${process.env.PUBLIC_URL}/Images/Cataloghi-active.svg`;
+  const CataloghiInactive = `${process.env.PUBLIC_URL}/Images/Step1/Catalog.svg`;
+  const GadgetActive      = `${process.env.PUBLIC_URL}/Images/Gadget-active.svg`;
+  const GadgetInactive    = `${process.env.PUBLIC_URL}/Images/Step1/Gadget.svg`;
 
   const [inputValue, setInputValue] = useState(quantity === null ? "": quantity);
+
+  const targetRef = useRef(null);
 
   const handleChange = (e) => {
     const value = e.target.value;
     setInputValue(value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Previene il comportamento predefinito del submit del form
+  };
+
+  const scrollToSection = () => {
+    if (targetRef.current) {
+      targetRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const handleClick = (cardnum) => {
@@ -63,13 +79,23 @@ export default function Step1() {
     }
   };
 
+  useEffect(() => {
+    if (step1Click) {
+      scrollToSection();
+    }
+  }, [step1Click]);
+
   const formValidation = () => {
 
-    if (step1Click === null) {
+    console.log("step1Click is", step1Click);
+    console.log("inputValue is", inputValue);
+    if (!step1Click || step1Click == null) {
+      console.log("step1Click");
       ErrorToast("Seleziona il tipo di oggetto che vuoi spedire");
       return false;
     }
-    if (inputValue < 100) {
+    if (!inputValue || inputValue < 100) {
+      console.log("inputValue");
       ErrorToast("La quantità minima è 100 pezzi");
       return false;
     }
@@ -189,9 +215,9 @@ export default function Step1() {
                     la richiesta.
                   </p>
                 </div>
-                <div className="rhs-input-btn-body">
+                <div  ref={targetRef}  className="rhs-input-btn-body">
                   <div>
-                    <form className="form-ship">
+                    <form className="form-ship" onSubmit={handleSubmit}>
                       <div className="form-group">
                         <input
                             type="number"
@@ -224,7 +250,7 @@ export default function Step1() {
                 }
                 <div className="btn2-div">
                   <button
-                      className={step1Click  && inputValue >= 100  ? "btn-r2-active" : "btn-r2"}
+                      className={step1Click  && inputValue &&  inputValue >= 100  ? "btn-r2-active" : "btn-r2"}
                       onClick={nextstep}
                   >
                     Avanti

@@ -46,9 +46,16 @@ export default function Step2of5() {
 
   const [formatoFogli, setFormatoFogli] = useState(step52Formato);
 
-  const bustaSelezionata = storedBuste.find(item => item.id == step4Busta);
+  //mettere un controllo sull'esistneza di storedBuste
+
+  if(!storedBuste){
+
+  }
+
+  const bustaSelezionata = storedBuste ? storedBuste.find(item => item.id == step4Busta) : null;
   //console.log(bustaSelezionata.fogli); // Stampa ["Foglio A6", "Foglio A5", "Foglio A4"]
-  const fogli = bustaSelezionata.fogli;
+  const fogli = bustaSelezionata ? bustaSelezionata.fogli : null;
+
 
   const handleFormatoFogli = (cardno, name) => {
     //console.log("handleFormatoFogli1 >> " + name  );
@@ -98,22 +105,17 @@ export default function Step2of5() {
     }
   }, [formatoFogli,isChecked2]);
 
-
   const scrollToSection = () => {
-    console.log("scrollToSection");
-    console.log(formatoFogli);
     if (targetRef.current) {
       targetRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
-
 
   const scrollToSection2 = () => {
     if (targetRef2.current) {
       targetRef2.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
-
 
   const handleRoutes = () => {
 
@@ -162,37 +164,42 @@ export default function Step2of5() {
   };
 
   const formValidation = () => {
+    if (!formatoFogli) {
+      ErrorToast("Seleziona il formato dei fogli");
+      return false;
+    }
 
-        if (!formatoFogli) {
-        ErrorToast("Seleziona il formato dei fogli");
-        return false;
-        }
-        if (formatoFogli === "Personalizzato" && !measurement) {
+    if (formatoFogli === "Personalizzato" && !measurement) {
         ErrorToast("Inserisci le misure personalizzate");
         return false;
-        }
-        if (!selectedValue) {
+    }
+
+    if (!selectedValue) {
         ErrorToast("Inserisci la quantità di fogli");
         return false;
-        }
-        if (selectedValue > 6) {
+    }
+
+    if (selectedValue > 6) {
         ErrorToast("La quantità massima di fogli è 6");
         return false;
-        }
-        if (!isChecked && !isChecked2) {
-          ErrorToast("Seleziona chi deve stampare i fogli interni");
-        return false;
-        }
-        if (isChecked2 && !isCheckedCol1 && !isCheckedCol2) {
-        ErrorToast("Seleziona la Qualità di Stampa");
-        return false;
-        }
-        if (isChecked2 && !isCheckedR1 && !isCheckedR2) {
-        ErrorToast("Seleziona il Tipo di Stampa");
-        return false;
-        }
+    }
 
-        return true;
+    if (!isChecked && !isChecked2) {
+      ErrorToast("Seleziona chi deve stampare i fogli interni");
+      return false;
+    }
+
+    if (isChecked2 && !isCheckedCol1 && !isCheckedCol2) {
+      ErrorToast("Seleziona la Qualità di Stampa");
+      return false;
+    }
+
+    if (isChecked2 && !isCheckedR1 && !isCheckedR2) {
+      ErrorToast("Seleziona il Tipo di Stampa");
+      return false;
+    }
+
+    return true;
   }
 
   async function nextstep() {
@@ -220,15 +227,9 @@ export default function Step2of5() {
         }
       ); */
 
-        let res = {status:200};
+      let res = {status:200};
       if (res.status === 200) {
-        //console.log("Page Format is ", dropselectedValue);
-        //console.log("Measurement Value is", measurement);
-        //console.log("Number of pages :", selectedValue);
-        //console.log("Internal Letter Printing Option is", InternalLetterPrinting);
-
         handleRoutes();
-        // SuccessToast("updated");
       }
     } catch (error) {
       console.log(error);
@@ -281,7 +282,8 @@ export default function Step2of5() {
 
                           <div className="rhs-card-btn-body">
                             <div className="cards-rhs-row pb-4">
-                              {fogli.map((item) => (
+                              {fogli && fogli.length > 0 ? (
+                                fogli.map((item) => (
                                   <Col key={item.id} onClick={() => handleFormatoFogli(item.id, item.name)}
                                        className="cards-col">
                                     <div className={formatoFogli == item.name ?  "card1-active" : "card1"  }>
@@ -290,7 +292,10 @@ export default function Step2of5() {
                                     </div>
                                     <p className="option-txt">{item.name}</p>
                                   </Col>
-                              ))}
+                                ))
+                              ) : (
+                                  <a href="/Step-1">Riparti da Step 1</a>
+                              )}
                             </div>
                           </div>
 
@@ -397,7 +402,9 @@ export default function Step2of5() {
                                   <label className={!isCheckedCol1 ? "form-check-label " : "selected-check-bold"} htmlFor="flexRadioDefault1">
                                     Bianco/Nero
                                   </label>
-                                  <img src="/Images/Step1/blackwhite-check.svg" alt="Bianco/Nero"/>
+                                  <img
+                                      src={`${process.env.PUBLIC_URL}/Images/Step1/blackwhite-check.svg`}
+                                       alt="Bianco/Nero"/>
                                 </div>
                               </div>
                             </div>
@@ -419,7 +426,9 @@ export default function Step2of5() {
                                   <label className={!isCheckedCol2 ? "form-check-label " : "selected-check-bold"} htmlFor="flexRadioDefault2">
                                     Colore
                                   </label>
-                                  <img src="/Images/Step1/Color-check.svg" alt="Colored"/>
+                                  <img
+                                      src={`${process.env.PUBLIC_URL}/Images/Step1/Color-check.svg`}
+                                      alt="Colored"/>
                                 </div>
                               </div>
                             </div>

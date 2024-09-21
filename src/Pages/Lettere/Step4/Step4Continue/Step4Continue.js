@@ -216,7 +216,7 @@ export default function Step4Continue() {
                   <div className="btn-img-rhs mb-4 ">
 
                     <div className={isChecked1 ? "d-block mb-4 " : "d-none"}>
-                      <img className="step2__img" src="/Images/Step1/italia.svg.svg" alt="Envelope"/>
+                      <img className="step2__img" src="/Images/Step1/italia.svg" alt="Envelope"/>
                     </div>
 
                     <div className={isChecked2 ? "d-block mb-4 " : "d-none"}>

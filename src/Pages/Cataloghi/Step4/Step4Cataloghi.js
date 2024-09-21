@@ -201,7 +201,8 @@ export default function Step4Cataloghi() {
 
                 <div className="rhs-form-btn-body">
                   <div className="cards-rhs-row pb-4">
-                    {buste.map((busta) => (
+                    {buste && buste.length > 0 ? (
+                      buste.map((busta) => (
                         <Col key={busta.id} onClick={() => handleFormatoBuste(busta.id)} className="cards-col">
                           <div className={formatoBuste == busta.id ? "card1-active" : "card1"}>
                             <img src={formatoBuste == busta.id ? busta.image : busta.imageInattiva}
@@ -209,7 +210,10 @@ export default function Step4Cataloghi() {
                           </div>
                           <p className="option-txt">{busta.name}</p>
                         </Col>
-                    ))}
+                      ))
+                    ): (
+                        <a href="/Step-1">Riparti da Step 1</a>
+                      )}
                   </div>
                   <div className="rhs3-card-btn-body">
                     <div className={formatoBuste == 6 ? "cards3-rhs-row" : "d-none"}>
@@ -317,7 +321,7 @@ export default function Step4Cataloghi() {
                                   Bianco/Nero
                                 </label>
                                 <img
-                                    src="/Images/Step1/blackwhite-check.svg"
+                                    src={`${process.env.PUBLIC_URL}/Images/Step1/blackwhite-check.svg`}
                                     alt="Black and White"
                                 />
                               </div>
@@ -348,7 +352,9 @@ export default function Step4Cataloghi() {
                                        htmlFor="flexRadioDefault2">
                                   Colore
                                 </label>
-                                <img src="/Images/Step1/Color-check.svg" alt="Colored"/>
+                                <img
+                                    src={`${process.env.PUBLIC_URL}/Images/Step1/Color-check.svg`}
+                                    alt="Colored"/>
                               </div>
                             </div>
                           </div>

@@ -1,21 +1,21 @@
 import React from "react";
-import "./Step5Cartoline.css";
+import "./Step5Cartoline.css"//;
 import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useState, useEffect } from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-import { useSearchParams, useLocation, useParams } from "react-router-dom";
+import {  useLocation } from "react-router-dom";
 import { API_URL } from "../../../services/client";
 import axios from "axios";
-import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
+//import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
 export default function Step5Cartoline() {
   const [sendItem, setItem] = useState();
 
   useEffect(() => {
     setItem(localStorage.getItem("sendoption"));
-  });
+  }, []);
   const now = 90;
   const navigate = useNavigate();
   const [isChecked1, setIsChecked1] = useState(false);

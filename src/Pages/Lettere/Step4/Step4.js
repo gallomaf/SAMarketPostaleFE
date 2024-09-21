@@ -37,7 +37,8 @@ export default function Step4() {
   const navigate = useNavigate();
   //const [sendItem, setItem] = useState();
 
-  const targetRef = useRef(null);
+  const targetRef       = useRef(null);
+  const targetRefStampa = useRef(null);
 
   //nuova versione buste
   const [formatoBuste, setFormatoBuste] = useState(step4Busta);
@@ -62,6 +63,12 @@ export default function Step4() {
   const scrollToSection = () => {
     if (targetRef.current) {
       targetRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const scrollToSectionStampa = () => {
+    if (targetRefStampa.current) {
+      targetRefStampa.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -100,7 +107,10 @@ export default function Step4() {
     if (isChecked2) {
       scrollToSection();
     }
-  }, [isChecked2]);
+    if (formatoBuste) {
+      scrollToSectionStampa();
+    }
+  }, [isChecked2, formatoBuste]);
 
   const goBack = () => {
     navigate('/Step-3');
@@ -203,7 +213,8 @@ export default function Step4() {
                 <div className="rhs-form-btn-body">
 
                   <div className="cards-rhs-row pb-4">
-                    {buste.map((busta) => (
+                    {buste && buste.length > 0 ? (
+                        buste.map((busta) => (
                         <Col key={busta.id} onClick={() => handleFormatoBuste(busta.id)} className="cards-col">
                           <div className={formatoBuste == busta.id ? "card1-active" : "card1"}>
                             <img src={formatoBuste == busta.id ? busta.image : busta.imageInattiva}
@@ -211,7 +222,11 @@ export default function Step4() {
                           </div>
                           <p className="option-txt">{busta.name}</p>
                         </Col>
-                    ))}
+                    ))
+                    ) : (
+                      <a href="/Step-1">Riparti da Step 1</a>
+                    )
+                    }
                   </div>
 
 
@@ -236,7 +251,7 @@ export default function Step4() {
                       Stampa delle buste
                     </label>
 
-                    <div className="Printing-contain pb-4 ">
+                    <div  ref={targetRefStampa} className="Printing-contain pb-4 ">
                       <div className={!isChecked ? "Printing-check1" : "Printing-check-border"}>
                         <div className="form-check">
                           <input
@@ -323,7 +338,7 @@ export default function Step4() {
                                   Bianco/Nero
                                 </label>
                                 <img
-                                    src="/Images/Step1/blackwhite-check.svg"
+                                    src={`${process.env.PUBLIC_URL}/Images/Step1/blackwhite-check.svg`}
                                     alt="Black and White"
                                 />
                               </div>
@@ -354,7 +369,9 @@ export default function Step4() {
                                        htmlFor="flexRadioDefault2">
                                   Colore
                                 </label>
-                                <img src="/Images/Step1/Color-check.svg" alt="Colored"/>
+                                <img
+                                    src={`${process.env.PUBLIC_URL}/Images/Step1/Color-check.svg`}
+                                    alt="Colored"/>
                               </div>
                             </div>
                           </div>

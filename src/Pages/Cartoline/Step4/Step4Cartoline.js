@@ -3,7 +3,7 @@ import "./Step4Cartoline.css";
 //import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
 //import Dropdown from "react-bootstrap/Dropdown";
 //import { useSearchParams, useLocation, useParams } from "react-router-dom";
@@ -54,8 +54,8 @@ export default function Step4Cartoline() {
   const [isChecked, setIsChecked]         = useState(step4Stampa == 'cliente' ? true: false);
   const [isChecked2, setIsChecked2]       = useState(step4Stampa == 'sa' ? true : false);
 
-  const [lunghezza, setlunghezzaValue]  = useState(step4Lunghezza > 0 ? step4Lunghezza : "");
-  const [altezza,   setaltezzaValue]    = useState(step4Altezza   > 0 ? step4Altezza : "");
+  const [lunghezza, setlunghezzaValue]  = useState(step4Lunghezza  ? step4Lunghezza : "");
+  const [altezza,   setaltezzaValue]    = useState(step4Altezza   ? step4Altezza : "");
 
 
  // const [sendItem, setItem] = useState();
@@ -71,33 +71,17 @@ export default function Step4Cartoline() {
     setFormatoBuste((prevState) => (prevState === cardno ? null : cardno));
   };
 
-  //fine nuova versione buste
 
-  const handleChange = (e) => {
-    const value = e.target.value;
-    setSelectedValue(value);
-    console.log("Value is", value);
-  };
-
-  const handlePersonalizzatoInput = (e) => {
-    const value = e.target.value;
-    setmeasurementValue(value);
-    console.log("Measurement Value is", value);
-  };
-
-  //const DropdownhandleChange = (eventKey) => {
-  //  setDropSelectedValue(eventKey);
-  //  console.log("Dropdown Selected Value is ", eventKey);
-  //};
-  //const location = useLocation();
-  //const queryParams = new URLSearchParams(location.search);
-  //const sendoption = queryParams.get("sendoption");
-  
   const handleRoutes = () => {
 
     localStorage.setItem("step4Busta",  formatoBuste);
     localStorage.setItem("step4Misure", measurement);
+
+    localStorage.setItem("step4Lunghezza", lunghezza);
+    localStorage.setItem("step4Altezza",   altezza);
+
     let cartolinax = cartoline[formatoBuste-1].name;
+
     localStorage.setItem("cartolina", cartolinax);
 
     if (isChecked) {
@@ -116,26 +100,39 @@ export default function Step4Cartoline() {
 
 
     const formValidation = () => {
-        if (formatoBuste == 6) {
-          let lunghezzaInt= parseInt(lunghezza);
-          let altezzaInt  = parseInt(altezza);
+      console.log(formatoBuste);
 
-          //se non sono numeri, allora return false
-            if (isNaN(lunghezzaInt) || isNaN(altezzaInt)) {
-              ErrorToast("Inserire un numero intero nelle misure");
-              return false;
-            }
+      if (formatoBuste == 3) {
+        let lunghezzaInt= parseInt(lunghezza);
+        let altezzaInt  = parseInt(altezza);
 
-            if (lunghezzaInt < 140 || lunghezzaInt > 235) {
-            ErrorToast("La lunghezza deve essere compresa tra 140 e 235 mm");
-            return false;
-            }
-            if (lunghezzaInt / altezzaInt < 1.4) {
-            ErrorToast("Il rapporto lunghezza/altezza deve essere maggiore o uguale a 1,4");
-            return false;
-            }
+        //se non sono numeri, allora return false
+        if (isNaN(lunghezzaInt) || isNaN(altezzaInt)) {
+          ErrorToast("Inserire un numero intero nelle misure");
+          return false;
         }
-        return true;
+        if (lunghezzaInt < 140 || lunghezzaInt > 235) {
+          ErrorToast("La lunghezza deve essere compresa tra 140 e 235 mm");
+          return false;
+        }
+        if (lunghezzaInt / altezzaInt < 1.4) {
+          ErrorToast("Il rapporto lunghezza/altezza deve essere maggiore o uguale a 1,4");
+          return false;
+        }
+      }
+
+      if (formatoBuste == null || !formatoBuste) {
+        ErrorToast("Seleziona il formato della cartolina");
+        return false;
+      }
+
+      if (!isChecked && !isChecked2) {
+        ErrorToast("Seleziona chi stampa le cartoline");
+        return false;
+      }
+
+      return true;
+
     }
 
   async function nextstep() {
@@ -166,19 +163,12 @@ export default function Step4Cartoline() {
 
       let res = {'status' : 200};
       if (res.status === 200) {
-        //console.log("Sending Option ", sendoption)
-        //console.log("Envelope Printing Option is", EnvelopePrintingOption);
-        //console.log("Page Format is ", dropselectedValue);
-        //console.log("Measurement Value is", measurement);
         handleRoutes();
-        // SuccessToast("updated");
       }
     } catch (error) {
       console.log(error);
     }
   }
-
-
 
   const breadcrumbArray = [
     { value: sendoption,          url: "/Step-1" },
@@ -233,7 +223,8 @@ export default function Step4Cartoline() {
 
                           <div className="rhs-card-btn-body">
                             <div className="cards-rhs-row pb-4">
-                              {cartoline.map((busta) => (
+                              {cartoline && cartoline.length > 0 ? (
+                                  cartoline.map((busta) => (
                                   <Col key={busta.id} onClick={() => handleFormatoBuste(busta.id)}
                                        className="cards-col">
                                     <div className={formatoBuste == busta.id ? "card1-active" : "card1"}>
@@ -242,12 +233,16 @@ export default function Step4Cartoline() {
                                     </div>
                                     <p className="option-txt">{busta.name}</p>
                                   </Col>
-                              ))}
+                                ))
+                              ) : (
+                                  <a href="/Step-1">Riparti da Step 1</a>
+                              )
+                              }
                             </div>
                           </div>
 
                         </div>
-                        <div className={formatoBuste == 6 ? "" : "d-none"}>
+                        <div className={formatoBuste == 3 ? "" : "d-none"}>
                           <p className="rhs-st4-des">
                             Il rapporto lunghezza/altezza deve essere maggiore o uguale a 1,4
                           </p>
@@ -362,14 +357,8 @@ export default function Step4Cartoline() {
                 </div>
                 <div className="btn2-div">
                 <button
-                    className={
-                      formatoBuste && (isChecked || isChecked2)
-                        ? "btn-r2-active"
-                        : "btn-r2"
-                    }
-                    onClick={nextstep}
-                    disabled={formatoBuste && (isChecked || isChecked2) ? false : true}
-                  >
+                    className={formatoBuste && (isChecked || isChecked2) ? "btn-r2-active" : "btn-r2"}
+                    onClick={nextstep}>
                     Avanti
                   </button>
                 </div>
@@ -380,14 +369,8 @@ export default function Step4Cartoline() {
                 </div>
                 <div className="btn2-div w-100">
                 <button
-                    className={
-                      formatoBuste && (isChecked || isChecked2)
-                        ? "btn-r2-active"
-                        : "btn-r2"
-                    }
-                    onClick={nextstep}
-                    disabled={formatoBuste && (isChecked || isChecked2) ? false : true}
-                  >
+                    className={formatoBuste && (isChecked || isChecked2) ? "btn-r2-active" : "btn-r2"}
+                    onClick={nextstep}>
                     Avanti
                   </button>
                 </div>

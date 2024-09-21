@@ -180,8 +180,8 @@ export default function Step3of5() {
                                   Bianco/Nero
                                 </label>
                                 <img
-                                  src="/Images/Step1/blackwhite-check.svg"
-                                  alt="Black and White"
+                                    src={`${process.env.PUBLIC_URL}/Images/Step1/blackwhite-check.svg`}
+                                    alt="Black and White"
                                 />
                               </div>
                             </div>
@@ -205,8 +205,8 @@ export default function Step3of5() {
                                   Colore
                                 </label>
                                 <img
-                                  src="/Images/Step1/Color-check.svg"
-                                  alt="Colored"
+                                    src={`${process.env.PUBLIC_URL}/Images/Step1/Color-check.svg`}
+                                    alt="Colored"
                                 />
                               </div>
                             </div>
@@ -282,7 +282,9 @@ export default function Step3of5() {
               </div>
               <div className="btns-envelope">
                 <div className={(isChecked1 || isChecked2) && (isCheckedR1 || isCheckedR2) ? "envelope-img" : "d-none"}>
-                  <img src="/Images/Step1/Paper.svg" alt="Envelope" />
+                  <img
+                      src={`${process.env.PUBLIC_URL}/Images/Step1/Paper.svg`}
+                      alt="Envelope" />
                 </div>
                 <div className="btn-rhs-row-mb">
                   <div>

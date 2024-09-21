@@ -65,20 +65,20 @@ export default function Step2of4Gadget() {
    // console.log("Gadget Weight is", value);
   };
 
-
   const gadgets = [
-    { id: 1, name: "Penne / matite" },
-    { id: 2, name: "Calendari" },
+    { id: 1, name: "Altro" },
+    { id: 2, name: "Braccialetti" },
     { id: 3, name: "Cappellini" },
-    { id: 4, name: "Magliette" },
-    { id: 5, name: "Block notes personalizzati" },
-    { id: 6, name: "Card / Tessere" },
-    { id: 7, name: "Pendrive" },
-    { id: 8, name: "Porta Badge (ciondolini)" },
-    { id: 9, name: "Portachiavi" },
-    { id: 10, name: "Braccialetti" },
-    { id: 11, name: "Segnalibri" },
-    { id: 12, name: "Altro" }
+    { id: 4, name: "Calendari" },
+    { id: 5, name: "Card / Tessere" },
+    { id: 6, name: "Cosmetici" },
+    { id: 7, name: "Block notes personalizzati" },
+    { id: 8, name: "Magliette" },
+    { id: 9, name: "Penne / matite" },
+    { id: 10, name: "Porta Badge (ciondolini)" },
+    { id: 11, name: "Portachiavi" },
+    { id: 12, name: "Pendrive" },
+    { id: 13, name: "Segnalibri" }
   ];
 
   const DropdownhandleChange = (eventKey) => {
