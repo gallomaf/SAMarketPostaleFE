@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useRef} from "react";
 import "./Step4Cartoline.css";
 //import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
@@ -33,9 +33,6 @@ export default function Step4Cartoline() {
   const step4Lunghezza= localStorage.getItem("step4Lunghezza");
   const step4Altezza  = localStorage.getItem("step4Altezza");
 
-
-  //fine variabili da passare tra i vari steps
-
   const handleLunghezzaInput = (e) => {
     const value = e.target.value;
     setlunghezzaValue(value);
@@ -63,14 +60,26 @@ export default function Step4Cartoline() {
 
   //nuova versione buste
   const [formatoBuste, setFormatoBuste] = useState(step4Busta);
+  const targetRefStampa = useRef(null);
 
   //array composto da: elenco buste e per ogni busta la tipologia di fogli associata
   const cartoline        = JSON.parse(localStorage.getItem('cartoline'));//recupero con JSON perchè è un array
+
+  const scrollToSectionStampa = () => {
+    if (targetRefStampa.current) {
+      targetRefStampa.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const handleFormatoBuste = (cardno) => {
     setFormatoBuste((prevState) => (prevState === cardno ? null : cardno));
   };
 
+  useEffect(() => {
+    if (formatoBuste) {
+      scrollToSectionStampa();
+    }
+  }, [formatoBuste]);
 
   const handleRoutes = () => {
 
@@ -277,10 +286,7 @@ export default function Step4Cartoline() {
                               />
                             </Col>
                           </div>
-
-
                         </div>
-
                       </div>
 
                       <div className="printing-checks pb-4">
@@ -288,7 +294,7 @@ export default function Step4Cartoline() {
                           Stampa delle cartoline
                         </label>
 
-                        <div className="Printing-contain">
+                        <div   ref={targetRefStampa} className="Printing-contain">
                           <div className={!isChecked ? "Printing-check1" : "Printing-check-border"}>
                             <div className="form-check">
                               <input

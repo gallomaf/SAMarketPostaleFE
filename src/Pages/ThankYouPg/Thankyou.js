@@ -14,10 +14,10 @@ export default function Thankyou() {
       <Navbar />
       <div className="thankyou-whole">
         <div>
-          <img src="/Images/thankyou.svg " alt="Thankyou"  className="thankyou-web"/>
+          <img src={`${process.env.PUBLIC_URL}/Images/thankyou.svg`} alt="Thankyou"  className="thankyou-web"/>
         </div>
         <div>
-          <img src="/Images/thankyou-mb.svg " alt="Thankyou"  className="thankyou-mb"/>
+          <img src={`${process.env.PUBLIC_URL}/Images/thankyou-mb.svg`} alt="Thankyou"  className="thankyou-mb"/>
         </div>
         <div>
           <p className="head-thankyou">

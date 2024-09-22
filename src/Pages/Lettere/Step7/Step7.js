@@ -152,50 +152,51 @@ export default function Step7() {
         step4Colore = "-";
       }
 
-
-
       const res = await axios.post(
-        `${API_URL}/auth/addQA_lettere_step7Full`,
-        {
-          categorytag:  sendoption,
-          quantity:     step2Quantity,
+        //`${API_URL}/auth/addQA_lettere_step7Full`,
+          "https://sweet.spedireadesso.com/v1/step7",
 
-          country:      nazione,
-          qtaitalia:    step3QtaItalia,
-          qtaestero:    step3QtaEstero,
+          {
 
-          envelope_format:    bustaTrovata.name,
-          envelope_printing:  step4Stampa,
-          measurements:       step4Misure,
+            categorytag:        sendoption,
+            quantity:           step2Quantity,
 
-          print_quality:      step4Colore,
-          //cartoline
-          print_type:         step4Tipo,
-          paper_grammage:     step4Grammatura,
-          paper_type:         step4Carta,
+            country:            nazione,
+            qtaitalia:          step3QtaItalia,
+            qtaestero:          step3QtaEstero,
 
-          //gadget step 4-2
-          gadget:             step4Gadget,
-          weight:             step4Peso,
+            envelope_format:    bustaTrovata.name,
+            envelope_printing:  step4Stampa,
+            measurements:       step4Misure,
 
-          rec: step5Pagine,
-          //step 5-2
-          page_Format:                step52Formato,
-          internal_pages:             step52Misure,
-          number_of_pages:            step52Quantita,
-          printing_of_internal_letter:step52Stampa,
+            print_quality:      step4Colore,
+            //cartoline
+            print_type:         step4Tipo,
+            paper_grammage:     step4Grammatura,
+            paper_type:         step4Carta,
 
-          print_quality_internal:     step5InternoStampa,
-          type_of_printing_internal:  step5InternoColore,
+            //gadget step 4-2
+            gadget:             step4Gadget,
+            weight:             step4Peso,
 
-          file_customer:  step6Dest,
-          note:           step6Note,
+            rec: step5Pagine,
+            //step 5-2
+            page_Format:                step52Formato,
+            internal_pages:             step52Misure,
+            number_of_pages:            step52Quantita,
+            printing_of_internal_letter:step52Stampa,
 
-          //step7
-          First_Name:   name,
-          Company:      agency,
-          Phone_Number: number,
-          Email:        email,
+            print_quality_internal:     step5InternoStampa,
+            type_of_printing_internal:  step5InternoColore,
+
+            file_customer:  step6Dest,
+            note:           step6Note,
+
+            //step7
+            First_Name:   name,
+            Company:      agency,
+            Phone_Number: number,
+            Email:        email,
         }
       );
       if (res.status === 200) {

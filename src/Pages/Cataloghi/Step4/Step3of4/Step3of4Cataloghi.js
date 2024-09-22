@@ -9,7 +9,7 @@ import Navbar from "../../../../Components/Navbar/Navbar";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useNavigate } from "react-router-dom";
 //import { useSearchParams, useLocation, useParams } from "react-router-dom";
-//import axios from "axios";
+import axios from "axios";
 //import { API_URL } from "../../../../services/client";
 import {ToastContainer} from "react-toastify";
 import {ErrorToast, SuccessToast} from "../../../../Components/Navbar/Toast/Toast";
@@ -31,6 +31,9 @@ export default function Step3of4Cataloghi() {
   const step4Grammatura = localStorage.getItem("step4Grammatura");
 
   const step4StampaCatalogo = localStorage.getItem("step4StampaCatalogo");
+
+  const step4File       = localStorage.getItem("step4File");
+  const step4FileSize   = localStorage.getItem("step4FileSize");
 
   //fine variabili da passare tra i vari steps
 
@@ -66,34 +69,81 @@ export default function Step3of4Cataloghi() {
     const value = e.target.value;
   };
 
-  const [selectedFile, setSelectedFile] = useState(null);
+  //inizio gestione upload file
+
+  // Stato per gestire il file selezionato e la visibilità dell'anteprima
+  const [selectedFile, setSelectedFile]       = useState(step4File ? "https://www.spedireadesso.com/marketingpostale/uploads/" + step4File : null);
+
   const [previewVisible, setPreviewVisible] = useState(false);
 
+  // Funzione per gestire il cambio del file selezionato
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
-    setPreviewVisible(false);
+    setPreviewVisible(false); // Nascondi l'anteprima al cambio del file
   };
 
-  const formatBytes = (bytes, decimals = 2) => {
-    if (bytes === 0) return "0 Bytes";
-    const k = 1024;
-    const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
-  };
-
+  // Funzione per visualizzare o nascondere l'anteprima
   const handlePreview = () => {
     if (selectedFile) {
       setPreviewVisible(!previewVisible);
     }
   };
 
+  // Funzione per eliminare il file selezionato
   const handleDeleteFile = () => {
     setSelectedFile(null);
     setPreviewVisible(false);
   };
+
+  // Funzione per formattare le dimensioni del file
+  const formatBytes = (bytes, decimals = 2) => {
+    if (bytes === 0) return "0 Bytes";
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ["Bytes", "KB", "MB", "GB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+  };
+
+  // Funzione per gestire l'upload del file
+  const handleUpload = async () => {
+    if (!selectedFile) {
+      ErrorToast("Seleziona un file prima di caricare.");
+      //alert("Seleziona un file prima di caricare.");
+      return;
+    }
+
+    // Crea un oggetto FormData per inviare il file al server
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    try {
+      // Richiesta POST al server PHP con axios
+      const response = await axios.post("https://www.spedireadesso.com/marketingpostale/upload.php", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      // Controllo della risposta dal server
+      if (response.status === 200) {
+        const { fileName, fileSize } = response.data;
+        localStorage.setItem("step4File", fileName); // Salva il nome univoco del file
+        localStorage.setItem("step4FileSize", fileSize); // Salva la dimensione del file
+        //alert("File caricato con successo");
+      }
+
+    } catch (error) {
+      console.error("Errore durante il caricamento del file:", error);
+      //alert("Errore durante il caricamento del file.");
+      ErrorToast("Errore durante il caricamento del file.");
+    }
+  };
+
+  //fine gestione upload file
+
+
   const DropdownhandleChange = (eventKey) => {
     setDropSelectedValue(eventKey);
   };
@@ -649,7 +699,8 @@ export default function Step3of4Cataloghi() {
                                     }}
                                 />
                                 <div className="label-img">
-                                  <label className={!isCheckedG4 ? "form-check-label" : "form-check-label-selected"} htmlFor="flexRadioDefaultG3">
+                                  <label className={!isCheckedG4 ? "form-check-label" : "form-check-label-selected"}
+                                         htmlFor="flexRadioDefaultG3">
                                     170gr
                                   </label>
                                 </div>
@@ -660,83 +711,42 @@ export default function Step3of4Cataloghi() {
                           </div>
                         </div>
                       </form>
+
                       <div className="input-file-contain">
-                        <label className="p-envelope-label">
-                          Upload del file grafico
-                        </label>
-                        <div
-                            className={
-                              selectedFile
-                                  ? "selected-file-container"
-                                  : "file-contain-outer"
-                            }
-                        >
-                          <div
-                              className={
-                                selectedFile
-                                    ? "selected-file-con"
-                                    : "file-container"
-                              }
-                          >
+                        <label className="p-envelope-label">Upload del file grafico</label>
+                        <div className={selectedFile ? "selected-file-container" : "file-contain-outer"}>
+                          <div className={selectedFile ? "selected-file-con" : "file-container"}>
                             {previewVisible && selectedFile && (
                                 <div className="file-preview">
-                                  <img
-                                      src={URL.createObjectURL(selectedFile)}
-                                      alt="preview"
-                                  />
+                                  <img src={URL.createObjectURL(selectedFile)} alt="preview"/>
                                 </div>
-                            )}
-                            {selectedFile ? (
-                                <img
-                                    src={`${process.env.PUBLIC_URL}/Images/Step1/file-icon.svg`}
-                                    alt="selected-file"
-                                />
-                            ) : (
-                                <img
-                                    src={`${process.env.PUBLIC_URL}/Images/Step1/upload-file.svg`}
-                                    alt="upload-file"
-                                />
                             )}
 
                             {selectedFile ? (
-                                <p className="Selected-filename">
-                                  {selectedFile.name}
-                                </p>
+                                <img src={`${process.env.PUBLIC_URL}/Images/Step1/file-icon.svg`} alt="selected-file"/>
+                            ) : (
+                                <img src={`${process.env.PUBLIC_URL}/Images/Step1/upload-file.svg`} alt="upload-file"/>
+                            )}
+
+                            {selectedFile ? (
+                                <p className="Selected-filename">{selectedFile.name}</p>
                             ) : (
                                 <div>
-                                  <p className="choose-file-txt">
-                                    Seleziona un file o trascinalo qui
-                                  </p>
-                                  <p className="file-type-txt">
-                                    JPG, PNG o PDF, il file non deve superare i
-                                    10MB
-                                  </p>
+                                  <p className="choose-file-txt">Seleziona un file o trascinalo qui</p>
+                                  <p className="file-type-txt">JPG, PNG o PDF, il file non deve superare i 10MB</p>
+                                  <p>FACOLTATIVO</p>
                                 </div>
                             )}
 
                             {selectedFile && (
                                 <div className="dot-preview">
-                                  <img
-                                      src={`${process.env.PUBLIC_URL}/Images/Step1/dot-img.svg`}
-                                      alt="dot"
-                                  />
-                                  <p
-                                      className="preview-txt"
-                                      onClick={handlePreview}
-                                  >
-                                    {previewVisible
-                                        ? "Nascondi Anteprima"
-                                        : "Anteprima"}
+                                  <img src={`${process.env.PUBLIC_URL}/Images/Step1/dot-img.svg`} alt="dot"/>
+                                  <p className="preview-txt" onClick={handlePreview}>
+                                    {previewVisible ? "Nascondi Anteprima" : "Anteprima"}
                                   </p>
                                   <div className="dot-preview">
-                                    <img
-                                        src={`${process.env.PUBLIC_URL}/Images/Step1/dot-img.svg`}
-                                        alt="dot"
-                                    />
-                                    <p
-                                        className="remove-img-txt"
-                                        onClick={handleDeleteFile}
-                                    >
+                                    <img src={`${process.env.PUBLIC_URL}/Images/Step1/dot-img.svg`} alt="dot"/>
+                                    <p className="remove-img-txt" onClick={handleDeleteFile}>
                                       Elimina
                                     </p>
                                   </div>
@@ -745,20 +755,11 @@ export default function Step3of4Cataloghi() {
                           </div>
 
                           {selectedFile ? (
-                              <p className="file-size-txt">
-                                {formatBytes(selectedFile.size)}
-                              </p>
+                              <p className="file-size-txt">{formatBytes(selectedFile.size)}</p>
                           ) : (
                               <div>
-                                <input
-                                    type="file"
-                                    id="file-input"
-                                    className="hidden"
-                                    onChange={handleFileChange}
-                                />
-                                <label htmlFor="file-input" id="fileinputlabel">
-                                  Seleziona file
-                                </label>
+                                <input type="file" id="file-input" className="hidden" onChange={handleFileChange}/>
+                                <label htmlFor="file-input" id="fileinputlabel">Seleziona file</label>
                               </div>
                           )}
                         </div>
