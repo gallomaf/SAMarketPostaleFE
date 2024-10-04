@@ -44,15 +44,12 @@ export default function Step2of4Cartoline() {
   const [isCheckedR1, setIsCheckedR1] = useState(step4Tipo === "Solo fronte" );
   const [isCheckedR2, setIsCheckedR2] = useState(step4Tipo === "Fronte/retro");
 
-  const [isCheckedG1, setIsCheckedG1] = useState(step4Grammatura === "200gr");
-  const [isCheckedG2, setIsCheckedG2] = useState(step4Grammatura === "250gr");
-  const [isCheckedG3, setIsCheckedG3] = useState(step4Grammatura === "300gr");
+  const [isCheckedG1, setIsCheckedG1] = useState(step4Grammatura === "250gr");
+  const [isCheckedG2, setIsCheckedG2] = useState(step4Grammatura === "300gr");
+  const [isCheckedG3, setIsCheckedG3] = useState(step4Grammatura === "350gr");
 
   const [isCheckedT1, setIsCheckedT1] = useState(step4Carta === "Patina lucida");
   const [isCheckedT2, setIsCheckedT2] = useState(step4Carta === "Patina opaca");
-
-
-
   //inizio gestione upload file
 
   // Stato per gestire il file selezionato e la visibilità dell'anteprima
@@ -104,7 +101,7 @@ export default function Step2of4Cartoline() {
 
     try {
       // Richiesta POST al server PHP con axios
-      const response = await axios.post("https://www.spedireadesso.com/marketingpostale/upload.php", formData, {
+      const response = await axios.post("https://www.spedireadesso.com/modulo-preventivo-postale/upload.php", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -112,10 +109,12 @@ export default function Step2of4Cartoline() {
 
       // Controllo della risposta dal server
       if (response.status === 200) {
-        const { fileName, fileSize } = response.data;
-        localStorage.setItem("step4File", fileName); // Salva il nome univoco del file
-        localStorage.setItem("step4FileSize", fileSize); // Salva la dimensione del file
+        console.log(response);
+        localStorage.setItem("step4File", response.data.fileName); // Salva il nome univoco del file
+        localStorage.setItem("step4FileSize", response.data.fileSize); // Salva la dimensione del file
         //alert("File caricato con successo");
+        console.log(response.data.message);
+        console.log(response.data.fileName);
       }
 
     } catch (error) {
@@ -141,11 +140,11 @@ export default function Step2of4Cartoline() {
             ? "Fronte/retro"
             : "";
     const paper_weight = isCheckedG1
-        ? "200gr"
+        ? "250gr"
         : isCheckedG2
-            ? "250gr"
+            ? "300gr"
             : isCheckedG3
-                ? "300gr"
+                ? "350gr"
                 : "";
     const type_of_paper = isCheckedT1
         ? "Patina lucida"
@@ -161,7 +160,7 @@ export default function Step2of4Cartoline() {
 
     if(selectedFile){
       handleUpload();
-      localStorage.setItem("step4File", selectedFile.name);
+      //localStorage.setItem("step4File", selectedFile.name);
     }
 
     if (
@@ -452,7 +451,7 @@ export default function Step2of4Cartoline() {
                                       }
                                       htmlFor="flexRadioDefaultG1"
                                   >
-                                    250g
+                                    250gr
                                   </label>
                                 </div>
                               </div>

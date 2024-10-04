@@ -50,7 +50,7 @@ function App() {
 
   return (
     <>
-      <BrowserRouter basename="marketingpostale/">
+      <BrowserRouter basename="modulo-preventivo-postale/">
         <Routes>
           <Route path="/" element={<Step1 />} />
           <Route path="/Step-1" element={<Step1 />} />

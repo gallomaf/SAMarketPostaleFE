@@ -305,7 +305,6 @@ p {
 }
 .btn-r2 {
   width: 100%;
-
   /* border-radius: 12px; */
   background: #d0d0d0;
   display: flex;
@@ -457,6 +456,55 @@ p {
   font-weight: 400;
   line-height: normal;
 }
+/* modal gadget */
+.modal-content {
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.gadget-item {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.gadget-item:hover {
+  background-color: #f8f9fa;
+}
+
+.custom-drop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #d6d6d6;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.modal-ul {
+  list-style-type: none; /* Rimuove i pallini */
+  padding: 0; /* Rimuove il padding di default */
+  margin: 0; /* Rimuove il margine di default */
+}
+
+.modal-ul li {
+  /*margin-bottom: 10px; /* Aggiunge uno spazio tra gli elementi dell'elenco */
+  cursor: pointer; /* Cambia il cursore a "pointer" */
+}
+
+.modal-ul li:hover {
+  background-color: #f0f0f0; /* Cambia il colore di sfondo al passaggio del mouse */
+}
+
+.custom-modal-footer {
+  border-top: none !important; /* Rimuove il bordo superiore */
+  /* padding-top: 5px; */
+}
+
+/* fine modal gadget */
 
 @media (max-width: 990px) {
   .col-lhs {

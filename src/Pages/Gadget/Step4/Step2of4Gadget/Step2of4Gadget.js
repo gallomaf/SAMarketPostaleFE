@@ -1,5 +1,6 @@
 import React from "react";
 import "./Step2of4Gadget.css";
+import { Modal, Button } from 'react-bootstrap';
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useState, useEffect } from "react";
@@ -36,12 +37,20 @@ export default function Step2of4Gadget() {
   //useEffect(() => {
     //setItem(localStorage.getItem("sendoption"));
   //});
-
+  const [modalShow, setModalShow] = useState(false);
   const [selectedValue, setSelectedValue] = useState("");
   const [gadgetweight, setGadgetWeight] = useState(step4Peso ? step4Peso : "");
   const [dropselectedValue, setDropSelectedValue] = useState(step4Gadget ? step4Gadget : "");
   const [measurement, setmeasurementValue] = useState(step4Misure ? step4Misure : "");
 
+  // Aggiungi le funzioni per aprire e chiudere il modale
+  const handleShow = () => setModalShow(true);
+  const handleClose = () => setModalShow(false);
+
+  const handleModalSelect = (gadgetName) => {
+    setDropSelectedValue(gadgetName);
+    handleClose(); // Chiude il modale dopo la selezione
+  };
 
   const [isChecked1, setIsChecked1]   = useState(step4Colore === "Bianco/Nero" );
   const [isChecked2, setIsChecked2]   = useState(step4Colore === "Colore" );
@@ -212,30 +221,38 @@ export default function Step2of4Gadget() {
                           }
                       >
                         <div className="form-group cartoline-form-drop-width gadget-drop">
-                          <label className="envelope-label">
-                            Tipologia di gadget
-                          </label>
+                          {/* Modale per la selezione dei gadget */}
+                          <Modal show={modalShow} onHide={handleClose} centered>
+                            <Modal.Header closeButton>
+                              <Modal.Title>Seleziona un Gadget</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                              <ul  className="modal-ul">
+                                {gadgets.map((gadget) => (
+                                    <li key={gadget.id} onClick={() => handleModalSelect(gadget.name)} className="gadget-item">
+                                      {gadget.name}
+                                    </li>
+                                ))}
+                              </ul>
+                            </Modal.Body>
+                            <Modal.Footer className="custom-modal-footer">
+                              <Button variant="secondary" onClick={handleClose}>
+                                Chiudi
+                              </Button>
+                            </Modal.Footer>
+                          </Modal>
 
-                          <Dropdown onSelect={DropdownhandleChange}>
-                            <Dropdown.Toggle
-                                id="dropdown-basic"
-                                className={
-                                  dropselectedValue === ""
-                                      ? "custom-drop"
-                                      : "custom-drop custom-drop-border"
-                                }
-                            >
+                          {/* Pulsante che apre il modale */}
+                          <div className="form-group cartoline-form-drop-width gadget-drop">
+                            <label className="envelope-label">Tipologia di gadget</label>
+                            <div onClick={handleShow} className="custom-drop custom-drop-border">
                               {dropselectedValue === "" ? "Seleziona" : dropselectedValue}
-                            </Dropdown.Toggle>
+                            </div>
+                          </div>
 
-                            <Dropdown.Menu>
-                              {gadgets.map((gadget) => (
-                                  <Dropdown.Item key={gadget.id} eventKey={gadget.name}>
-                                    {gadget.name}
-                                  </Dropdown.Item>
-                              ))}
-                            </Dropdown.Menu>
-                          </Dropdown>
+
+
+
 
                         </div>
                         <div
@@ -275,32 +292,11 @@ export default function Step2of4Gadget() {
                       </div>
                     </form>
                   </div>
-                  <div className="btn-img-rhs">
-                    {/* <div
-                      className={
-                        (isChecked1 || isChecked2) &&
-                        dropselectedValue !== "Seleziona"
-                          ? "d-block"
-                          : "d-none"
-                      }
-                    >
-                      <img src="/Images/Step1/envelop-img.svg" alt="Envelope" />
-                    </div> */}
-                  </div>
+
                 </div>
               </div>
 
               <div className="btns-envelope">
-                {/* <div
-                  className={
-                    (isChecked1 || isChecked2) &&
-                    dropselectedValue !== "Seleziona"
-                      ? "envelope-img"
-                      : "d-none"
-                  }
-                >
-                  <img src="/Images/Step1/envelope-mb.svg" alt="Envelope" />
-                </div> */}
                 <div className="btn-rhs-row-mb">
                   <div>
                     <button className="btn-r1" onClick={goBack}>Indietro</button>

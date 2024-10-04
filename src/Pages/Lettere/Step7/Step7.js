@@ -31,18 +31,47 @@ export default function Step7() {
   let step3QtaItalia  = localStorage.getItem("step3QtaItalia");
   let step3QtaEstero  = localStorage.getItem("step3QtaEstero");
 
-  const storedBuste          = JSON.parse(localStorage.getItem('buste'));//recupero con JSON perchè è un array
+
+
+  let storedBuste          = null;
+
+
+    storedBuste          = JSON.parse(localStorage.getItem('buste'));//recupero con JSON perchè è un array
+
+  if(sendoption == 'Cataloghi'){
+    storedBuste          = JSON.parse(localStorage.getItem('busteCataloghi'));//recupero con JSON perchè è un array
+  }
+  else if(sendoption == 'Gadget'){
+    storedBuste          = JSON.parse(localStorage.getItem('busteGadget'));//recupero con JSON perchè è un array
+  }
+
+
   const step4Busta    = localStorage.getItem("step4Busta");
   let step4Misure     = localStorage.getItem("step4Misure");
   let step4Stampa     = localStorage.getItem("step4Stampa");
+
+  const step4Altezza  = localStorage.getItem("step4Altezza");
+  const step4Lunghezza= localStorage.getItem("step4Lunghezza");
 
   let step4Colore       = localStorage.getItem("step4Colore");//logo busta o cartoline
   const step4Tipo       = localStorage.getItem("step4Tipo");
   const step4Grammatura = localStorage.getItem("step4Grammatura");
   const step4Carta      = localStorage.getItem("step4Carta");
+  //alcuni di catalogo
+  const step4Formato        = localStorage.getItem("step4Formato");
+  const step4ColoreCatalogo = localStorage.getItem("step4ColoreCatalogo");
+  //const step4Tipo           = localStorage.getItem("step4Tipo");
+  //const step4Grammatura     = localStorage.getItem("step4Grammatura");
+  const step4StampaCatalogo = localStorage.getItem("step4StampaCatalogo");
 
   const step4Gadget   = localStorage.getItem("step4Gadget");
   const step4Peso     = localStorage.getItem("step4Peso");
+  const cartolina     = localStorage.getItem("cartolina");
+
+  const file_item     = localStorage.getItem("step4File");
+  console.log("file_item", file_item);
+
+  const bustax        = localStorage.getItem("bustax");//busta cataloghi
 
   const step5Pagine   = localStorage.getItem("step5Pagine");
 
@@ -98,6 +127,12 @@ export default function Step7() {
   };
 
 
+  const handleButtonClick = (event) => {
+    event.preventDefault();
+    nextstep();
+  };
+
+
 
   const formValidation = () => {
     if (name.length < 3) {
@@ -140,10 +175,6 @@ export default function Step7() {
       //recuperare il dati di busta dall'array storedBuste
       const bustaTrovata = storedBuste.find(item => item.id  == step4Busta);
 
-      //se la busta non è personalizzata (id=6) allora non mostro le misure personalizzate
-      if(parseInt(step4Busta) < 6){
-        step4Misure = "-";
-      }
 
       if(step4Stampa == 'sa'){
         step4Stampa = "SpedireAdesso";
@@ -152,51 +183,119 @@ export default function Step7() {
         step4Colore = "-";
       }
 
+      //se esiste step4Altezza e step4Lunghezza scriverli dentro step4Misure
+        if(step4Altezza && step4Lunghezza){
+          step4Misure = step4Lunghezza + " x " + step4Altezza;
+        }
+
+        let formato_item = "-";
+
+
+        if(cartolina){
+          formato_item = cartolina; //cartolina
+        }
+        else if(step4Gadget){
+            formato_item = step4Gadget; //gadget
+        }
+        else if(step52Formato){
+            formato_item = step52Formato; //interno
+        }
+        else if(step4Formato){
+            formato_item = step4Formato; //catalogo
+        }
+
+        let grammatura_item = "-";
+        if(step4Grammatura){
+          grammatura_item = step4Grammatura;
+        }
+
+        let misura_item = step4Misure;
+        if(step4Peso){
+          misura_item = step4Peso; //peso gadget
+        }
+
+        let stampa_item = "-";
+        if(step4StampaCatalogo){
+            stampa_item = step4StampaCatalogo;
+        }
+        if(step52Stampa){
+            stampa_item = step52Stampa;
+        }
+
+        if(stampa_item == 'sa'){
+            stampa_item = "SpedireAdesso";
+        }
+
+        let colore_item = "-";
+        if(step4ColoreCatalogo){
+            colore_item = step4ColoreCatalogo;
+        }
+        if(step5InternoColore){
+            colore_item = step5InternoColore;
+        }
+
+        //step5InternoStampa è in lettere tipo stampa fronte/retro
+        let tipo_stampa_item = "-";
+        if(step5InternoStampa){
+            tipo_stampa_item = step5InternoStampa;
+        }
+        if(step4Tipo){
+          tipo_stampa_item = step4Tipo;
+        }
+
+        if(sendoption == 'Cartoline'){
+          stampa_item = step4Stampa;
+          colore_item = step4Colore;
+        }
+
+        let tipo_carta_item = step4Carta ? step4Carta : "-";
+        if(step4Tipo  && sendoption != 'Cartoline'){
+            tipo_carta_item = step4Tipo;
+        }
+
+
       const res = await axios.post(
         //`${API_URL}/auth/addQA_lettere_step7Full`,
-          "https://sweet.spedireadesso.com/v1/step7",
+          "https://sweet.spedireadesso.com/api/v1/step7",
 
           {
 
-            categorytag:        sendoption,
-            quantity:           step2Quantity,
+            tipo:        sendoption,
+            quantita:           step2Quantity,
 
-            country:            nazione,
-            qtaitalia:          step3QtaItalia,
-            qtaestero:          step3QtaEstero,
+            nazione:            nazione,
+            quantita_it:        step3QtaItalia,
+            quantita_ee:        step3QtaEstero,
 
-            envelope_format:    bustaTrovata.name,
-            envelope_printing:  step4Stampa,
-            measurements:       step4Misure,
+            tipo_busta:    bustaTrovata.name,
+            misura_busta:       step4Misure,
 
-            print_quality:      step4Colore,
+            stampa_busta:       step4Stampa,//chi stampa le buste o le cartoline
+            colore_busta:      step4Colore,//colore stampa buste, cartoline
+
             //cartoline
-            print_type:         step4Tipo,
-            paper_grammage:     step4Grammatura,
-            paper_type:         step4Carta,
+            formato_item:         formato_item,
+            misura_item:              misura_item,
+            quantita_item:            step52Quantita,
+            stampa_item:      stampa_item,
+            colore_item:      colore_item,
 
-            //gadget step 4-2
-            gadget:             step4Gadget,
-            weight:             step4Peso,
+            tipo_stampa_item: tipo_stampa_item,
 
-            rec: step5Pagine,
-            //step 5-2
-            page_Format:                step52Formato,
-            internal_pages:             step52Misure,
-            number_of_pages:            step52Quantita,
-            printing_of_internal_letter:step52Stampa,
+            grammatura_item:       grammatura_item,
+            tipo_carta_item:         tipo_carta_item,
 
-            print_quality_internal:     step5InternoStampa,
-            type_of_printing_internal:  step5InternoColore,
+            file_item: file_item,
 
-            file_customer:  step6Dest,
+
+            destinatari:    step6Dest,
             note:           step6Note,
 
             //step7
-            First_Name:   name,
-            Company:      agency,
-            Phone_Number: number,
-            Email:        email,
+            nominativo:   name,
+            azienda:      agency,
+            telefono:     number,
+            email:        email,
         }
       );
       if (res.status === 200) {
@@ -318,8 +417,7 @@ export default function Step7() {
                       >
                         Con l'invio di questa richiesta, accetto espressamente i
                         Termini e Condizioni e acconsento al<br></br>{" "}
-                        trattamento dei miei dati personali in conformità con la
-                        Privacy Policy.
+                        trattamento dei miei dati personali in conformità con la{" "}<a href="https://www.spedireadesso.com/privacy-policy.html" target="_blank">Privacy Policy</a>.
                       </label>
                     </div>
                   </div>
@@ -336,7 +434,7 @@ export default function Step7() {
                             ? "btn-r2-active"
                             : "btn-r2"
                     }
-                    onClick={nextstep}
+                    onClick={handleButtonClick}
                   >
                     Invia Richiesta Preventivo
                   </button>
@@ -353,7 +451,7 @@ export default function Step7() {
                         ? "btn-r2-active"
                         : "btn-r2"
                     }
-                    onClick={nextstep}
+                    onClick={handleButtonClick}
                   >
                     Invia Richiesta Preventivo
                   </button>

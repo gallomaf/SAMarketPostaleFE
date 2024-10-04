@@ -688,8 +688,8 @@ export default function Step3of4Cataloghi() {
                                 <input
                                     className="form-check-input"
                                     type="radio"
-                                    name="flexRadioDefaultG3"
-                                    id="flexRadioDefaultG3"
+                                    name="flexRadioDefaultG4"
+                                    id="flexRadioDefaultG"
                                     checked={isCheckedG4}
                                     onChange={() => {
                                       setIsCheckedG3(false);
@@ -700,7 +700,7 @@ export default function Step3of4Cataloghi() {
                                 />
                                 <div className="label-img">
                                   <label className={!isCheckedG4 ? "form-check-label" : "form-check-label-selected"}
-                                         htmlFor="flexRadioDefaultG3">
+                                         htmlFor="flexRadioDefaultG4">
                                     170gr
                                   </label>
                                 </div>

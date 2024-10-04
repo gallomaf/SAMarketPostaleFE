@@ -76,6 +76,9 @@ export default function Step4Gadget() {
 
     localStorage.setItem("step4Colore", isCheckedCol1 ? 'Bianco/Nero' : isCheckedCol2 ? 'Colore' : '');
 
+    let bustax = busteCataloghi[formatoBuste-1].name;
+    localStorage.setItem("busta", bustax);
+
     if( (((isCheckedCol1 || isCheckedCol2) && isChecked2) || isChecked)
         && formatoBuste
         && (formatoBuste != 6 || (formatoBuste == 6 && measurement)) ) {
