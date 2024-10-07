@@ -1,10 +1,9 @@
 <?php
-
 // Consente le richieste da qualunque dominio (può essere personalizzato con un dominio specifico)
-header("Access-Control-Allow-Origin: *");
+//header("Access-Control-Allow-Origin: *");
 
 // Se vuoi consentire solo un dominio specifico, sostituisci * con il dominio esatto
-// header("Access-Control-Allow-Origin: https://spedireadesso.com");
+header("Access-Control-Allow-Origin: https://spedireadesso.com");
 
 // Le altre intestazioni necessarie per le richieste CORS
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
@@ -26,9 +25,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
 
     //rinomina il file con un nome univoco
     $fileName = uniqid() . '_' . $fileName;
-    $targetFilePath = $targetDir . $fileName;
     //rimuovi gli spazi dal nome del file
-    $targetFilePath = str_replace(' ', '_', $targetFilePath);
+    $fileName = str_replace(' ', '_', $fileName);
+    $targetFilePath = $targetDir . $fileName;
 
     //scrivi la stringa "CIAO" in un file di testo chiamato log.txt
     //$file = fopen("log.txt", "w");

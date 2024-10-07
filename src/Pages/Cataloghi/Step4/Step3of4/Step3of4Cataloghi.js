@@ -72,7 +72,7 @@ export default function Step3of4Cataloghi() {
   //inizio gestione upload file
 
   // Stato per gestire il file selezionato e la visibilità dell'anteprima
-  const [selectedFile, setSelectedFile]       = useState(step4File ? "https://www.spedireadesso.com/marketingpostale/uploads/" + step4File : null);
+  const [selectedFile, setSelectedFile]       = useState(step4File ? "https://www.spedireadesso.com/modulo-preventivo-postale/uploads/" + step4File : null);
 
   const [previewVisible, setPreviewVisible] = useState(false);
 
@@ -120,7 +120,7 @@ export default function Step3of4Cataloghi() {
 
     try {
       // Richiesta POST al server PHP con axios
-      const response = await axios.post("https://www.spedireadesso.com/marketingpostale/upload.php", formData, {
+      const response = await axios.post("https://www.spedireadesso.com/modulo-preventivo-postale/upload.php", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -128,9 +128,14 @@ export default function Step3of4Cataloghi() {
 
       // Controllo della risposta dal server
       if (response.status === 200) {
-        const { fileName, fileSize } = response.data;
-        localStorage.setItem("step4File", fileName); // Salva il nome univoco del file
-        localStorage.setItem("step4FileSize", fileSize); // Salva la dimensione del file
+        //const { fileName, fileSize } = response.data;
+        localStorage.setItem("step4File", response.data.fileName); // Salva il nome univoco del file
+        localStorage.setItem("step4FileSize", response.data.fileSize); // Salva la dimensione del file
+
+        //console.log(step4File);
+        //console.log(response.data);
+        //localStorage.setItem("step4File", fileName); // Salva il nome univoco del file
+        //localStorage.setItem("step4FileSize", fileSize); // Salva la dimensione del file
         //alert("File caricato con successo");
       }
 
@@ -173,6 +178,11 @@ export default function Step3of4Cataloghi() {
     localStorage.setItem("step4ColoreCatalogo",     print_quality);
     localStorage.setItem("step4Tipo",       type_of_printing);
     localStorage.setItem("step4Grammatura", paper_weight);
+
+    if(selectedFile){
+      handleUpload();
+      //localStorage.setItem("step4File", selectedFile.name);
+    }
 
     if(dropselectedValue !== "")
         localStorage.setItem("step4Formato", dropselectedValue);

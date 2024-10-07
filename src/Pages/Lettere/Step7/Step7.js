@@ -69,7 +69,6 @@ export default function Step7() {
   const cartolina     = localStorage.getItem("cartolina");
 
   const file_item     = localStorage.getItem("step4File");
-  console.log("file_item", file_item);
 
   const bustax        = localStorage.getItem("bustax");//busta cataloghi
 
@@ -155,7 +154,7 @@ export default function Step7() {
   };
 
   async function nextstep() {
-    console.log("termsAccepted " + termsAccepted);
+    //console.log("termsAccepted " + termsAccepted);
     if (!formValidation()) {
       return;
     }
@@ -260,42 +259,43 @@ export default function Step7() {
 
           {
 
-            tipo:        sendoption,
+            tipo:               sendoption,
             quantita:           step2Quantity,
 
             nazione:            nazione,
             quantita_it:        step3QtaItalia,
             quantita_ee:        step3QtaEstero,
 
-            tipo_busta:    bustaTrovata.name,
+            tipo_busta:         bustaTrovata.name,
             misura_busta:       step4Misure,
 
             stampa_busta:       step4Stampa,//chi stampa le buste o le cartoline
-            colore_busta:      step4Colore,//colore stampa buste, cartoline
+            colore_busta:       step4Colore,//colore stampa buste, cartoline
 
             //cartoline
-            formato_item:         formato_item,
-            misura_item:              misura_item,
-            quantita_item:            step52Quantita,
+            formato_item:     formato_item,
+            misura_item:      misura_item,
+            quantita_item:    step52Quantita,
             stampa_item:      stampa_item,
             colore_item:      colore_item,
 
             tipo_stampa_item: tipo_stampa_item,
 
-            grammatura_item:       grammatura_item,
-            tipo_carta_item:         tipo_carta_item,
+            grammatura_item:  grammatura_item,
+            tipo_carta_item:  tipo_carta_item,
 
-            file_item: file_item,
+            file_item:      file_item,
+            termsAccepted:  termsAccepted,
 
 
             destinatari:    step6Dest,
             note:           step6Note,
 
             //step7
-            nominativo:   name,
-            azienda:      agency,
-            telefono:     number,
-            email:        email,
+            nominativo:     name,
+            azienda:        agency,
+            telefono:       number,
+            email:          email,
         }
       );
       if (res.status === 200) {

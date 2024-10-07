@@ -37,11 +37,10 @@ const ColonnaSx = () => {
                 <p className="des-sub-lhs">
                     Per maggiori informazioni su questo{" "}
                     <a
-                        href="https://www.spedireadesso.com/posta-pubblicitaria.html"
+                        href="https://www.spedireadesso.com/servizio-di-stampa-imbustamento-affrancatura-ed-invio.html"
                         target="_blank"
-                        rel="noopener noreferrer"
                     >
-                        nuovo<br></br> servizio postale clicca qui.
+                        nuovo  servizio postale clicca qui.
                     </a>
                 </p>
             </div>

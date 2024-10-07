@@ -33,7 +33,7 @@ export default function Step2of4Cartoline() {
   const step4Grammatura = localStorage.getItem("step4Grammatura");
   const step4Carta      = localStorage.getItem("step4Carta");
   const step4File       = localStorage.getItem("step4File");
-  const step4FileSize   = localStorage.getItem("step4FileSize");
+  //const step4FileSize   = localStorage.getItem("step4FileSize");
 
   //fine variabili da passare tra i vari steps
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ export default function Step2of4Cartoline() {
   //inizio gestione upload file
 
   // Stato per gestire il file selezionato e la visibilità dell'anteprima
-  const [selectedFile, setSelectedFile]       = useState(step4File ? "https://www.spedireadesso.com/marketingpostale/uploads/" + step4File : null);
+  const [selectedFile, setSelectedFile]       = useState(step4File ? "https://www.spedireadesso.com/modulo-preventivo-postale/uploads/" + step4File : null);
 
   const [previewVisible, setPreviewVisible] = useState(false);
 
@@ -109,12 +109,12 @@ export default function Step2of4Cartoline() {
 
       // Controllo della risposta dal server
       if (response.status === 200) {
-        console.log(response);
+        //console.log(response);
         localStorage.setItem("step4File", response.data.fileName); // Salva il nome univoco del file
         localStorage.setItem("step4FileSize", response.data.fileSize); // Salva la dimensione del file
         //alert("File caricato con successo");
-        console.log(response.data.message);
-        console.log(response.data.fileName);
+        //console.log(response.data.message);
+        //console.log(response.data.fileName);
       }
 
     } catch (error) {
@@ -122,7 +122,7 @@ export default function Step2of4Cartoline() {
       //alert("Errore durante il caricamento del file.");
       ErrorToast("Errore durante il caricamento del file.");
     }
-  };
+  };//fine handleUpload
 
   //fine gestione upload file
 
@@ -149,7 +149,7 @@ export default function Step2of4Cartoline() {
     const type_of_paper = isCheckedT1
         ? "Patina lucida"
         : isCheckedT2
-            ? "Patinata opaca"
+            ? "Patina opaca"
             : "";
 
     //inizio variabili reali
@@ -597,7 +597,7 @@ export default function Step2of4Cartoline() {
                                       }
                                       htmlFor="flexRadioDefaultT2"
                                   >
-                                    Patinata opaca
+                                    Patina opaca
                                   </label>
                                 </div>
                               </div>

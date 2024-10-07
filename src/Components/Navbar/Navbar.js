@@ -120,7 +120,7 @@ function CollapsibleExample() {
           <div className="info-icon">
             <i className="bi bi-info-square"></i>
           </div>
-          <Navbar.Brand href="#home">
+          <Navbar.Brand href="https://www.spedireadesso.com">
             <div>
               <img src={`${process.env.PUBLIC_URL}/Images/Logo.svg`}
                    alt="SpedireAdesso"  className="logo-img"/>

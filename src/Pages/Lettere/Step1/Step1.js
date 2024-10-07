@@ -87,8 +87,8 @@ export default function Step1() {
 
   const formValidation = () => {
 
-    console.log("step1Click is", step1Click);
-    console.log("inputValue is", inputValue);
+    //console.log("step1Click is", step1Click);
+    //console.log("inputValue is", inputValue);
     if (!step1Click || step1Click == null) {
       console.log("step1Click");
       ErrorToast("Seleziona il tipo di oggetto che vuoi spedire");
