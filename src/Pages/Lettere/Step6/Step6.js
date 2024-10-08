@@ -201,10 +201,12 @@ export default function Step6() {
                               </div>
                               <div className="label-subhead">
                                 Se hai già un elenco preciso dei destinatari,
-                                puoi caricare direttamente i dati<br></br>{" "}
+                                puoi caricare direttamente i dati
                                 utilizzando un file in formato CSV o Excel.
-                                Assicurati che il file contenga tutte le
-                                <br></br> informazioni necessarie.
+                                Assicurati che il file contenga tutte le informazioni necessarie. <br/><br/>
+                                <a href={`${process.env.PUBLIC_URL}/Images/esempio-lista-indirizzi-posta-spedireadesso.xlsx`} target="_blank">
+                                  Esempio file destinatari
+                                </a>
                               </div>
                             </label>
                           </div>
@@ -228,9 +230,9 @@ export default function Step6() {
                               </div>
                               <div className="label-subhead">
                                 Se non disponi di un elenco specifico dei
-                                destinatari o desideri raggiungere un<br></br>{" "}
+                                destinatari o desideri raggiungere un
                                 pubblico più ampio in determinate aree
-                                geografiche, possiamo aiutarti a<br></br>{" "}
+                                geografiche, possiamo aiutarti a
                                 identificare i destinatari in base ai Codici di
                                 Avviamento Postale (CAP) che fornisci.
                               </div>
