@@ -1,22 +1,16 @@
 import React from "react";
 import "./Step4.css";
-//import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useState, useEffect } from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
-
-//import { useSearchParams, useLocation, useParams } from "react-router-dom";
-//import {  useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-//import { API_URL } from "../../../services/client";
-//import axios from "axios";
 import {ToastContainer} from "react-toastify";
 import { ErrorToast } from "../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
 import BreadcrumbBt from "../../../Components/Footer/BreadcrumbBt";
-//import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
 import { useRef } from "react";
+import {Helmet} from "react-helmet";
 
 export default function Step4() {
 
@@ -52,7 +46,6 @@ export default function Step4() {
   };
 
   //fine nuova versione buste
-
   const [measurement, setmeasurementValue]  = useState(step4Misure  ? step4Misure : "");
   const [isChecked, setIsChecked]         = useState(step4Stampa == 'cliente' ? true: false);
   const [isChecked2, setIsChecked2]       = useState(step4Stampa == 'sa' ? true : false);
@@ -78,17 +71,12 @@ export default function Step4() {
     //console.log("Measurement Value is", value);
   };
 
-  //const location = useLocation();
-  //const queryParams = new URLSearchParams(location.search);
-  //const sendoption = queryParams.get("sendoption");
   const handleRoutes = () => {
 
     localStorage.setItem("step4Busta",  formatoBuste);
     localStorage.setItem("step4Misure", measurement);
     let bustax = buste[formatoBuste-1].name;
     localStorage.setItem("busta", bustax);
-
-
 
     if (isChecked && formatoBuste) {
       localStorage.setItem("step4Stampa",   "cliente");
@@ -143,31 +131,10 @@ export default function Step4() {
         return;
       }
 
-      /*
-      const userId = localStorage.getItem("_id");
-      const EnvelopePrintingOption = isChecked
-        ? "Stampate dal Cliente"
-        : isChecked2
-        ? "Stampate da Spedire Adesso"
-        : "";
-      const res = await axios.post(
-        `${API_URL}/auth/addQA_lettere_step4a`,
-        {
-          id:userId,
-          envelope_format: formatoBuste,
-          envelope_printing: EnvelopePrintingOption,
-          measurements: measurement,
-        }f
-      );
-       */
 
       let res_status = 200;
       if (res_status === 200) {
-        //console.log("Envelope Printion Option is", EnvelopePrintingOption);
-        //console.log("Page Format is ", formatoBuste);
-        //console.log("Measurement is ", measurement);
         handleRoutes();
-        // SuccessToast("updated");
       }
     } catch (error) {
       console.log(error);
@@ -183,6 +150,9 @@ export default function Step4() {
 
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <ToastContainer />
       <div className="over-flow-setting">
         <Navbar />

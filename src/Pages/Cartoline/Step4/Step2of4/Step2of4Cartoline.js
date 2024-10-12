@@ -1,20 +1,16 @@
 import React from "react";
-//import Form from "react-bootstrap/Form";
 import "./Step2of4Cartoline.css";
-//import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useState } from "react";
 import Navbar from "../../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-//import { useSearchParams, useLocation, useParams } from "react-router-dom";
 import axios from "axios";
-//import { API_URL } from "../../../../services/client";
-//import { SuccessToast } from "../../../../Components/Navbar/Toast/Toast";
 import {ToastContainer} from "react-toastify";
 import { ErrorToast } from "../../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../../Components/Colonne/ColonnaSx";
 import BreadcrumbBt from "../../../../Components/Footer/BreadcrumbBt";
+import {Helmet} from "react-helmet";
 
 export default function Step2of4Cartoline() {
 
@@ -226,6 +222,9 @@ export default function Step2of4Cartoline() {
 
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <ToastContainer/>
       <div className="over-flow-setting">
         <Navbar />

@@ -544,7 +544,7 @@ p {
 
   }
   .pg-quantity-gadget{
-    width: 218px;
+    /* width: 218px; */
   }
 }
 @media (max-width: 992px) {

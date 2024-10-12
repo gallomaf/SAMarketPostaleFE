@@ -1,19 +1,16 @@
 import React from "react";
 import "./Step7.css";
-//import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useState } from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-//import {  useLocation } from "react-router-dom";
-import { API_URL } from "../../../services/client";
 import axios from "axios";
 import { ErrorToast } from "../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
 import BreadcrumbBt from "../../../Components/Footer/BreadcrumbBt";
 import {ToastContainer} from "react-toastify";
-
+import {Helmet} from "react-helmet";
 
 export default function Step7() {
   const now = 98;
@@ -31,12 +28,8 @@ export default function Step7() {
   let step3QtaItalia  = localStorage.getItem("step3QtaItalia");
   let step3QtaEstero  = localStorage.getItem("step3QtaEstero");
 
-
-
   let storedBuste          = null;
-
-
-    storedBuste          = JSON.parse(localStorage.getItem('buste'));//recupero con JSON perchè è un array
+  storedBuste          = JSON.parse(localStorage.getItem('buste'));//recupero con JSON perchè è un array
 
   if(sendoption == 'Cataloghi'){
     storedBuste          = JSON.parse(localStorage.getItem('busteCataloghi'));//recupero con JSON perchè è un array
@@ -44,7 +37,6 @@ export default function Step7() {
   else if(sendoption == 'Gadget'){
     storedBuste          = JSON.parse(localStorage.getItem('busteGadget'));//recupero con JSON perchè è un array
   }
-
 
   const step4Busta    = localStorage.getItem("step4Busta");
   let step4Misure     = localStorage.getItem("step4Misure");
@@ -60,8 +52,6 @@ export default function Step7() {
   //alcuni di catalogo
   const step4Formato        = localStorage.getItem("step4Formato");
   const step4ColoreCatalogo = localStorage.getItem("step4ColoreCatalogo");
-  //const step4Tipo           = localStorage.getItem("step4Tipo");
-  //const step4Grammatura     = localStorage.getItem("step4Grammatura");
   const step4StampaCatalogo = localStorage.getItem("step4StampaCatalogo");
 
   const step4Gadget   = localStorage.getItem("step4Gadget");
@@ -79,8 +69,19 @@ export default function Step7() {
   const step52Quantita= localStorage.getItem("step52Quantita");
   const step52Stampa  = localStorage.getItem("step52Stampa");
 
+  //inserto dentro la busta
+  const step52InsertoPresente = localStorage.getItem("step52InsertoPresente");
+  const step52Inserto    = localStorage.getItem("step52Inserto");
+  const step52PesoInserto = localStorage.getItem("step52PesoInserto");
+  const step52DescrizioneInserto = localStorage.getItem("step52DescrizioneInserto");
+
   const step5InternoColore  = localStorage.getItem("step5InternoColore");
   const step5InternoStampa  = localStorage.getItem("step5InternoStampa");
+
+  //natura della comunicazione
+  const step52Comunicazione         = localStorage.getItem("step52Comunicazione");
+  const step52ComunicazioneAltro    = localStorage.getItem("step52ComunicazioneAltro");
+
   const step6Dest           = localStorage.getItem("step6Dest");
   const step6Note           = localStorage.getItem("step6Note");
   //fine variabili da passare tra i vari steps
@@ -93,15 +94,7 @@ export default function Step7() {
   const [number, setNumber]         = useState("");
   const [email, setEmail]           = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false); // Stato per la checkbox
-  //const location = useLocation();
 
-  //useEffect(() => {
-    //setItem(localStorage.getItem("sendoption"));
-  //});
-
-  //const queryParams = new URLSearchParams(location.search);
-  //const sendoption = queryParams.get("sendoption");
-  //console.log("this is ", sendoption);
   const handleRoutes = () => {
     if (name && number && agency && email) {
       navigate(`/Thankyou?sendoption=${sendoption}`);
@@ -160,20 +153,14 @@ export default function Step7() {
     }
 
     try {
-      //const userId = localStorage.getItem("_id");
-
-      //recuperare il nome di nazione dall'array storedNazioni
       let nazione = storedNazioni[step3Nazione];
 
       if(parseInt(step3Nazione) < 3){
-        //se nazione non è misto, azzero le altre due variabili
         step3QtaItalia = "-";
         step3QtaEstero = "-";
       }
 
-      //recuperare il dati di busta dall'array storedBuste
       const bustaTrovata = storedBuste.find(item => item.id  == step4Busta);
-
 
       if(step4Stampa == 'sa'){
         step4Stampa = "SpedireAdesso";
@@ -181,14 +168,12 @@ export default function Step7() {
       else{
         step4Colore = "-";
       }
-
       //se esiste step4Altezza e step4Lunghezza scriverli dentro step4Misure
         if(step4Altezza && step4Lunghezza){
           step4Misure = step4Lunghezza + " x " + step4Altezza;
         }
 
         let formato_item = "-";
-
 
         if(cartolina){
           formato_item = cartolina; //cartolina
@@ -278,8 +263,17 @@ export default function Step7() {
             quantita_item:    step52Quantita,
             stampa_item:      stampa_item,
             colore_item:      colore_item,
-
             tipo_stampa_item: tipo_stampa_item,
+
+            //inserto
+            inserto_presente: step52InsertoPresente,
+            inserto:          step52Inserto,
+            peso_inserto:     step52PesoInserto,
+            descrizione_inserto: step52DescrizioneInserto,
+
+            //natura della comunicazione
+            comunicazione:    step52Comunicazione,
+            comunicazione_altro: step52ComunicazioneAltro,
 
             grammatura_item:  grammatura_item,
             tipo_carta_item:  tipo_carta_item,
@@ -319,6 +313,9 @@ export default function Step7() {
 
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <ToastContainer />
       <div className="over-flow-setting">
         <Navbar />
@@ -352,7 +349,7 @@ export default function Step7() {
                                     ? "form-control form-custom-control outer1"
                                     : "form-control form-custom-control"
                               }
-                              id="exampleFormControlInput1"
+                              id="nome"
                               placeholder="Nome e Cognome"
                               value={name}
                               onChange={(e) => setName(e.target.value)}
@@ -366,7 +363,7 @@ export default function Step7() {
                                     ? "form-control form-custom-control outer2"
                                     : "form-control form-custom-control"
                               }
-                              id="exampleFormControlInput2"
+                              id="azienda"
                               placeholder="Azienda"
                               value={agency}
                               onChange={(e) => setAgency(e.target.value)}
@@ -380,7 +377,7 @@ export default function Step7() {
                                     ? "form-control form-custom-control outer3"
                                     : "form-control form-custom-control"
                               }
-                              id="exampleFormControlInput3"
+                              id="telefono"
                               placeholder="Numero di Telefono"
                               value={number}
                               onChange={(e) => setNumber(e.target.value)}
@@ -394,7 +391,7 @@ export default function Step7() {
                                     ? "form-control form-custom-control outer4"
                                     : "form-control form-custom-control"
                               }
-                              id="exampleFormControlInput4"
+                              id="email"
                               placeholder="Email"
                               value={email}
                               onChange={(e) => setEmail(e.target.value)}

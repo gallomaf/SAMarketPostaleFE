@@ -1,18 +1,14 @@
 import React from "react";
-import Form from "react-bootstrap/Form";
 import "./Step3of5.css";
-import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useState, useEffect } from "react";
 import Navbar from "../../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-import { useSearchParams, useLocation, useParams } from "react-router-dom";
-import { API_URL } from "../../../../services/client";
-import axios from "axios";
-import { SuccessToast } from "../../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../../Components/Colonne/ColonnaSx";
 import BreadcrumbBt from "../../../../Components/Footer/BreadcrumbBt";
+import { Helmet } from "react-helmet";
+
 export default function Step3of5() {
   const now = 75;
 
@@ -30,21 +26,11 @@ export default function Step3of5() {
   const step6Dest   = localStorage.getItem("step6Dest");
   //fine variabili da passare tra i vari steps
 
-
-  //const [sendItem, setItem] = useState();
-  //useEffect(() => {
-  //  setItem(localStorage.getItem("sendoption"));
-  //});
-
   const navigate = useNavigate();
   const [isChecked1, setIsChecked1]   = useState(step5InternoColore == "bn"         ? true: false);
   const [isChecked2, setIsChecked2]   = useState(step5InternoColore == "colore"     ? true: false);
   const [isCheckedR1, setIsCheckedR1] = useState(step5InternoStampa == "solofronte" ? true: false);
   const [isCheckedR2, setIsCheckedR2] = useState(step5InternoStampa == "fronteretro"? true: false);
-
-  //const location = useLocation();
-  //const queryParams = new URLSearchParams(location.search);
-  //const sendoption = queryParams.get("sendoption");
 
   const handleRoutes = () => {
 
@@ -68,7 +54,6 @@ export default function Step3of5() {
   };
 
   const goBack = () => {
-    //console.log("goBack /Lettere/Step-5-2");
     let opzione = sendoption;
     let step    =  "Step-5-2" ;
     if(opzione !== null){
@@ -79,33 +64,10 @@ export default function Step3of5() {
 
   async function nextstep() {
     try {
-      /*
-      const userId = localStorage.getItem("_id");
-      const PrintQuality = isChecked1
-        ? "Bianco/Nero"
-        : isChecked2
-        ? "Colore"
-        : "";
-      const PrintType = isCheckedR1
-        ? "Solo fronte"
-        : isCheckedR2
-        ? "Fronte/retro"
-        : "";
-      const res = await axios.post(
-        `${API_URL}/auth/addQA_lettere_step5b`,
-        {
-          id: userId,
-          print_quality: PrintQuality,
-          type_of_printing: PrintType,
-        }
-      ); */
-        let res = { status: 200 };
-      if (res.status === 200) {
-        //console.log("Printing  Quality :", PrintQuality);
-        //console.log("Printing Type :", PrintType);
 
+      let res = { status: 200 };
+      if (res.status === 200) {
         handleRoutes();
-        // SuccessToast("updated");
       }
     } catch (error) {
       console.log(error);
@@ -122,6 +84,9 @@ export default function Step3of5() {
 
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <div className="over-flow-setting">
         <Navbar />
         <div>

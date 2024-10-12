@@ -5,14 +5,11 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import { useState } from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from "../../../services/client";
-import axios from "axios";
-//import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
-//import { toast, ToastContainer } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
 import {ErrorToast} from "../../../Components/Navbar/Toast/Toast";
+import {Helmet} from "react-helmet";
 
 export default function Step1() {
 
@@ -106,32 +103,13 @@ export default function Step1() {
 
   async function nextstep() {
     try {
-
       if (!formValidation()) {
         return;
       }
 
-      //handleRoutes();
-
-      //const sendoption        = localStorage.getItem("sendoption");
-      /*
-      const res   = await axios.post(`${API_URL}/auth/addQA_lettere_step1`, {
-        categorytag: sendoption,
-      });
-      */
       let resstatus = 200;
-      //const res = await axios.post(`${API_URL}/auth/addQA_lettere_step1/${sendoption}`);
       if (resstatus === 200) {
-        //console.log("Status 200 & Sending Option",res.data?.data?.id);
-        //localStorage.setItem("_id",res?.data?.data?.id)
         handleRoutes();
-        // SuccessToast("updated");
-        //navigate(`/Step-2?sendoption=${sendoption}`);
-        //console.log("step1Click is", step1Click);
-
-        //console.log("step1Click is " + step1Click);
-        //console.log("quantity is " + inputValue);
-        //console.log(step1Click  && inputValue >= 100);
         if(step1Click  && inputValue >= 100) {
           navigate('/Step-3');
         }
@@ -143,6 +121,9 @@ export default function Step1() {
 
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <ToastContainer />
       <div className="over-flow-setting">
         <Navbar />

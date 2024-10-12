@@ -1,17 +1,12 @@
 import React from "react";
 import "./Step5.css";
-//import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useState, useEffect } from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-//import { useSearchParams, useLocation, useParams } from "react-router-dom";
-//import {  useLocation } from "react-router-dom";
-import { API_URL } from "../../../services/client";
-import axios from "axios";
 import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
-//import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
+import {Helmet} from "react-helmet";
 
 export default function Step5() {
   const navigate = useNavigate();
@@ -19,28 +14,19 @@ export default function Step5() {
 
   //variabili da passare tra i vari steps
   const sendoption    = localStorage.getItem("sendoption");
-  const step1Click    = localStorage.getItem("step1Click");
-  const step2Quantity = localStorage.getItem("step2Quantity");
-  const step3Nazione  = localStorage.getItem("step3Nazione");
-  const step4Busta    = localStorage.getItem("step4Busta");
   const step4Stampa   = localStorage.getItem("step4Stampa");
-  const step4Colore   = localStorage.getItem("step4Colore");
   const step5Pagine   = localStorage.getItem("step5Pagine");
   //fine variabili da passare tra i vari steps
 
   const [sendItem, setItem] = useState();
   useEffect(() => {
     setItem(localStorage.getItem("sendoption"));
-    //console.log("Step5Pagine is " + step5Pagine);
-    //console.log("step5Click is " + step5Click);
-
   },[]);
   const [step5Click, setStep5Click] = useState(step5Pagine);
   const InternalPgActive    = `${process.env.PUBLIC_URL}/Images/Step1/circle-tick-active.svg`;
   const InternalPgInactive  = `${process.env.PUBLIC_URL}/Images/Step1/circle-tick.svg`;
   const NoInactive          = `${process.env.PUBLIC_URL}/Images/Step1/cross-icon.svg`;
   const NoActive            = `${process.env.PUBLIC_URL}/Images/Step1/cross-active.svg`;
-
 
   const handleClick5 = (cardno) => {
     setStep5Click((prevState) => (prevState === cardno ? null : cardno));
@@ -49,9 +35,7 @@ export default function Step5() {
   const goBack = () => {
 
     let opzione = sendoption;
-
     let step = step4Stampa === 'sa' ? "Step-4-2"  : "Step-4";
-
     if(opzione !== null){
       opzione = opzione.charAt(0).toUpperCase() + opzione.slice(1);
       navigate("/"+opzione+"/"+step);
@@ -59,10 +43,6 @@ export default function Step5() {
 
   };
 
-  //const location = useLocation();
-  //const queryParams = new URLSearchParams(location.search);
-  //const sendoption = queryParams.get("sendoption");
-  //console.log("this is ", sendoption);
   const handleRoutes = () => {
 
     localStorage.setItem("step5Pagine",   step5Click);
@@ -77,21 +57,9 @@ export default function Step5() {
   };
   async function nextstep() {
     try {
-      /*
-      const userId = localStorage.getItem("_id");
-      const RecipientOption =
-        step5Click === 1 ? "Yes" : step5Click === 2 ? "No" : "";
-      const res = await axios.post(`${API_URL}/auth/addQA_lettere_step5a`, {
-        id: userId,
-        rec: step5Click,
-      });
-
-      */
       let res = {status:200};
       if (res.status === 200) {
-        //console.log("Do you want to insert pages inside?", RecipientOption);
         handleRoutes();
-        // SuccessToast("updated");
       }
     } catch (error) {
       console.log(error);
@@ -99,6 +67,9 @@ export default function Step5() {
   }
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <div className="over-flow-setting">
         <Navbar />
         <div>

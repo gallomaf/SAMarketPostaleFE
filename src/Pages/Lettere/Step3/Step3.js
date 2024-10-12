@@ -1,24 +1,18 @@
 import React from "react";
 import "./Step3.css";
-//import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useState } from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
-//import { useSearchParams, useLocation, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-//import { API_URL } from "../../../services/client";
-//import axios from "axios";
-//import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
 import {ToastContainer} from "react-toastify";
 import { ErrorToast } from "../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
 import BreadcrumbBt from "../../../Components/Footer/BreadcrumbBt";
+import {Helmet} from "react-helmet";
 
 export default function Step3() {
   const now = 45;
-  //localStorage.clear(); //clear local storage
-  //variabili da passare tra i vari steps
 
   const step2Quantity   = localStorage.getItem("step2Quantity");
 
@@ -53,7 +47,6 @@ export default function Step3() {
   ];
 
   localStorage.setItem('nazioni', JSON.stringify(nazioni));
-
   const buste = [
     {
       id: 1,
@@ -167,12 +160,9 @@ export default function Step3() {
       ],
     },
   ];
-
-
   localStorage.setItem('buste', JSON.stringify(buste));
 
   //inizio cartoline
-
   const cartoline = [
     { id: 1,
       name: "150 X 105 mm",
@@ -194,13 +184,9 @@ export default function Step3() {
       imageInattiva: `${process.env.PUBLIC_URL}/Images/Cartoline/cartolina-personalizzata.svg`,
     },
   ];
-
   localStorage.setItem('cartoline', JSON.stringify(cartoline));
-
   //fine cartoline
-
   //inizio buste per cataloghi
-
   const busteCataloghi = [
       {
         id: 1,
@@ -223,11 +209,8 @@ export default function Step3() {
       imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-c3-bk.svg`,
     },
   ];
-
   localStorage.setItem('busteCataloghi', JSON.stringify(busteCataloghi));
-
   //fine buste per cataloghi
-
 
   const busteGadget = [
     {
@@ -258,7 +241,6 @@ export default function Step3() {
       imageInattiva: `${process.env.PUBLIC_URL}/Images/Buste/busta-c3-bk.svg`,
     },
   ];
-
   localStorage.setItem('busteGadget', JSON.stringify(busteGadget));
 
   const handleClick3 = (cardno) => {
@@ -330,19 +312,6 @@ export default function Step3() {
         return;
       }
 
-      /*
-      const userId = localStorage.getItem("_id");
-      const res = await axios.post(
-        `${API_URL}/auth/addQA_lettere_step3`,
-        {
-          id: userId,
-          country: RecipientCountry,
-          qtaitalia: italia,
-          qtaestero: estero,
-        }
-      );
-       */
-
       let res_status = 200;
       if (res_status === 200) {
         handleRoutes();
@@ -360,6 +329,9 @@ export default function Step3() {
 
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <ToastContainer />
       <div className="over-flow-setting">
         <Navbar />

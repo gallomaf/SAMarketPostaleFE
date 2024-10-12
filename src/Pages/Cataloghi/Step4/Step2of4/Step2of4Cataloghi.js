@@ -1,18 +1,13 @@
 import React from "react";
-//import Form from "react-bootstrap/Form";
 import "./Step2of4Cataloghi.css";
-//import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useState } from "react";
 import Navbar from "../../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-//import { useSearchParams, useLocation, useParams } from "react-router-dom";
-//import axios from "axios";
-//import { API_URL } from "../../../../services/client";
-//import { SuccessToast } from "../../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../../Components/Colonne/ColonnaSx";
 import BreadcrumbBt from "../../../../Components/Footer/BreadcrumbBt";
+import {Helmet} from "react-helmet";
 export default function Step2of4Cataloghi() {
   const navigate = useNavigate();
   const now = 60;
@@ -25,28 +20,9 @@ export default function Step2of4Cataloghi() {
 
     const step4Colore   = localStorage.getItem("step4Colore");
 
-    //const step4Busta    = localStorage.getItem("step4Busta");
-    //const step4Misure   = localStorage.getItem("step4Misure");
-    //const step4Stampa   = localStorage.getItem("step4Stampa");
-   // const step4peso     = localStorage.getItem("step4peso");
-    //fine variabili da passare tra i vari steps
-
-  //const [sendItem, setItem] = useState();
-  
-  //useEffect(() => {
-  //  setItem(localStorage.getItem("sendoption"));
- // });
-
-  //const [isChecked1, setIsChecked1] = useState(false);
-  //const [isChecked2, setIsChecked2] = useState(false);
-
     const [isChecked1, setIsChecked1]     = useState(step4Colore == "Bianco/Nero" ? true: false);
     const [isChecked2, setIsChecked2]     = useState(step4Colore == "Colore" ? true: false);
 
-  //const location = useLocation();
-  //const queryParams = new URLSearchParams(location.search);
-  //const sendoption = queryParams.get("sendoption");
-  //console.log("this is ", sendoption);
     const handleRoutes = () => {
 
         if (isChecked1){
@@ -56,41 +32,17 @@ export default function Step2of4Cataloghi() {
             localStorage.setItem("step4Colore",   "Colore");
         }
 
-
         if (isChecked1 || isChecked2) {
             navigate(`/Cataloghi/Step-4-3`);
         }
     };
   async function nextstep() {
     try {
-        /*
-      const userId = localStorage.getItem("_id");
-      const LogoPrintQuality= isChecked1
-        ? "Bianco/Nero"
-        : isChecked2
-        ? "Colore"
-        : "";
-      const res = await axios.post(
-        `${API_URL}/auth/addQA_cataloghi_step4b`,
-        {
-          id: userId,
-          Print_quality_sender_logo:LogoPrintQuality,
-        }
-      );
-      */
-
-        let res = {status:200};
-        if (res.status === 200) {
-            //console.log("Sending Option ", sendoption)
-            //console.log("Sender Logo Print Quality is", LogoPrintQuality);
-            handleRoutes();
-            // SuccessToast("updated");
-        }
+        handleRoutes();
     } catch (error) {
       console.log(error);
     }
   }
-
     const breadcrumbArray = [
         { value: sendoption,          url: "/Step-1" },
         { value: step2Quantity,       url: "/Step-2" },
@@ -104,6 +56,9 @@ export default function Step2of4Cataloghi() {
 
   return (
     <>
+        <Helmet>
+            <meta name="robots" content="noindex, nofollow" />
+        </Helmet>
      <div className="over-flow-setting" >
       <Navbar />
       <div>

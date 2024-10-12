@@ -1,6 +1,5 @@
 import React from "react";
 import "./Step5Cartoline.css"//;
-import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useState, useEffect } from "react";
@@ -9,7 +8,9 @@ import { useNavigate } from "react-router-dom";
 import {  useLocation } from "react-router-dom";
 import { API_URL } from "../../../services/client";
 import axios from "axios";
-//import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
+import {Helmet} from "react-helmet";
+
+
 export default function Step5Cartoline() {
   const [sendItem, setItem] = useState();
 
@@ -60,6 +61,9 @@ export default function Step5Cartoline() {
   }
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <div className="over-flow-setting">
         <Navbar />
         <div>

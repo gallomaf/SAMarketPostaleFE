@@ -3,18 +3,14 @@ import "./Step2of4Gadget.css";
 import { Modal, Button } from 'react-bootstrap';
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navbar from "../../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-import Dropdown from "react-bootstrap/Dropdown";
-//import { useSearchParams, useLocation, useParams } from "react-router-dom";
-//import axios from "axios";
-//import { API_URL } from "../../../../services/client";
-//import { SuccessToast } from "../../../../Components/Navbar/Toast/Toast";
 import {ToastContainer} from "react-toastify";
-import {ErrorToast, SuccessToast} from "../../../../Components/Navbar/Toast/Toast";
+import {ErrorToast} from "../../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../../Components/Colonne/ColonnaSx";
 import BreadcrumbBt from "../../../../Components/Footer/BreadcrumbBt";
+import {Helmet} from "react-helmet";
 export default function Step2of4Gadget() {
   const navigate = useNavigate();
   const now = 60;
@@ -92,23 +88,13 @@ export default function Step2of4Gadget() {
 
   const DropdownhandleChange = (eventKey) => {
     setDropSelectedValue(eventKey);
-   // console.log("Dropdown Selected Value is ", eventKey);
   };
- // const location = useLocation();
- // const queryParams = new URLSearchParams(location.search);
-  //const sendoption = queryParams.get("sendoption");
-  //console.log("this is ", sendoption);
+
   const handleRoutes = () => {
 
     localStorage.setItem("step4Gadget", dropselectedValue);
     localStorage.setItem("step4Peso", gadgetweight);
     localStorage.setItem("step4Misure", measurement);
-
-
-    //console.log("Types Of Gadgets", dropselectedValue);
-    //console.log("Weight of Gadget", gadgetweight);
-    //console.log("Measurements", measurement);
-
 
     if (( dropselectedValue =='Altro' && measurement ) || ( dropselectedValue !== 'Altro' && dropselectedValue != ""  ) && gadgetweight) {
       navigate(`/Lettere/Step-6`);
@@ -139,36 +125,8 @@ export default function Step2of4Gadget() {
         return;
       }
 
-      /*
-      const userId = localStorage.getItem("_id");
-      const SenderLogoPrintQuality = isChecked1
-        ? "Bianco/Nero"
-        : isChecked2
-        ? "Colore"
-        : "";
-      const res = await axios.post(
-        `${API_URL}/auth/addQA_gadget_step4b`,
-        {
-          id: userId,
-          print_quality_sender_logo: SenderLogoPrintQuality,
-          types_of_gadgets: dropselectedValue,
-          weight_gadget: gadgetweight,
-          measurements: measurement,
-        }
-      );
-       */
+      handleRoutes();
 
-      let res = { status: 200 };
-      if (res.status === 200) {
-        //console.log("Sending Option ", sendoption);
-        //console.log("Print Quality Sender Logo", SenderLogoPrintQuality);
-        //console.log("Types Of Gadgets", dropselectedValue);
-        //console.log("Weight of Gadget", gadgetweight);
-        //console.log("Measurements", measurement);
-
-        handleRoutes();
-        // SuccessToast("updated");
-      }
     } catch (error) {
       console.log(error);
     }
@@ -187,6 +145,9 @@ export default function Step2of4Gadget() {
 
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <ToastContainer />
       <div className="over-flow-setting">
         <Navbar />
@@ -213,13 +174,6 @@ export default function Step2of4Gadget() {
                   <div className="size-contain">
                     <form className="form-envelope-main">
 
-                      <div
-                          className={
-                            dropselectedValue === "Altro"
-                                ? "page-format-contain-gadget"
-                                : ""
-                          }
-                      >
                         <div className="form-group cartoline-form-drop-width gadget-drop">
                           {/* Modale per la selezione dei gadget */}
                           <Modal show={modalShow} onHide={handleClose} centered>
@@ -249,19 +203,8 @@ export default function Step2of4Gadget() {
                               {dropselectedValue === "" ? "Seleziona" : dropselectedValue}
                             </div>
                           </div>
-
-
-
-
-
                         </div>
-                        <div
-                            className={
-                              dropselectedValue === "Altro"
-                                  ? "form-group pg-quantity-gadget"
-                                  : "d-none"
-                            }
-                        >
+                        <div className={dropselectedValue === "Altro" ? "form-group pg-quantity-gadget" : "d-none"}>
                           <label className="envelope-label">
                             Specifica Gadget
                           </label>
@@ -274,7 +217,6 @@ export default function Step2of4Gadget() {
                               value={measurement}
                           />
                         </div>
-                      </div>
 
                       <div className="form-group pg-quantity-cataloghi">
                         <label className="envelope-label">
@@ -292,7 +234,6 @@ export default function Step2of4Gadget() {
                       </div>
                     </form>
                   </div>
-
                 </div>
               </div>
 

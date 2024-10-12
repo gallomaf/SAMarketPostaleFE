@@ -44,12 +44,12 @@ function CollapsibleExample() {
               </Nav.Link>
               <Nav.Link
                 eventKey={2}
-                href="https://www.spedireadesso.com/modulo-richiesta-preventivo-postale.html"
-                title="Advertising mail quote form"
+                href="https://spedireadesso.com/modulo-preventivo-postale/"
+                title="Modulo richiesta preventivo postale"
               >
                 <img
                   src={`${process.env.PUBLIC_URL}/Images/Navbar/icon-2.svg`}
-                  alt="Advertising mail quote form"
+                  alt="Modulo richiesta preventivo postale"
                 />
               </Nav.Link>
               <Nav.Link

@@ -15,6 +15,8 @@ import {ToastContainer} from "react-toastify";
 import {ErrorToast, SuccessToast} from "../../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../../Components/Colonne/ColonnaSx";
 import BreadcrumbBt from "../../../../Components/Footer/BreadcrumbBt";
+import {Helmet} from "react-helmet";
+
 export default function Step3of4Cataloghi() {
   const now = 60;
 
@@ -128,20 +130,12 @@ export default function Step3of4Cataloghi() {
 
       // Controllo della risposta dal server
       if (response.status === 200) {
-        //const { fileName, fileSize } = response.data;
         localStorage.setItem("step4File", response.data.fileName); // Salva il nome univoco del file
         localStorage.setItem("step4FileSize", response.data.fileSize); // Salva la dimensione del file
-
-        //console.log(step4File);
-        //console.log(response.data);
-        //localStorage.setItem("step4File", fileName); // Salva il nome univoco del file
-        //localStorage.setItem("step4FileSize", fileSize); // Salva la dimensione del file
-        //alert("File caricato con successo");
       }
 
     } catch (error) {
       console.error("Errore durante il caricamento del file:", error);
-      //alert("Errore durante il caricamento del file.");
       ErrorToast("Errore durante il caricamento del file.");
     }
   };
@@ -239,36 +233,6 @@ export default function Step3of4Cataloghi() {
         return;
       }
 
-      /*
-      const userId = localStorage.getItem("_id");
-      const PrintQuality = isChecked1
-        ? "Bianco/Nero"
-        : isChecked2
-        ? "Colore"
-        : "";
-      const PrintType = isCheckedR1
-        ? "Patina Lucida"
-        : isCheckedR2
-        ? "Patina Opaca"
-        : "";
-      const PaperWeight = isCheckedG1
-        ? "200g"
-        : isCheckedG2
-        ? "250g"
-        : isCheckedG3
-        ? "300g"
-        : "";
-
-      const res = await axios.post(`${API_URL}/auth/addQA_cataloghi_step4ab`, {
-        id: userId,
-        measurements: selectedValue,
-        paper_weight: PaperWeight,
-        // upload_graphic_file: selectedFile,
-        type_of_printing: PrintType,
-        print_quality: PrintQuality,
-        envelope_format: dropselectedValue,
-      });
-      */
       let res = {status : 200};
       if (res.status === 200) {
         handleRoutes();
@@ -292,6 +256,9 @@ export default function Step3of4Cataloghi() {
 
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <ToastContainer />
       <div className="over-flow-setting">
         <Navbar />

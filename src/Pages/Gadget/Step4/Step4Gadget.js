@@ -5,13 +5,12 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import { useState, useEffect } from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-import { useSearchParams, useLocation, useParams } from "react-router-dom";
-import axios from "axios";
-import { API_URL } from "../../../services/client";
 import {ToastContainer} from "react-toastify";
-import {ErrorToast, SuccessToast} from "../../../Components/Navbar/Toast/Toast";
+import {ErrorToast} from "../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
 import BreadcrumbBt from "../../../Components/Footer/BreadcrumbBt";
+import {Helmet} from "react-helmet";
+
 export default function Step4Gadget() {
   const navigate = useNavigate();
   const now = 60;
@@ -114,32 +113,8 @@ export default function Step4Gadget() {
       if (!formValidation()) {
         return;
       }
+      handleRoutes();
 
-      /*
-      const userId = localStorage.getItem("_id");
-      const PostcardPrintingOption = isChecked
-        ? "Stampate dal Cliente"
-        : isChecked2
-        ? "Stampate da Spedire Adesso"
-        : "";
-      const res = await axios.post(
-        `${API_URL}/auth/addQA_gadget_step4a`,
-        {
-          id: userId,
-          printing_of_postcards: PostcardPrintingOption,
-        }
-      );
-
-       */
-
-      let res =  {status : 200};
-      if (res.status === 200) {
-        //console.log("Sending Option ", sendoption)
-        //console.log("Postcards Printing Option is", PostcardPrintingOption);
-        
-        handleRoutes();
-        // SuccessToast("updated");
-      }
     } catch (error) {
       console.log(error);
     }
@@ -168,6 +143,9 @@ export default function Step4Gadget() {
 
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <ToastContainer />
       <div className="over-flow-setting">
         <Navbar />

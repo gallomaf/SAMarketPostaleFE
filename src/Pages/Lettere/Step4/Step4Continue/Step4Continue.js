@@ -1,19 +1,15 @@
 import React from "react";
 import "./Step4Continue.css";
-import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import { useState,useEffect } from "react";
+import { useState } from "react";
 import Navbar from "../../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-import { useSearchParams, useLocation, useParams } from "react-router-dom";
-import { API_URL } from "../../../../services/client";
-import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { SuccessToast } from "../../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../../Components/Colonne/ColonnaSx";
 import BreadcrumbBt from "../../../../Components/Footer/BreadcrumbBt";
+import {Helmet} from "react-helmet";
 
 export default function Step4Continue() {
 
@@ -33,11 +29,6 @@ export default function Step4Continue() {
   const navigate    = useNavigate();
   //const [sendItem,setItem]=useState();
 
-  //useEffect(() => {
-    //setItem(localStorage.getItem("sendoption"));
-    //console.log("step4Colore is " + step4Colore);
-   //},[]);
-
   const [selectedValue, setSelectedValue] = useState("");
   const [isChecked1, setIsChecked1]     = useState(step4Colore == "Bianco/Nero" ? true: false);
   const [isChecked2, setIsChecked2]     = useState(step4Colore == "Colore" ? true: false);
@@ -45,13 +36,7 @@ export default function Step4Continue() {
   const handleChange = (e) => {
     const value = e.target.value;
     setSelectedValue(value);
-    //console.log("Selected is", value);
   };
-  const location = useLocation();
-
-  //const queryParams = new URLSearchParams(location.search);
-  //const sendoption = queryParams.get("sendoption");
-  //console.log("this is ", sendoption);
 
   const handleRoutes = () => {
 
@@ -81,22 +66,9 @@ export default function Step4Continue() {
 
   async function nextstep() {
     try {
-      /*
-      const userId = localStorage.getItem("_id");
-      const EnvelopePrintingOption = isChecked1 ? "Bianco/Nero" : isChecked2 ? "Colore" : "";
-      const res = await axios.post(
-        `${API_URL}/auth/addQA_lettere_step4b`,
-        {
-          id: userId,
-          print_quality:EnvelopePrintingOption
-        }
-      );
-      */
 
       let res_status = 200;
       if (res_status === 200) {
-        //console.log("Print Quality is", EnvelopePrintingOption);
-        //toast.success('This is a success toast');
         handleRoutes();
       }
     } catch (error) {
@@ -113,6 +85,9 @@ export default function Step4Continue() {
 
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
      <ToastContainer />
       <div className="over-flow-setting">
         <Navbar />

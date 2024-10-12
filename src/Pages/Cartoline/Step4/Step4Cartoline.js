@@ -1,20 +1,15 @@
 import React, {useEffect, useRef} from "react";
 import "./Step4Cartoline.css";
-//import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useState } from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
-//import Dropdown from "react-bootstrap/Dropdown";
-//import { useSearchParams, useLocation, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-//import axios from "axios";
-//import { API_URL } from "../../../services/client";
-//import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
 import {ToastContainer} from "react-toastify";
 import { ErrorToast } from "../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
 import BreadcrumbBt from "../../../Components/Footer/BreadcrumbBt";
+import {Helmet} from "react-helmet";
 
 export default function Step4Cartoline() {
 
@@ -107,9 +102,7 @@ export default function Step4Cartoline() {
     navigate('/Step-3');
   };
 
-
     const formValidation = () => {
-      console.log(formatoBuste);
 
       if (formatoBuste == 3) {
         let lunghezzaInt= parseInt(lunghezza);
@@ -151,25 +144,6 @@ export default function Step4Cartoline() {
         return;
       }
 
-      /*
-      const userId = localStorage.getItem("_id");
-      const EnvelopePrintingOption = isChecked
-        ? "Stampate dal Cliente"
-        : isChecked2
-        ? "Stampate da Spedire Adesso"
-        : "";
-      const res = await axios.post(
-        `${API_URL}/auth/addQA_cartoline_step4a`,
-        {
-          id: userId,
-          envelope_format: dropselectedValue,
-          measurements: measurement,
-          envelope_printing: EnvelopePrintingOption,
-        }
-      );
-
-       */
-
       let res = {'status' : 200};
       if (res.status === 200) {
         handleRoutes();
@@ -188,6 +162,9 @@ export default function Step4Cartoline() {
 
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
     <ToastContainer/>
       <div className="over-flow-setting">
         <Navbar />

@@ -1,20 +1,15 @@
 import React from "react";
 import "./Step6.css";
-//import Button from "react-bootstrap/Button";
 import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useState, useEffect } from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-//import { useSearchParams, useLocation, useParams } from "react-router-dom";
-//import {  useLocation } from "react-router-dom";
-//import { API_URL } from "../../../services/client";
-//import axios from "axios";
-//import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
 import {ToastContainer} from "react-toastify";
 import { ErrorToast } from "../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
 import BreadcrumbBt from "../../../Components/Footer/BreadcrumbBt";
+import {Helmet} from "react-helmet";
 
 export default function Step6() {
   const now = 90;
@@ -28,60 +23,38 @@ export default function Step6() {
 
   const step4Stampa          = localStorage.getItem("step4Stampa");
 
-  //const step5Pagine          = localStorage.getItem("step5Pagine");
-  //const step5InternoColore   = localStorage.getItem("step5InternoColore");
-  //const step5InternoStampa   = localStorage.getItem("step5InternoStampa");
-  //
   const step52Stampa  = localStorage.getItem("step52Stampa");
 
   const step6Dest     = localStorage.getItem("step6Dest");
   const step6Note     = localStorage.getItem("step6Note");
   //fine variabili da passare tra i vari steps
 
-  //const location = useLocation();
   const navigate = useNavigate();
-  //const [sendItem, setItem] = useState();
-  useEffect(() => {
-    //setItem(localStorage.getItem("sendoption"));
-    //console.log("step5Pagine is " + step5Pagine);
-    //console.log("step52Stampa is " + step52Stampa);
-
-  },[]);
 
   const [isChecked1, setIsChecked1] = useState(step6Dest === "csv" ? true: false);
   const [isChecked2, setIsChecked2] = useState(step6Dest === "partner" ? true: false);
   const [inputenote, setInputNote]    = useState(step6Note === null ? "" : step6Note);
 
-  //const queryParams = new URLSearchParams(location.search);
-  //const sendoption = queryParams.get("sendoption");
-
   const handleChange = (e) => {
     const value = e.target.value;
     setInputNote(value);
-    //console.log("Note is", value);
   };
   const handleRoutes = () => {
-
-
     if (isChecked1){
       localStorage.setItem("step6Dest",   "csv");
     }
     if (isChecked2){
       localStorage.setItem("step6Dest",   "partner");
     }
-
     localStorage.setItem("step6Note",   inputenote);
-
     if (isChecked1 || isChecked2) {
       navigate(`/Lettere/Step-7`);
     }
   };
 
   const goBack = () => {
-
     let opzione = sendoption;
 
-    //dallo step 6 posso tornare allo step 5-3, oppure 5-2 oppure 5
     //if(opzione === 'Lettere'){
     let step = "Step-5-2";
     if(opzione ==='Cartoline'){
@@ -93,7 +66,6 @@ export default function Step6() {
     else if(opzione ==='Gadget'){
       step = step4Stampa == "cliente"  ? "Step-4" :  "Step-4-2";
     }
-
 
     if(opzione !== null){
       opzione = opzione.charAt(0).toUpperCase() + opzione.slice(1);
@@ -117,27 +89,9 @@ export default function Step6() {
         return;
       }
 
-      /*
-      const userId = localStorage.getItem("_id");
-      const RecipientList = isChecked1
-        ? "Provided By Customer"
-        : isChecked2
-        ? "Provided By Partner"
-        : "";
-      const res = await axios.post(
-        `${API_URL}/auth/addQA_lettere_step6`,
-        {
-          id: userId,
-          file_customer: RecipientList,
-          note: inputenote,
-        }
-      ); */
-        let res = {status:200};
+      let res = {status:200};
       if (res.status === 200) {
-        //console.log("Recipient  ", RecipientList);
-        //console.log("Note is ", inputenote)
         handleRoutes();
-        // SuccessToast("updated");
       }
     } catch (error) {
       console.log(error);
@@ -153,10 +107,11 @@ export default function Step6() {
     { value: "Destinatari",     url: "/Lettere/Step-6" },
   ];
 
-
-
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <ToastContainer />
       <div className="over-flow-setting">
         <Navbar />

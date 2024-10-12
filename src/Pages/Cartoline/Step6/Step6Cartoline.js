@@ -10,6 +10,7 @@ import {  useLocation } from "react-router-dom";
 import { API_URL } from "../../../services/client";
 import axios from "axios";
 import { ErrorToast } from "../../../Components/Navbar/Toast/Toast";
+import {Helmet} from "react-helmet";
 
 export default function Step6Cartoline() {
   const now = 98;
@@ -65,6 +66,9 @@ export default function Step6Cartoline() {
   };
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <div className="over-flow-setting">
         <Navbar />
         <div>

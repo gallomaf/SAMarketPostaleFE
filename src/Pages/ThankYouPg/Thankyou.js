@@ -2,15 +2,18 @@ import React from "react";
 import "./Thankyou.css";
 import Navbar from "../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
+import {Helmet} from "react-helmet";
 
 export default function Thankyou() {
   const navigate = useNavigate();
 
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
     <div style={{height:"100vh",overflow:"hidden"}}>
 
-    
       <Navbar />
       <div className="thankyou-whole">
         <div>

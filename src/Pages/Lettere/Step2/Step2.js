@@ -1,17 +1,13 @@
 import React, { useEffect } from "react";
 import "./Step2.css";
-import Button from "react-bootstrap/Button";
 import {Row, Col, Breadcrumb} from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useState } from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-import { useSearchParams, useLocation, useParams } from "react-router-dom";
-import { API_URL } from "../../../services/client";
-import axios from "axios";
-import { SuccessToast } from "../../../Components/Navbar/Toast/Toast";
 import ColonnaSx from "../../../Components/Colonne/ColonnaSx";
 import BreadcrumbBt from "../../../Components/Footer/BreadcrumbBt";
+import { Helmet } from "react-helmet";
 
 export default function Step2() {
   const now = 30;
@@ -23,12 +19,6 @@ export default function Step2() {
   const sendoption  = localStorage.getItem("sendoption");
   //fine recupera info dal localstorage
 
-  //useEffect(() => {
-    //setItem(localStorage.getItem("sendoption"));
-    //console.log("step1Click is " + step1Click);
-    //console.log("quantity is " + quantity);
-  //},[]);
-
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState(quantity === null ? "":quantity);
 
@@ -37,42 +27,22 @@ export default function Step2() {
     setInputValue(value);
   };
 
-  //const location = useLocation();
-  //const queryParams = new URLSearchParams(location.search);
-  //const sendoption = queryParams.get("sendoption");
-
-  //console.log("step1Click is " + step1Click);
-
   const handleRoutes = () => {
     localStorage.setItem("step2Quantity", inputValue);
-    //localStorage.setItem("sendoption",sendoption);
-
-    //console.log("inputValue is --> " +  inputValue);
     if (inputValue) {
-      //navigate(`/Step-3?sendoption=${sendoption}`);
       navigate('/Step-3');
     }
   };
 
   const goBack = () => {
-    //console.log("goBack1 /Step-1");
     navigate('/Step-1');
   };
 
   async function nextstep() {
     try {
-      //const userId = localStorage.getItem("_id");
-      /*
-      const res = await axios.post(`${API_URL}/auth/addQA_lettere_step2`, {
-        id: userId,
-        quantity: inputValue,
-      });
-       */
       let resstatus = 200;
       if (resstatus === 200) {
-        //console.log("quantity is ", inputValue);
         handleRoutes();
-        // SuccessToast("updated");
       }
     } catch (error) {
       console.log(error);
@@ -86,6 +56,9 @@ export default function Step2() {
 
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <div className="over-flow-setting">
         <Navbar />
         <div>
